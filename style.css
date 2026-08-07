@@ -21,3 +21,34 @@ p {
     font-size: 20px;
     color: #bdbdbd;
 }
+/* NAVIGATION */
+
+nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 40px 60px;
+}
+
+.logo {
+    font-size: 24px;
+    letter-spacing: 5px;
+    font-weight: bold;
+}
+
+.menu {
+    display: flex;
+    gap: 40px;
+}
+
+.menu a {
+    color: white;
+    text-decoration: none;
+    font-size: 14px;
+    letter-spacing: 3px;
+    transition: 0.3s;
+}
+
+.menu a:hover {
+    color: #39ff14;
+}
