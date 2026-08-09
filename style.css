@@ -211,11 +211,15 @@ nav {
 /* IMAGENES TEMPORALES */
 
 .men-image {
-    background: #171717;
+    background-image: url("men.png");
+    background-size: cover;
+    background-position: center;
 }
 
 .women-image {
-    background: #0d0d0d;
+    background-image: url("women.png");
+    background-size: cover;
+    background-position: center;
 }
 
 /* TEXTO */
