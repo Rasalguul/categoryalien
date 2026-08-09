@@ -284,3 +284,50 @@ nav {
         right: 20px;
     }
 }
+/* SHOP - AJUSTE VISUAL */
+
+.shop-selection {
+    padding: 100px 60px 80px;
+}
+
+.shop-title {
+    margin-bottom: 55px;
+}
+
+.shop-title p {
+    margin: 0 0 12px;
+    font-size: 13px;
+    letter-spacing: 5px;
+    color: #888;
+}
+
+.shop-title h1 {
+    margin: 0;
+    font-size: 52px;
+    letter-spacing: 8px;
+    font-weight: 500;
+    text-align: center;
+}
+
+.gender-selection {
+    gap: 24px;
+}
+
+.gender-card {
+    position: relative;
+    overflow: hidden;
+}
+
+.gender-label {
+    padding: 24px 28px;
+}
+
+.gender-label span:first-child {
+    font-size: 24px;
+    letter-spacing: 5px;
+}
+
+.gender-label span:last-child {
+    font-size: 12px;
+    letter-spacing: 3px;
+}
