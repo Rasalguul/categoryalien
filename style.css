@@ -106,4 +106,177 @@ nav {
     background: white;
     color: black;
 }
+/* ========================================
+   CATEGORYALIEN — SHOP
+======================================== */
 
+.shop-page {
+    background: #050505;
+    color: white;
+    min-height: 100vh;
+}
+
+/* HEADER SHOP */
+
+.shop-header {
+    width: 100%;
+    padding: 35px 60px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-sizing: border-box;
+    border-bottom: 1px solid #222;
+}
+
+.shop-logo {
+    color: white;
+    text-decoration: none;
+    font-size: 18px;
+    font-weight: bold;
+    letter-spacing: 6px;
+}
+
+.shop-tools {
+    display: flex;
+    gap: 35px;
+}
+
+.shop-tools a {
+    color: #fff;
+    text-decoration: none;
+    font-size: 12px;
+    letter-spacing: 3px;
+    transition: 0.3s;
+}
+
+.shop-tools a:hover {
+    opacity: 0.5;
+}
+
+/* TITULO */
+
+.shop-selection {
+    padding: 70px 60px 100px;
+}
+
+.shop-title {
+    text-align: center;
+    margin-bottom: 60px;
+}
+
+.shop-title p {
+    margin: 0 0 15px;
+    font-size: 12px;
+    letter-spacing: 5px;
+    color: #888;
+}
+
+.shop-title h1 {
+    margin: 0;
+    font-size: 42px;
+    letter-spacing: 8px;
+    font-weight: 400;
+}
+
+/* MEN / WOMEN */
+
+.gender-selection {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 25px;
+    max-width: 1400px;
+    margin: 0 auto;
+}
+
+.gender-card {
+    position: relative;
+    height: 650px;
+    overflow: hidden;
+    text-decoration: none;
+    background: #111;
+}
+
+.gender-image {
+    position: absolute;
+    inset: 0;
+    background-size: cover;
+    background-position: center;
+    transition: transform 0.6s ease;
+}
+
+.gender-card:hover .gender-image {
+    transform: scale(1.04);
+}
+
+/* IMAGENES TEMPORALES */
+
+.men-image {
+    background: #171717;
+}
+
+.women-image {
+    background: #0d0d0d;
+}
+
+/* TEXTO */
+
+.gender-label {
+    position: absolute;
+    left: 35px;
+    right: 35px;
+    bottom: 30px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: white;
+    z-index: 2;
+}
+
+.gender-label span:first-child {
+    font-size: 28px;
+    letter-spacing: 6px;
+}
+
+.gender-label span:last-child {
+    font-size: 11px;
+    letter-spacing: 3px;
+}
+
+/* MOVIL */
+
+@media (max-width: 768px) {
+
+    .shop-header {
+        padding: 25px 20px;
+    }
+
+    .shop-tools {
+        gap: 15px;
+    }
+
+    .shop-tools a {
+        font-size: 10px;
+    }
+
+    .shop-selection {
+        padding: 50px 20px;
+    }
+
+    .shop-title h1 {
+        font-size: 26px;
+        letter-spacing: 4px;
+    }
+
+    .gender-selection {
+        grid-template-columns: 1fr;
+    }
+
+    .gender-card {
+        height: 500px;
+    }
+
+    .gender-label {
+        left: 20px;
+        right: 20px;
+    }
+}
