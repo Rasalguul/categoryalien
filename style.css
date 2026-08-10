@@ -1,4 +1,6 @@
-/* CATEGORYALIEN */
+/* ========================================
+   CATEGORYALIEN
+======================================== */
 
 * {
     box-sizing: border-box;
@@ -12,7 +14,10 @@ body {
     font-family: Arial, Helvetica, sans-serif;
 }
 
-/* NAVEGACIÓN */
+
+/* ========================================
+   NAVEGACIÓN HOME
+======================================== */
 
 nav {
     position: absolute;
@@ -50,7 +55,10 @@ nav {
     opacity: 0.5;
 }
 
-/* HERO */
+
+/* ========================================
+   HERO
+======================================== */
 
 .hero {
     min-height: 100vh;
@@ -106,6 +114,8 @@ nav {
     background: white;
     color: black;
 }
+
+
 /* ========================================
    CATEGORYALIEN — SHOP
 ======================================== */
@@ -115,6 +125,7 @@ nav {
     color: white;
     min-height: 100vh;
 }
+
 
 /* HEADER SHOP */
 
@@ -153,7 +164,8 @@ nav {
     opacity: 0.5;
 }
 
-/* TITULO */
+
+/* TITULO SHOP */
 
 .shop-selection {
     padding: 70px 60px 100px;
@@ -177,6 +189,7 @@ nav {
     letter-spacing: 8px;
     font-weight: 400;
 }
+
 
 /* MEN / WOMEN */
 
@@ -208,7 +221,8 @@ nav {
     transform: scale(1.04);
 }
 
-/* IMAGENES TEMPORALES */
+
+/* IMAGENES */
 
 .men-image {
     background-image: url("men.png");
@@ -221,6 +235,7 @@ nav {
     background-size: cover;
     background-position: center;
 }
+
 
 /* TEXTO */
 
@@ -246,7 +261,134 @@ nav {
     letter-spacing: 3px;
 }
 
-/* MOVIL */
+
+/* ========================================
+   CATEGORYALIEN — MEN
+======================================== */
+
+.men-page {
+    background: #050505;
+    color: white;
+    min-height: 100vh;
+}
+
+
+/* TITULO MEN */
+
+.men-title {
+    text-align: center;
+    padding: 90px 60px 45px;
+}
+
+.men-title p {
+    margin: 0 0 15px;
+    font-size: 12px;
+    letter-spacing: 5px;
+    color: #888;
+}
+
+.men-title h1 {
+    margin: 0;
+    font-size: 52px;
+    letter-spacing: 10px;
+    font-weight: 400;
+}
+
+
+/* ========================================
+   MEN — CATEGORÍAS
+======================================== */
+
+.men-categories {
+    position: relative;
+    width: 100%;
+    height: auto;
+    margin-top: 40px;
+    padding: 20px 30px;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 16px;
+
+    flex-wrap: nowrap;
+    white-space: nowrap;
+
+    border-top: 1px solid #222;
+    border-bottom: 1px solid #222;
+}
+
+.men-categories > a,
+.bunnies-link {
+    color: white;
+    text-decoration: none;
+    font-size: 9px;
+    letter-spacing: 1.5px;
+    white-space: nowrap;
+    transition: 0.3s;
+}
+
+.men-categories > a:hover,
+.bunnies-link:hover {
+    opacity: 0.5;
+}
+
+
+/* ========================================
+   BUNIIESINDUSTRIES — DESPLEGABLE
+======================================== */
+
+.bunnies-menu {
+    position: relative;
+}
+
+.bunnies-submenu {
+    display: none;
+
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+
+    padding-top: 20px;
+
+    flex-direction: column;
+    gap: 12px;
+
+    white-space: nowrap;
+    z-index: 20;
+}
+
+.bunnies-menu:hover .bunnies-submenu {
+    display: flex;
+}
+
+.bunnies-submenu a {
+    color: white;
+    text-decoration: none;
+    font-size: 9px;
+    letter-spacing: 2px;
+    transition: 0.3s;
+}
+
+.bunnies-submenu a:hover {
+    opacity: 0.5;
+}
+
+
+/* PRODUCTOS MEN */
+
+.men-products {
+    width: 100%;
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 20px 60px 100px;
+}
+
+
+/* ========================================
+   MOVIL
+======================================== */
 
 @media (max-width: 768px) {
 
@@ -283,126 +425,29 @@ nav {
         left: 20px;
         right: 20px;
     }
-}
-/* ========================================
-   CATEGORYALIEN — MEN
-======================================== */
 
-.men-page {
-    background: #050505;
-    color: white;
-    min-height: 100vh;
-}
+    .men-title {
+        padding: 60px 20px 35px;
+    }
 
-.men-title {
-    text-align: center;
-    padding: 90px 60px 45px;
-}
+    .men-title h1 {
+        font-size: 36px;
+        letter-spacing: 7px;
+    }
 
-.men-title p {
-    margin: 0 0 15px;
-    font-size: 12px;
-    letter-spacing: 5px;
-    color: #888;
-}
+    .men-categories {
+        gap: 14px;
+        padding: 18px 15px;
+        overflow-x: auto;
+        justify-content: flex-start;
+    }
 
-.men-title h1 {
-    margin: 0;
-    font-size: 52px;
-    letter-spacing: 10px;
-    font-weight: 400;
-}
+    .men-categories > a,
+    .bunnies-link {
+        font-size: 8px;
+    }
 
-.men-categories {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    flex-wrap: nowrap;
-    width: 100%;
-    padding: 25px 30px;
-    box-sizing: border-box;
-    white-space: nowrap;
-}
-
-.men-categories > a,
-.bunnies-link {
-    font-size: 9px;
-    letter-spacing: 1.5px;
-}
-
-.bunnies-menu {
-    position: relative;
-}
-
-.bunnies-submenu {
-    display: none;
-    position: absolute;
-    top: 100%;
-    left: 50%;
-    transform: translateX(-50%);
-    padding-top: 20px;
-    flex-direction: column;
-    gap: 12px;
-    white-space: nowrap;
-    z-index: 20;
-}
-
-.bunnies-menu:hover .bunnies-submenu {
-    display: flex;
-}
-
-.bunnies-submenu a {
-    font-size: 9px;
-    letter-spacing: 2px;
-}
-
-.men-products {
-    width: 100%;
-    max-width: 1400px;
-    margin: 0 auto;
-    padding: 20px 60px 100px;
-}
-.men-categories {
-    position: relative;
-    margin-top: 40px;
-    padding: 20px 0;
-    display: flex;
-    justify-content: center;
-    gap: 30px;
-    border-top: 1px solid #222;
-    border-bottom: 1px solid #222;
-}
-/* BUNIIESINDUSTRIES - MENÚ DESPLEGABLE */
-
-.bunnies-menu {
-    position: relative;
-}
-
-.bunnies-submenu {
-    display: none;
-    position: absolute;
-    top: 100%;
-    left: 50%;
-    transform: translateX(-50%);
-    padding-top: 20px;
-    flex-direction: column;
-    gap: 15px;
-    white-space: nowrap;
-    z-index: 20;
-}
-
-.bunnies-menu:hover .bunnies-submenu {
-    display: flex;
-}
-
-.bunnies-submenu a {
-    color: white;
-    text-decoration: none;
-    font-size: 11px;
-    letter-spacing: 3px;
-}
-.men-categories {
-    flex-wrap: nowrap;
-    gap: 28px;
-    white-space: nowrap;
+    .men-products {
+        padding: 20px;
+    }
 }
