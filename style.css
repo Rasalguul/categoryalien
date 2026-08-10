@@ -284,4 +284,59 @@ nav {
         right: 20px;
     }
 }
+/* ========================================
+   CATEGORYALIEN — MEN
+======================================== */
 
+.men-page {
+    background: #050505;
+    color: white;
+    min-height: 100vh;
+}
+
+.men-title {
+    text-align: center;
+    padding: 90px 60px 45px;
+}
+
+.men-title p {
+    margin: 0 0 15px;
+    font-size: 12px;
+    letter-spacing: 5px;
+    color: #888;
+}
+
+.men-title h1 {
+    margin: 0;
+    font-size: 52px;
+    letter-spacing: 10px;
+    font-weight: 400;
+}
+
+.men-categories {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 32px;
+    padding: 0 60px 50px;
+    flex-wrap: wrap;
+}
+
+.men-categories a {
+    color: white;
+    text-decoration: none;
+    font-size: 11px;
+    letter-spacing: 3px;
+    transition: 0.3s;
+}
+
+.men-categories a:hover {
+    opacity: 0.5;
+}
+
+.men-products {
+    width: 100%;
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 20px 60px 100px;
+}
