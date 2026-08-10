@@ -340,3 +340,13 @@ nav {
     margin: 0 auto;
     padding: 20px 60px 100px;
 }
+.men-categories {
+    position: relative;
+    margin-top: 40px;
+    padding: 20px 0;
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    border-top: 1px solid #222;
+    border-bottom: 1px solid #222;
+}
