@@ -315,23 +315,45 @@ nav {
 
 .men-categories {
     display: flex;
-    justify-content: center;
+    justify-content: space-between;
     align-items: center;
     flex-wrap: nowrap;
-    gap: 16px;
-    white-space: nowrap;
     width: 100%;
     padding: 25px 30px;
-    overflow: visible;
+    box-sizing: border-box;
+    white-space: nowrap;
 }
 
 .men-categories > a,
 .bunnies-link {
-    font-size: 10px;
-    letter-spacing: 2px;
+    font-size: 9px;
+    letter-spacing: 1.5px;
 }
-.men-categories a:hover {
-    opacity: 0.5;
+
+.bunnies-menu {
+    position: relative;
+}
+
+.bunnies-submenu {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    padding-top: 20px;
+    flex-direction: column;
+    gap: 12px;
+    white-space: nowrap;
+    z-index: 20;
+}
+
+.bunnies-menu:hover .bunnies-submenu {
+    display: flex;
+}
+
+.bunnies-submenu a {
+    font-size: 9px;
+    letter-spacing: 2px;
 }
 
 .men-products {
