@@ -350,3 +350,32 @@ nav {
     border-top: 1px solid #222;
     border-bottom: 1px solid #222;
 }
+/* BUNIIESINDUSTRIES - MENÚ DESPLEGABLE */
+
+.bunnies-menu {
+    position: relative;
+}
+
+.bunnies-submenu {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    padding-top: 20px;
+    flex-direction: column;
+    gap: 15px;
+    white-space: nowrap;
+    z-index: 20;
+}
+
+.bunnies-menu:hover .bunnies-submenu {
+    display: flex;
+}
+
+.bunnies-submenu a {
+    color: white;
+    text-decoration: none;
+    font-size: 11px;
+    letter-spacing: 3px;
+}
