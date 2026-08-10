@@ -379,3 +379,8 @@ nav {
     font-size: 11px;
     letter-spacing: 3px;
 }
+.men-categories {
+    flex-wrap: nowrap;
+    gap: 28px;
+    white-space: nowrap;
+}
