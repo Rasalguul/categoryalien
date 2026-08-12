@@ -12,11 +12,7 @@
 
 </head>
 
-
 <body class="shop-page">
-
-
-    <!-- HEADER -->
 
     <header class="shop-header">
 
@@ -25,23 +21,15 @@
         </a>
 
         <div class="shop-tools">
-
             <a href="men.html">MEN</a>
-
             <a href="#">CUENTA</a>
-
             <a href="carrito.html">CARRITO</a>
-
         </div>
 
     </header>
 
 
-
-    <!-- CARRITO -->
-
     <main class="cart-page">
-
 
         <div class="cart-title">
 
@@ -52,15 +40,15 @@
         </div>
 
 
-
         <div id="cart-container"></div>
-
 
     </main>
 
 
-
     <script>
+
+        let quantity = 1;
+
 
         function loadCart() {
 
@@ -69,17 +57,13 @@
             const productData = localStorage.getItem("cartProduct");
 
 
-            /* CARRITO VACÍO */
-
             if (!productData) {
 
                 cart.innerHTML = `
 
                     <div class="empty-cart">
 
-                        <p>
-                            EL CARRITO ESTÁ VACÍO
-                        </p>
+                        <p>EL CARRITO ESTÁ VACÍO</p>
 
                         <a href="men.html">
                             VOLVER A LA TIENDA
@@ -93,11 +77,9 @@
             }
 
 
-
-            /* PRODUCTO */
-
             const product = JSON.parse(productData);
 
+            const total = product.price * quantity;
 
 
             cart.innerHTML = `
@@ -115,50 +97,55 @@
                     </div>
 
 
-
                     <div class="cart-product-info">
-
 
                         <p class="cart-product-brand">
                             ${product.brand}
                         </p>
 
-
                         <h2>
                             ${product.name}
                         </h2>
 
-
                         <p class="cart-product-category">
                             ${product.category}
                         </p>
-
 
                         <p class="cart-product-price">
                             ${product.price} €
                         </p>
 
 
+                        <div class="quantity">
+
+                            <button onclick="changeQuantity(-1)">
+                                −
+                            </button>
+
+                            <span>
+                                ${quantity}
+                            </span>
+
+                            <button onclick="changeQuantity(1)">
+                                +
+                            </button>
+
+                        </div>
+
 
                         <button
                             class="remove-cart"
                             onclick="removeFromCart()"
                         >
-
                             ELIMINAR
-
                         </button>
 
-
                     </div>
-
 
                 </div>
 
 
-
                 <div class="cart-summary">
-
 
                     <div class="cart-total">
 
@@ -167,36 +154,42 @@
                         </span>
 
                         <strong>
-                            ${product.price} €
+                            ${total} €
                         </strong>
 
                     </div>
 
 
-
                     <button class="checkout-button">
-
                         FINALIZAR COMPRA
-
                     </button>
-
 
                 </div>
 
             `;
-
         }
 
+
+        function changeQuantity(amount) {
+
+            quantity = quantity + amount;
+
+            if (quantity < 1) {
+                quantity = 1;
+            }
+
+            loadCart();
+        }
 
 
         function removeFromCart() {
 
             localStorage.removeItem("cartProduct");
 
+            quantity = 1;
+
             loadCart();
-
         }
-
 
 
         loadCart();
