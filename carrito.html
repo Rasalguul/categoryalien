@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>CARRITO — CATEGORYALIEN</title>
+
+    <link rel="stylesheet" href="style.css">
+
+</head>
+
+<body class="shop-page">
+
+    <header class="shop-header">
+
+        <a href="index.html" class="shop-logo">
+            CATEGORYALIEN
+        </a>
+
+        <div class="shop-tools">
+
+            <a href="men.html">MEN</a>
+            <a href="#">CUENTA</a>
+            <a href="carrito.html">CARRITO</a>
+
+        </div>
+
+    </header>
+
+
+    <main class="cart-page">
+
+        <div class="cart-title">
+
+            <p>YOUR SELECTION</p>
+
+            <h1>CARRITO</h1>
+
+        </div>
+
+
+        <div id="cart-container">
+
+        </div>
+
+    </main>
+
+
+<script>
+
+function loadCart() {
+
+    const cart = document.getElementById("cart-container");
+
+    const productData = localStorage.getItem("cartProduct");
+
+    if (!productData) {
+
+        cart.innerHTML = `
+            <div class="empty-cart">
+                <p>EL CARRITO ESTÁ VACÍO</p>
+                <a href="men.html">VOLVER A LA TIENDA</a>
+            </div>
+        `;
+
+        return;
+    }
+
+
+    const product = JSON.parse(productData);
+
+
+    cart.innerHTML = `
+
+        <div class="cart-product">
+
+            <img
+                src="${product.image}"
+                alt="${product.name}"
+            >
+
+            <div class="cart-product-info">
+
+                <p class="product-brand">
+                    ${product.brand}
+                </p>
+
+                <h2>
+                    ${product.name}
+                </h2>
+
+                <p class="product-category">
+                    ${product.category}
+                </p>
+
+                <p class="product-price">
+                    ${product.price} €
+                </p>
+
+                <button
+                    class="remove-cart"
+                    onclick="removeFromCart()"
+                >
+                    ELIMINAR
+                </button>
+
+            </div>
+
+        </div>
+
+    `;
+}
+
+
+function removeFromCart() {
+
+    localStorage.removeItem("cartProduct");
+
+    loadCart();
+
+}
+
+
+loadCart();
+
+</script>
+
+
+</body>
+
+</html>
