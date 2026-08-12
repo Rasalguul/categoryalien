@@ -12,7 +12,11 @@
 
 </head>
 
+
 <body class="shop-page">
+
+
+    <!-- HEADER -->
 
     <header class="shop-header">
 
@@ -23,7 +27,9 @@
         <div class="shop-tools">
 
             <a href="men.html">MEN</a>
+
             <a href="#">CUENTA</a>
+
             <a href="carrito.html">CARRITO</a>
 
         </div>
@@ -31,7 +37,11 @@
     </header>
 
 
+
+    <!-- CARRITO -->
+
     <main class="cart-page">
+
 
         <div class="cart-title">
 
@@ -42,91 +52,156 @@
         </div>
 
 
-        <div id="cart-container">
 
-        </div>
+        <div id="cart-container"></div>
+
 
     </main>
 
 
-<script>
 
-function loadCart() {
+    <script>
 
-    const cart = document.getElementById("cart-container");
+        function loadCart() {
 
-    const productData = localStorage.getItem("cartProduct");
+            const cart = document.getElementById("cart-container");
 
-    if (!productData) {
-
-        cart.innerHTML = `
-            <div class="empty-cart">
-                <p>EL CARRITO ESTÁ VACÍO</p>
-                <a href="men.html">VOLVER A LA TIENDA</a>
-            </div>
-        `;
-
-        return;
-    }
+            const productData = localStorage.getItem("cartProduct");
 
 
-    const product = JSON.parse(productData);
+            /* CARRITO VACÍO */
+
+            if (!productData) {
+
+                cart.innerHTML = `
+
+                    <div class="empty-cart">
+
+                        <p>
+                            EL CARRITO ESTÁ VACÍO
+                        </p>
+
+                        <a href="men.html">
+                            VOLVER A LA TIENDA
+                        </a>
+
+                    </div>
+
+                `;
+
+                return;
+            }
 
 
-    cart.innerHTML = `
 
-        <div class="cart-product">
+            /* PRODUCTO */
 
-            <img
-                src="${product.image}"
-                alt="${product.name}"
-            >
-
-            <div class="cart-product-info">
-
-                <p class="product-brand">
-                    ${product.brand}
-                </p>
-
-                <h2>
-                    ${product.name}
-                </h2>
-
-                <p class="product-category">
-                    ${product.category}
-                </p>
-
-                <p class="product-price">
-                    ${product.price} €
-                </p>
-
-                <button
-                    class="remove-cart"
-                    onclick="removeFromCart()"
-                >
-                    ELIMINAR
-                </button>
-
-            </div>
-
-        </div>
-
-    `;
-}
+            const product = JSON.parse(productData);
 
 
-function removeFromCart() {
 
-    localStorage.removeItem("cartProduct");
+            cart.innerHTML = `
 
-    loadCart();
-
-}
+                <div class="cart-product">
 
 
-loadCart();
+                    <div class="cart-product-image">
 
-</script>
+                        <img
+                            src="${product.image}"
+                            alt="${product.name}"
+                        >
+
+                    </div>
+
+
+
+                    <div class="cart-product-info">
+
+
+                        <p class="cart-product-brand">
+                            ${product.brand}
+                        </p>
+
+
+                        <h2>
+                            ${product.name}
+                        </h2>
+
+
+                        <p class="cart-product-category">
+                            ${product.category}
+                        </p>
+
+
+                        <p class="cart-product-price">
+                            ${product.price} €
+                        </p>
+
+
+
+                        <button
+                            class="remove-cart"
+                            onclick="removeFromCart()"
+                        >
+
+                            ELIMINAR
+
+                        </button>
+
+
+                    </div>
+
+
+                </div>
+
+
+
+                <div class="cart-summary">
+
+
+                    <div class="cart-total">
+
+                        <span>
+                            TOTAL
+                        </span>
+
+                        <strong>
+                            ${product.price} €
+                        </strong>
+
+                    </div>
+
+
+
+                    <button class="checkout-button">
+
+                        FINALIZAR COMPRA
+
+                    </button>
+
+
+                </div>
+
+            `;
+
+        }
+
+
+
+        function removeFromCart() {
+
+            localStorage.removeItem("cartProduct");
+
+            loadCart();
+
+        }
+
+
+
+        loadCart();
+
+    </script>
 
 
 </body>
