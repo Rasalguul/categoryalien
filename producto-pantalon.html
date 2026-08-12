@@ -59,16 +59,33 @@
                     50 €
                 </p>
 
-                <button class="add-cart">
-                    AÑADIR AL CARRITO
-                </button>
+               <button class="add-cart" onclick="addToCart()">
+    AÑADIR AL CARRITO
+</button>
 
             </div>
 
         </div>
 
     </main>
+<script>
 
+function addToCart() {
+
+    const product = {
+        name: "PANTALÓN VESTIR",
+        brand: "BUNIIESINDUSTRIES",
+        category: "VESTIR",
+        price: 50,
+        image: "bunnies-pantalon-vestir.png"
+    };
+
+    localStorage.setItem("cartProduct", JSON.stringify(product));
+
+    window.location.href = "carrito.html";
+}
+
+</script>
 </body>
 
 </html>
