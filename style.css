@@ -446,7 +446,99 @@ nav {
     .bunnies-link {
         font-size: 8px;
     }
+/* ========================================
+CATEGORYALIEN — PRODUCTOS
+======================================== */
 
+.men-products {
+    width: 100%;
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 60px;
+}
+
+/* TARJETA DEL PRODUCTO */
+
+.product-card {
+    width: 300px;
+}
+
+.product-card a {
+    display: block;
+    color: white;
+    text-decoration: none;
+}
+
+/* IMAGEN */
+
+.product-image {
+    width: 100%;
+    aspect-ratio: 3 / 4;
+    overflow: hidden;
+    background: #111;
+}
+
+.product-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.5s ease;
+}
+
+.product-card:hover .product-image img {
+    transform: scale(1.03);
+}
+
+/* INFORMACIÓN */
+
+.product-info {
+    padding-top: 18px;
+}
+
+.product-brand {
+    margin: 0 0 8px;
+    font-size: 9px;
+    letter-spacing: 3px;
+    color: #888;
+}
+
+.product-info h2 {
+    margin: 0 0 8px;
+    font-size: 12px;
+    font-weight: 400;
+    letter-spacing: 2px;
+}
+
+.product-category {
+    margin: 0 0 10px;
+    font-size: 9px;
+    letter-spacing: 2px;
+    color: #777;
+}
+
+.product-price {
+    margin: 0;
+    font-size: 11px;
+    letter-spacing: 2px;
+    color: white;
+}
+
+/* MOVIL */
+
+@media (max-width: 768px) {
+
+    .men-products {
+        padding: 40px 20px;
+    }
+
+    .product-card {
+        width: 100%;
+        max-width: 350px;
+        margin: 0 auto;
+    }
+
+}
     .men-products {
         padding: 20px;
     }
