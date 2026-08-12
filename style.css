@@ -191,7 +191,9 @@ nav {
 }
 
 
-/* MEN / WOMEN */
+/* ========================================
+   MEN / WOMEN
+======================================== */
 
 .gender-selection {
     display: grid;
@@ -376,13 +378,92 @@ nav {
 }
 
 
-/* PRODUCTOS MEN */
+/* ========================================
+   PRODUCTOS MEN
+======================================== */
 
 .men-products {
     width: 100%;
     max-width: 1400px;
     margin: 0 auto;
-    padding: 20px 60px 100px;
+    padding: 50px 60px 100px;
+}
+
+
+/* ========================================
+   TARJETA DEL PRODUCTO
+======================================== */
+
+.product-card {
+    width: 280px;
+}
+
+.product-card a {
+    display: block;
+    color: white;
+    text-decoration: none;
+}
+
+
+/* IMAGEN DEL PRODUCTO */
+
+.product-image {
+    width: 280px;
+    height: 370px;
+    overflow: hidden;
+    background: #111;
+}
+
+.product-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.5s ease;
+}
+
+.product-card:hover .product-image img {
+    transform: scale(1.03);
+}
+
+
+/* INFORMACIÓN DEL PRODUCTO */
+
+.product-info {
+    padding-top: 18px;
+}
+
+.product-brand {
+    margin: 0 0 8px;
+    color: #888;
+    font-size: 9px;
+    letter-spacing: 3px;
+    text-decoration: none;
+}
+
+.product-info h2 {
+    margin: 0 0 8px;
+    color: white;
+    font-size: 13px;
+    font-weight: 400;
+    letter-spacing: 2px;
+    text-decoration: none;
+}
+
+.product-category {
+    margin: 0 0 10px;
+    color: #777;
+    font-size: 9px;
+    letter-spacing: 2px;
+    text-decoration: none;
+}
+
+.product-price {
+    margin: 0;
+    color: white;
+    font-size: 11px;
+    letter-spacing: 2px;
+    text-decoration: none;
 }
 
 
@@ -446,182 +527,6 @@ nav {
     .bunnies-link {
         font-size: 8px;
     }
-/* ========================================
-CATEGORYALIEN — PRODUCTOS
-======================================== */
-
-.men-products {
-    width: 100%;
-    max-width: 1400px;
-    margin: 0 auto;
-    padding: 60px;
-}
-
-/* TARJETA DEL PRODUCTO */
-
-.product-card {
-    width: 300px;
-}
-
-.product-card a {
-    display: block;
-    color: white;
-    text-decoration: none;
-}
-
-/* IMAGEN */
-
-.product-image {
-    width: 100%;
-    aspect-ratio: 3 / 4;
-    overflow: hidden;
-    background: #111;
-}
-
-.product-image img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    display: block;
-    transition: transform 0.5s ease;
-}
-
-.product-card:hover .product-image img {
-    transform: scale(1.03);
-}
-
-/* INFORMACIÓN */
-
-.product-info {
-    padding-top: 18px;
-}
-
-.product-brand {
-    margin: 0 0 8px;
-    font-size: 9px;
-    letter-spacing: 3px;
-    color: #888;
-}
-
-.product-info h2 {
-    margin: 0 0 8px;
-    font-size: 12px;
-    font-weight: 400;
-    letter-spacing: 2px;
-}
-
-.product-category {
-    margin: 0 0 10px;
-    font-size: 9px;
-    letter-spacing: 2px;
-    color: #777;
-}
-
-.product-price {
-    margin: 0;
-    font-size: 11px;
-    letter-spacing: 2px;
-    color: white;
-}
-
-/* MOVIL */
-
-@media (max-width: 768px) {
-
-    .men-products {
-        padding: 40px 20px;
-    }
-
-    .product-card {
-        width: 100%;
-        max-width: 350px;
-        margin: 0 auto;
-    }
-
-}
-    .men-products {
-        padding: 20px;
-    }
-}
-/* ========================================
-CATEGORYALIEN — PRODUCT CARD FIX
-======================================== */
-
-.men-products {
-    width: 100%;
-    max-width: 1400px;
-    margin: 0 auto;
-    padding: 50px 60px 100px;
-    box-sizing: border-box;
-}
-
-.product-card {
-    width: 280px;
-}
-
-.product-card a {
-    display: block;
-    color: white;
-    text-decoration: none;
-}
-
-.product-image {
-    width: 280px;
-    height: 370px;
-    overflow: hidden;
-    background: #111;
-}
-
-.product-image img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    display: block;
-    transition: transform 0.5s ease;
-}
-
-.product-card:hover .product-image img {
-    transform: scale(1.03);
-}
-
-.product-info {
-    padding-top: 18px;
-}
-
-.product-brand {
-    margin: 0 0 8px;
-    color: #888;
-    font-size: 9px;
-    letter-spacing: 3px;
-    text-decoration: none;
-}
-
-.product-info h2 {
-    margin: 0 0 8px;
-    color: white;
-    font-size: 13px;
-    font-weight: 400;
-    letter-spacing: 2px;
-    text-decoration: none;
-}
-
-.product-category {
-    margin: 0 0 10px;
-    color: #777;
-    font-size: 9px;
-    letter-spacing: 2px;
-    text-decoration: none;
-}
-
-.product-price {
-    margin: 0;
-    color: white;
-    font-size: 11px;
-    letter-spacing: 2px;
-    text-decoration: none;
-}
-
-@media (max-width: 768px) {
 
     .men-products {
         padding: 40px 20px 80px;
@@ -630,6 +535,7 @@ CATEGORYALIEN — PRODUCT CARD FIX
     .product-card {
         width: 100%;
         max-width: 350px;
+        margin: 0 auto;
     }
 
     .product-image {
@@ -637,5 +543,4 @@ CATEGORYALIEN — PRODUCT CARD FIX
         height: auto;
         aspect-ratio: 3 / 4;
     }
-
 }
