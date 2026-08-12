@@ -21,7 +21,7 @@
         <div class="shop-tools">
             <a href="men.html">MEN</a>
             <a href="#">CUENTA</a>
-            <a href="#">CARRITO</a>
+            <a href="carrito.html">CARRITO</a>
         </div>
 
     </header>
@@ -59,33 +59,39 @@
                     50 €
                 </p>
 
-               <button class="add-cart" onclick="addToCart()">
-    AÑADIR AL CARRITO
-</button>
+                <button class="add-cart" onclick="addToCart()">
+                    AÑADIR AL CARRITO
+                </button>
 
             </div>
 
         </div>
 
     </main>
-<script>
 
-function addToCart() {
 
-    const product = {
-        name: "PANTALÓN VESTIR",
-        brand: "BUNIIESINDUSTRIES",
-        category: "VESTIR",
-        price: 50,
-        image: "bunnies-pantalon-vestir.png"
-    };
+    <script>
 
-    localStorage.setItem("cartProduct", JSON.stringify(product));
+        function addToCart() {
 
-    window.location.href = "carrito.html";
-}
+            const product = {
+                name: "PANTALÓN VESTIR",
+                brand: "BUNIIESINDUSTRIES",
+                category: "VESTIR",
+                price: 50,
+                image: "bunnies-pantalon-vestir.png"
+            };
 
-</script>
+            localStorage.setItem(
+                "cartProduct",
+                JSON.stringify(product)
+            );
+
+            window.location.href = "carrito.html";
+        }
+
+    </script>
+
 </body>
 
 </html>
