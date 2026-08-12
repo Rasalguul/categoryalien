@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>CAMISETA OVERSIZE — CATEGORYALIEN</title>
+
+    <link rel="stylesheet" href="style.css">
+
+</head>
+
+<body class="shop-page">
+
+    <header class="shop-header">
+
+        <a href="index.html" class="shop-logo">
+            CATEGORYALIEN
+        </a>
+
+        <div class="shop-tools">
+            <a href="women.html">WOMEN</a>
+            <a href="#">CUENTA</a>
+            <a href="carrito.html">CARRITO</a>
+        </div>
+
+    </header>
+
+
+    <main class="product-page">
+
+        <div class="product-detail">
+
+            <div class="product-detail-image">
+
+                <img
+                    src="camiseta-oversize.png"
+                    alt="Camiseta Oversize CATEGORYALIEN"
+                >
+
+            </div>
+
+
+            <div class="product-detail-info">
+
+                <p class="product-brand">
+                    CATEGORYALIEN
+                </p>
+
+                <h1>
+                    CAMISETA OVERSIZE
+                </h1>
+
+                <p class="product-category">
+                    CAMISETA
+                </p>
+
+                <p class="product-price">
+                    25 €
+                </p>
+
+                <button class="add-cart" onclick="addToCart()">
+                    AÑADIR AL CARRITO
+                </button>
+
+            </div>
+
+        </div>
+
+    </main>
+
+
+    <script>
+
+        function addToCart() {
+
+            const product = {
+                name: "CAMISETA OVERSIZE",
+                brand: "CATEGORYALIEN",
+                category: "CAMISETA",
+                price: 25,
+                image: "camiseta-oversize.png"
+            };
+
+            localStorage.setItem(
+                "cartProduct",
+                JSON.stringify(product)
+            );
+
+            window.location.href = "carrito.html";
+
+        }
+
+    </script>
+
+</body>
+
+</html>
