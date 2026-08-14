@@ -21,9 +21,13 @@
         </a>
 
         <div class="shop-tools">
+
             <a href="men.html">MEN</a>
+
             <a href="#">CUENTA</a>
+
             <a href="carrito.html">CARRITO</a>
+
         </div>
 
     </header>
@@ -47,19 +51,22 @@
 
     <script>
 
-        let quantity = 1;
-
-
         function loadCart() {
 
-            const cart = document.getElementById("cart-container");
+            const cartContainer =
+                document.getElementById("cart-container");
 
-            const productData = localStorage.getItem("cartProduct");
+
+            let cart = JSON.parse(
+                localStorage.getItem("cart")
+            ) || [];
 
 
-            if (!productData) {
+            /* CARRITO VACÍO */
 
-                cart.innerHTML = `
+            if (cart.length === 0) {
+
+                cartContainer.innerHTML = `
 
                     <div class="empty-cart">
 
@@ -77,70 +84,98 @@
             }
 
 
-            const product = JSON.parse(productData);
+            /* CALCULAR TOTAL */
 
-            const total = product.price * quantity;
+            let total = 0;
 
+            cart.forEach(product => {
 
-            cart.innerHTML = `
+                total +=
+                    product.price * product.quantity;
 
-                <div class="cart-product">
-
-
-                    <div class="cart-product-image">
-
-                        <img
-                            src="${product.image}"
-                            alt="${product.name}"
-                        >
-
-                    </div>
+            });
 
 
-                    <div class="cart-product-info">
+            /* PRODUCTOS */
 
-                        <p class="cart-product-brand">
-                            ${product.brand}
-                        </p>
+            cartContainer.innerHTML = `
 
-                        <h2>
-                            ${product.name}
-                        </h2>
+                <div class="cart-products">
 
-                        <p class="cart-product-category">
-                            ${product.category}
-                        </p>
+                    ${cart.map((product, index) => `
 
-                        <p class="cart-product-price">
-                            ${product.price} €
-                        </p>
+                        <div class="cart-product">
 
 
-                        <div class="quantity">
+                            <div class="cart-product-image">
 
-                            <button onclick="changeQuantity(-1)">
-                                −
-                            </button>
+                                <img
+                                    src="${product.image}"
+                                    alt="${product.name}"
+                                >
 
-                            <span>
-                                ${quantity}
-                            </span>
+                            </div>
 
-                            <button onclick="changeQuantity(1)">
-                                +
-                            </button>
+
+                            <div class="cart-product-info">
+
+                                <p class="cart-product-brand">
+                                    ${product.brand}
+                                </p>
+
+
+                                <h2>
+                                    ${product.name}
+                                </h2>
+
+
+                                <p class="cart-product-category">
+                                    ${product.category}
+                                </p>
+
+
+                                <p class="cart-product-price">
+                                    ${product.price} €
+                                </p>
+
+
+                                <div class="quantity">
+
+                                    <button
+                                        onclick="changeQuantity(${index}, -1)"
+                                    >
+                                        −
+                                    </button>
+
+
+                                    <span>
+                                        ${product.quantity}
+                                    </span>
+
+
+                                    <button
+                                        onclick="changeQuantity(${index}, 1)"
+                                    >
+                                        +
+                                    </button>
+
+                                </div>
+
+
+                                <button
+                                    class="remove-cart"
+                                    onclick="removeFromCart(${index})"
+                                >
+                                    ELIMINAR
+                                </button>
+
+
+                            </div>
+
 
                         </div>
 
-
-                        <button
-                            class="remove-cart"
-                            onclick="removeFromCart()"
-                        >
-                            ELIMINAR
-                        </button>
-
-                    </div>
+                    `).join("")}
 
                 </div>
 
@@ -167,30 +202,64 @@
                 </div>
 
             `;
+
         }
 
 
-        function changeQuantity(amount) {
+        /* CAMBIAR CANTIDAD */
 
-            quantity = quantity + amount;
+        function changeQuantity(index, amount) {
 
-            if (quantity < 1) {
-                quantity = 1;
+            let cart = JSON.parse(
+                localStorage.getItem("cart")
+            ) || [];
+
+
+            cart[index].quantity += amount;
+
+
+            if (cart[index].quantity < 1) {
+
+                cart[index].quantity = 1;
+
             }
 
+
+            localStorage.setItem(
+                "cart",
+                JSON.stringify(cart)
+            );
+
+
             loadCart();
+
         }
 
 
-        function removeFromCart() {
+        /* ELIMINAR PRODUCTO */
 
-            localStorage.removeItem("cartProduct");
+        function removeFromCart(index) {
 
-            quantity = 1;
+            let cart = JSON.parse(
+                localStorage.getItem("cart")
+            ) || [];
+
+
+            cart.splice(index, 1);
+
+
+            localStorage.setItem(
+                "cart",
+                JSON.stringify(cart)
+            );
+
 
             loadCart();
+
         }
 
+
+        /* CARGAR CARRITO */
 
         loadCart();
 
