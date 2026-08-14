@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="es">
 
@@ -99,6 +100,49 @@
                 </div>
 
 
+                <!-- COLORES -->
+
+                <div class="product-color">
+
+                    <p class="size-title">
+                        COLOR
+                    </p>
+
+                    <div class="size-options">
+
+                        <button type="button" onclick="selectColor('NEGRO')" class="size-button">
+                            NEGRO
+                        </button>
+
+                        <button type="button" onclick="selectColor('BLANCO')" class="size-button">
+                            BLANCO
+                        </button>
+
+                        <button type="button" onclick="selectColor('GRIS')" class="size-button">
+                            GRIS
+                        </button>
+
+                        <button type="button" onclick="selectColor('AZUL')" class="size-button">
+                            AZUL
+                        </button>
+
+                        <button type="button" onclick="selectColor('ROJO')" class="size-button">
+                            ROJO
+                        </button>
+
+                        <button type="button" onclick="selectColor('RAYAS')" class="size-button">
+                            RAYAS
+                        </button>
+
+                    </div>
+
+                    <p id="selected-color">
+                        SELECCIONA UN COLOR
+                    </p>
+
+                </div>
+
+
                 <!-- AÑADIR AL CARRITO -->
 
                 <button class="add-cart" onclick="addToCart()">
@@ -115,6 +159,7 @@
     <script>
 
         let selectedSize = null;
+        let selectedColor = null;
 
 
         function selectSize(size) {
@@ -124,21 +169,15 @@
             document.getElementById("selected-size").textContent =
                 "TALLA SELECCIONADA: " + size;
 
-
-            const buttons =
-                document.querySelectorAll(".size-button");
+        }
 
 
-            buttons.forEach(button => {
+        function selectColor(color) {
 
-                button.style.background = "transparent";
-                button.style.color = "white";
+            selectedColor = color;
 
-            });
-
-
-            event.target.style.background = "white";
-            event.target.style.color = "black";
+            document.getElementById("selected-color").textContent =
+                "COLOR SELECCIONADO: " + color;
 
         }
 
@@ -148,6 +187,15 @@
             if (!selectedSize) {
 
                 alert("SELECCIONA UNA TALLA");
+
+                return;
+
+            }
+
+
+            if (!selectedColor) {
+
+                alert("SELECCIONA UN COLOR");
 
                 return;
 
@@ -168,6 +216,8 @@
 
                 size: selectedSize,
 
+                color: selectedColor,
+
                 quantity: 1
 
             };
@@ -181,7 +231,8 @@
             const existingProduct = cart.find(
                 item =>
                     item.name === product.name &&
-                    item.size === product.size
+                    item.size === product.size &&
+                    item.color === product.color
             );
 
 
