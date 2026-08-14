@@ -21,9 +21,13 @@
         </a>
 
         <div class="shop-tools">
+
             <a href="women.html">WOMEN</a>
+
             <a href="#">CUENTA</a>
+
             <a href="carrito.html">CARRITO</a>
+
         </div>
 
     </header>
@@ -32,6 +36,7 @@
     <main class="product-page">
 
         <div class="product-detail">
+
 
             <div class="product-detail-image">
 
@@ -61,9 +66,77 @@
                     25 €
                 </p>
 
-                <button class="add-cart" onclick="addToCart()">
+
+                <!-- TALLAS -->
+
+                <div class="product-size">
+
+                    <p class="size-title">
+                        TALLA
+                    </p>
+
+
+                    <div class="size-options">
+
+                        <button
+                            type="button"
+                            onclick="selectSize('S')"
+                            class="size-button"
+                        >
+                            S
+                        </button>
+
+                        <button
+                            type="button"
+                            onclick="selectSize('M')"
+                            class="size-button"
+                        >
+                            M
+                        </button>
+
+                        <button
+                            type="button"
+                            onclick="selectSize('L')"
+                            class="size-button"
+                        >
+                            L
+                        </button>
+
+                        <button
+                            type="button"
+                            onclick="selectSize('XL')"
+                            class="size-button"
+                        >
+                            XL
+                        </button>
+
+                        <button
+                            type="button"
+                            onclick="selectSize('XXL')"
+                            class="size-button"
+                        >
+                            XXL
+                        </button>
+
+                    </div>
+
+
+                    <p id="selected-size">
+                        SELECCIONA UNA TALLA
+                    </p>
+
+                </div>
+
+
+                <!-- AÑADIR AL CARRITO -->
+
+                <button
+                    class="add-cart"
+                    onclick="addToCart()"
+                >
                     AÑADIR AL CARRITO
                 </button>
+
 
             </div>
 
@@ -74,15 +147,63 @@
 
     <script>
 
+        let selectedSize = null;
+
+
+        function selectSize(size) {
+
+            selectedSize = size;
+
+
+            document.getElementById("selected-size").textContent =
+                "TALLA SELECCIONADA: " + size;
+
+
+            const buttons =
+                document.querySelectorAll(".size-button");
+
+
+            buttons.forEach(button => {
+
+                button.style.background = "transparent";
+                button.style.color = "white";
+
+            });
+
+
+            event.target.style.background = "white";
+            event.target.style.color = "black";
+
+        }
+
+
         function addToCart() {
 
+            if (!selectedSize) {
+
+                alert("SELECCIONA UNA TALLA");
+
+                return;
+
+            }
+
+
             const product = {
+
                 name: "CAMISETA OVERSIZE",
+
                 brand: "CATEGORYALIEN",
+
                 category: "CAMISETA",
+
                 price: 25,
+
                 image: "camiseta-oversize.png",
+
+                size: selectedSize,
+
                 quantity: 1
+
             };
 
 
@@ -92,7 +213,9 @@
 
 
             const existingProduct = cart.find(
-                item => item.name === product.name
+                item =>
+                    item.name === product.name &&
+                    item.size === product.size
             );
 
 
