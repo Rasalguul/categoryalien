@@ -81,6 +81,7 @@
                 `;
 
                 return;
+
             }
 
 
@@ -90,13 +91,12 @@
 
             cart.forEach(product => {
 
-                total +=
-                    product.price * product.quantity;
+                total += product.price * product.quantity;
 
             });
 
 
-            /* PRODUCTOS */
+            /* MOSTRAR PRODUCTOS */
 
             cartContainer.innerHTML = `
 
@@ -132,6 +132,19 @@
                                 <p class="cart-product-category">
                                     ${product.category}
                                 </p>
+
+
+                                <!-- TALLA -->
+
+                                ${
+                                    product.size
+                                    ? `
+                                        <p class="cart-product-size">
+                                            TALLA: ${product.size}
+                                        </p>
+                                    `
+                                    : ""
+                                }
 
 
                                 <p class="cart-product-price">
