@@ -59,6 +59,48 @@
                     50 €
                 </p>
 
+
+                <!-- TALLAS -->
+
+                <div class="product-size">
+
+                    <p class="size-title">
+                        TALLA
+                    </p>
+
+                    <div class="size-options">
+
+                        <button type="button" onclick="selectSize('38')" class="size-button">
+                            38
+                        </button>
+
+                        <button type="button" onclick="selectSize('40')" class="size-button">
+                            40
+                        </button>
+
+                        <button type="button" onclick="selectSize('42')" class="size-button">
+                            42
+                        </button>
+
+                        <button type="button" onclick="selectSize('44')" class="size-button">
+                            44
+                        </button>
+
+                        <button type="button" onclick="selectSize('46')" class="size-button">
+                            46
+                        </button>
+
+                    </div>
+
+                    <p id="selected-size">
+                        SELECCIONA UNA TALLA
+                    </p>
+
+                </div>
+
+
+                <!-- AÑADIR AL CARRITO -->
+
                 <button class="add-cart" onclick="addToCart()">
                     AÑADIR AL CARRITO
                 </button>
@@ -72,15 +114,62 @@
 
     <script>
 
+        let selectedSize = null;
+
+
+        function selectSize(size) {
+
+            selectedSize = size;
+
+            document.getElementById("selected-size").textContent =
+                "TALLA SELECCIONADA: " + size;
+
+
+            const buttons =
+                document.querySelectorAll(".size-button");
+
+
+            buttons.forEach(button => {
+
+                button.style.background = "transparent";
+                button.style.color = "white";
+
+            });
+
+
+            event.target.style.background = "white";
+            event.target.style.color = "black";
+
+        }
+
+
         function addToCart() {
 
+            if (!selectedSize) {
+
+                alert("SELECCIONA UNA TALLA");
+
+                return;
+
+            }
+
+
             const product = {
+
                 name: "PANTALÓN VESTIR",
+
                 brand: "BUNIIESINDUSTRIES",
+
                 category: "VESTIR",
+
                 price: 50,
+
                 image: "bunnies-pantalon-vestir.png",
+
+                size: selectedSize,
+
                 quantity: 1
+
             };
 
 
@@ -90,7 +179,9 @@
 
 
             const existingProduct = cart.find(
-                item => item.name === product.name
+                item =>
+                    item.name === product.name &&
+                    item.size === product.size
             );
 
 
