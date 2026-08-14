@@ -79,18 +79,44 @@
                 brand: "BUNIIESINDUSTRIES",
                 category: "VESTIR",
                 price: 50,
-                image: "bunnies-pantalon-vestir.png"
+                image: "bunnies-pantalon-vestir.png",
+                quantity: 1
             };
 
-            localStorage.setItem(
-                "cartProduct",
-                JSON.stringify(product)
+
+            let cart = JSON.parse(
+                localStorage.getItem("cart")
+            ) || [];
+
+
+            const existingProduct = cart.find(
+                item => item.name === product.name
             );
 
+
+            if (existingProduct) {
+
+                existingProduct.quantity += 1;
+
+            } else {
+
+                cart.push(product);
+
+            }
+
+
+            localStorage.setItem(
+                "cart",
+                JSON.stringify(cart)
+            );
+
+
             window.location.href = "carrito.html";
+
         }
 
     </script>
+
 
 </body>
 
