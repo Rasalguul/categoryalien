@@ -17,10 +17,7 @@ html,body{
 }
 body{touch-action:none}
 #store{position:fixed;inset:0}
-canvas{
- display:block;width:100%;height:100%;
- touch-action:none;outline:none;
-}
+canvas{display:block;width:100%;height:100%;touch-action:none;outline:none}
 
 .brand{
  position:fixed;top:28px;left:36px;z-index:5;
@@ -35,48 +32,35 @@ canvas{
 .instructions{
  position:fixed;left:36px;bottom:28px;z-index:5;
  color:#ddd;font-size:10px;letter-spacing:1px;
- line-height:2;pointer-events:none;
- text-shadow:0 1px 5px #000;
+ line-height:2;pointer-events:none;text-shadow:0 1px 5px #000;
 }
 .welcome{
  position:fixed;z-index:8;left:50%;bottom:58px;
  transform:translateX(-50%);text-align:center;
  width:90%;transition:opacity .25s;
 }
-.welcome p{
- font-size:10px;letter-spacing:5px;
- color:#bbb;margin-bottom:17px;
-}
+.welcome p{font-size:10px;letter-spacing:5px;color:#bbb;margin-bottom:17px}
 .enter-button,.buy-button{
- display:inline-block;padding:15px 32px;
- background:#fff;color:#050505;text-decoration:none;
- border:0;font-size:10px;font-weight:bold;
- letter-spacing:2px;cursor:pointer;
- transition:.2s;
+ display:inline-block;padding:15px 32px;background:#fff;color:#050505;
+ text-decoration:none;border:0;font-size:10px;font-weight:bold;
+ letter-spacing:2px;cursor:pointer;transition:.2s;
 }
-.enter-button:hover,.buy-button:hover{
- background:#ccc;transform:translateY(-2px);
-}
+.enter-button:hover,.buy-button:hover{background:#ccc;transform:translateY(-2px)}
 .welcome.hidden{opacity:0;pointer-events:none}
 
 .loading{
- position:fixed;inset:0;z-index:20;
- display:flex;justify-content:center;align-items:center;
- background:#050505;color:white;
- font-size:12px;letter-spacing:5px;
- transition:opacity .6s;
+ position:fixed;inset:0;z-index:20;display:flex;
+ justify-content:center;align-items:center;background:#050505;
+ color:white;font-size:12px;letter-spacing:5px;transition:opacity .6s;
 }
 .loading.hidden{opacity:0;pointer-events:none}
 
 #crosshair{
- position:fixed;left:50%;top:50%;
- width:8px;height:8px;
- border:1px solid rgba(255,255,255,.9);
- border-radius:50%;transform:translate(-50%,-50%);
- z-index:4;pointer-events:none;opacity:0;
+ position:fixed;left:50%;top:50%;width:8px;height:8px;
+ border:1px solid rgba(255,255,255,.9);border-radius:50%;
+ transform:translate(-50%,-50%);z-index:4;pointer-events:none;opacity:0;
 }
 #crosshair.active{opacity:1}
-
 #game-status{
  position:fixed;right:28px;top:28px;z-index:5;
  color:#ddd;font-size:9px;letter-spacing:2px;
@@ -84,29 +68,24 @@ canvas{
 }
 
 .product-panel{
- position:fixed;right:0;top:0;
- width:min(390px,92vw);height:100%;
- z-index:12;background:rgba(8,8,8,.97);
- border-left:1px solid #444;
- padding:75px 34px 35px;
- transform:translateX(105%);
- transition:transform .3s ease;
- display:flex;flex-direction:column;gap:18px;
- overflow-y:auto;
+ position:fixed;right:0;top:0;width:min(390px,92vw);height:100%;
+ z-index:12;background:rgba(8,8,8,.97);border-left:1px solid #444;
+ padding:75px 34px 35px;transform:translateX(105%);
+ transition:transform .3s ease;display:flex;flex-direction:column;
+ gap:18px;overflow-y:auto;
 }
 .product-panel.visible{transform:translateX(0)}
 .close-panel{
- position:absolute;right:24px;top:20px;
- background:none;border:0;color:#fff;
- font-size:32px;cursor:pointer;
+ position:absolute;right:24px;top:20px;background:none;
+ border:0;color:#fff;font-size:32px;cursor:pointer;
 }
 .panel-label{font-size:9px;letter-spacing:3px;color:#aaa}
 .product-panel h2{font-size:25px;letter-spacing:2px;line-height:1.25}
 .product-description{font-size:12px;color:#bbb;line-height:1.8}
 .product-info{
- display:grid;grid-template-columns:1fr 1fr;
- gap:14px 10px;border-top:1px solid #444;
- border-bottom:1px solid #444;padding:20px 0;margin:8px 0;
+ display:grid;grid-template-columns:1fr 1fr;gap:14px 10px;
+ border-top:1px solid #444;border-bottom:1px solid #444;
+ padding:20px 0;margin:8px 0;
 }
 .product-info span{font-size:9px;letter-spacing:2px;color:#888}
 .product-info strong{font-size:11px;font-weight:500;text-align:right}
@@ -121,71 +100,50 @@ canvas{
 }
 .joystick-area{
  position:absolute;left:20px;bottom:25px;
- width:130px;height:130px;
- pointer-events:auto;touch-action:none;
+ width:130px;height:130px;pointer-events:auto;touch-action:none;
 }
 .joystick-base{
- position:absolute;left:0;top:0;
- width:130px;height:130px;border-radius:50%;
- background:rgba(255,255,255,.10);
+ position:absolute;left:0;top:0;width:130px;height:130px;
+ border-radius:50%;background:rgba(255,255,255,.10);
  border:1px solid rgba(255,255,255,.35);
 }
 .joystick-knob{
- position:absolute;left:40px;top:40px;
- width:50px;height:50px;border-radius:50%;
- background:rgba(255,255,255,.65);
+ position:absolute;left:40px;top:40px;width:50px;height:50px;
+ border-radius:50%;background:rgba(255,255,255,.65);
  border:1px solid rgba(255,255,255,.8);
  box-shadow:0 2px 12px rgba(0,0,0,.3);
 }
 .action-controls{
  position:absolute;right:18px;bottom:30px;
- display:flex;flex-direction:column;gap:12px;
- pointer-events:auto;
+ display:flex;flex-direction:column;gap:12px;pointer-events:auto;
 }
 .touch-button{
- min-width:112px;min-height:48px;
- padding:12px 14px;border:1px solid rgba(255,255,255,.65);
- background:rgba(0,0,0,.65);color:white;
- font-size:9px;font-weight:bold;letter-spacing:1px;
- border-radius:3px;touch-action:manipulation;
+ min-width:112px;min-height:48px;padding:12px 14px;
+ border:1px solid rgba(255,255,255,.65);
+ background:rgba(0,0,0,.65);color:white;font-size:9px;
+ font-weight:bold;letter-spacing:1px;border-radius:3px;
+ touch-action:manipulation;
 }
 .touch-button:active{background:#fff;color:#050505}
 .look-hint{
- position:absolute;left:50%;bottom:18px;
- transform:translateX(-50%);
- font-size:8px;letter-spacing:1px;
- color:rgba(255,255,255,.65);
+ position:absolute;left:50%;bottom:18px;transform:translateX(-50%);
+ font-size:8px;letter-spacing:1px;color:rgba(255,255,255,.65);
  white-space:nowrap;pointer-events:none;
 }
 .mobile-controls.active{display:block}
 
-/* MÓVIL Y TABLET */
 @media(max-width:800px){
- .brand{
-  top:calc(env(safe-area-inset-top) + 16px);
-  left:16px;font-size:12px;letter-spacing:3px;
- }
- .scene-label{
-  top:calc(env(safe-area-inset-top) + 38px);
-  left:16px;font-size:7px;letter-spacing:2px;
- }
+ .brand{top:calc(env(safe-area-inset-top) + 16px);left:16px;font-size:12px;letter-spacing:3px}
+ .scene-label{top:calc(env(safe-area-inset-top) + 38px);left:16px;font-size:7px;letter-spacing:2px}
  .instructions{display:none}
- #game-status{
-  top:calc(env(safe-area-inset-top) + 16px);
-  right:14px;font-size:8px;max-width:130px;
-  line-height:1.5;
- }
- .welcome{
-  bottom:calc(env(safe-area-inset-bottom) + 35px);
- }
+ #game-status{top:calc(env(safe-area-inset-top) + 16px);right:14px;font-size:8px;max-width:130px;line-height:1.5}
+ .welcome{bottom:calc(env(safe-area-inset-bottom) + 35px)}
  .welcome p{font-size:8px;letter-spacing:3px}
  .enter-button{padding:15px 24px;font-size:10px}
  .product-panel{
-  width:100%;height:min(80%,650px);
-  top:auto;bottom:0;right:0;
+  width:100%;height:min(80%,650px);top:auto;bottom:0;right:0;
   padding:55px 24px calc(env(safe-area-inset-bottom) + 20px);
-  border-left:0;border-top:1px solid #444;
-  transform:translateY(105%);
+  border-left:0;border-top:1px solid #444;transform:translateY(105%);
  }
  .product-panel.visible{transform:translateY(0)}
  .product-panel h2{font-size:21px}
@@ -210,7 +168,7 @@ canvas{
 <div class="loading" id="loading">CATEGORYALIEN</div>
 
 <div class="brand">CATEGORYALIEN</div>
-<div class="scene-label">VIRTUAL FLAGSHIP STORE · SCENE 01</div>
+<div class="scene-label">VIRTUAL FLAGSHIP STORE · TWO LEVELS</div>
 <div id="game-status">PREPARADO PARA EXPLORAR</div>
 
 <div class="instructions">
@@ -230,53 +188,35 @@ canvas{
  </button>
 </div>
 
-<!-- CONTROLES PARA MÓVIL -->
 <div class="mobile-controls" id="mobile-controls">
-
  <div class="joystick-area" id="joystick-area">
   <div class="joystick-base"></div>
   <div class="joystick-knob" id="joystick-knob"></div>
  </div>
-
  <div class="action-controls">
-  <button class="touch-button" id="touch-select" type="button">
-   COGER PRENDA
-  </button>
-  <button class="touch-button" id="touch-details" type="button">
-   VER FICHA
-  </button>
+  <button class="touch-button" id="touch-select" type="button">COGER PRENDA</button>
+  <button class="touch-button" id="touch-details" type="button">VER FICHA</button>
  </div>
-
  <div class="look-hint">DESLIZA EL DEDO PARA MIRAR</div>
 </div>
 
 <aside class="product-panel" id="product-panel" aria-hidden="true">
  <button class="close-panel" id="close-panel" aria-label="Cerrar ficha">×</button>
-
  <span class="panel-label">CATEGORYALIEN PRODUCT</span>
  <h2 id="product-name">PRENDA SELECCIONADA</h2>
-
  <p class="product-description" id="product-description">
   Prenda de muestra de la colección CATEGORYALIEN.
  </p>
-
  <div class="product-info">
-  <span>COLOR</span>
-  <strong id="product-color">Consultar en tienda</strong>
-
-  <span>TALLA</span>
-  <strong>Consultar disponibilidad</strong>
-
-  <span>PRECIO</span>
-  <strong id="product-price">Consultar en tienda</strong>
+  <span>COLOR</span><strong id="product-color">Consultar en tienda</strong>
+  <span>TALLA</span><strong>Consultar disponibilidad</strong>
+  <span>PRECIO</span><strong id="product-price">Consultar en tienda</strong>
  </div>
-
  <p class="panel-note">
   Esta ficha es una vista previa del showroom. La composición,
   tallas y precio definitivos se mostrarán al conectar cada modelo
   3D con su ficha de producto.
  </p>
-
  <a href="./shop.html" class="buy-button">VER TIENDA Y COMPRAR</a>
  <p id="panel-help">Pulsa × para volver a explorar la tienda.</p>
 </aside>
@@ -285,99 +225,181 @@ canvas{
 
 import * as THREE from "https://cdn.jsdelivr.net/npm/three@0.165.0/build/three.module.js";
 
-// DETECTAR DISPOSITIVO
+// DISPOSITIVO
 const isMobile=window.matchMedia("(max-width: 800px)").matches ||
                ("ontouchstart" in window);
 
 // ESCENA
 const scene=new THREE.Scene();
 scene.background=new THREE.Color(0x080808);
-scene.fog=new THREE.Fog(0x080808,18,42);
+scene.fog=new THREE.Fog(0x080808,22,55);
 
 const camera=new THREE.PerspectiveCamera(
- 65,innerWidth/innerHeight,.1,100
+ 65,innerWidth/innerHeight,.1,120
 );
-
 camera.position.set(0,1.7,9);
 camera.rotation.order="YXZ";
 
-// RENDERIZADOR OPTIMIZADO
+// RENDERIZADOR
 const renderer=new THREE.WebGLRenderer({
  antialias:!isMobile,
  powerPreference:"high-performance",
  alpha:false
 });
-
 renderer.setSize(innerWidth,innerHeight);
-renderer.setPixelRatio(
- Math.min(devicePixelRatio,isMobile?1.1:1.5)
-);
+renderer.setPixelRatio(Math.min(devicePixelRatio,isMobile?1.1:1.5));
 renderer.shadowMap.enabled=false;
 renderer.outputColorSpace=THREE.SRGBColorSpace;
 renderer.toneMapping=THREE.ACESFilmicToneMapping;
 renderer.toneMappingExposure=1.15;
 renderer.domElement.tabIndex=0;
-
 document.getElementById("store").appendChild(renderer.domElement);
 
 // ILUMINACIÓN
 scene.add(new THREE.HemisphereLight(0xffffff,0x222222,1.8));
 
 const mainLight=new THREE.DirectionalLight(0xffffff,2);
-mainLight.position.set(0,8,4);
+mainLight.position.set(0,12,4);
 scene.add(mainLight);
 
-const backLight=new THREE.PointLight(0xffffff,isMobile?14:25,18);
-backLight.position.set(0,5,-9);
+const backLight=new THREE.PointLight(0xffffff,isMobile?18:30,25);
+backLight.position.set(0,7,-10);
 scene.add(backLight);
 
 if(!isMobile){
- const leftLight=new THREE.PointLight(0xffffff,12,14);
- leftLight.position.set(-7,4,-2);
+ const leftLight=new THREE.PointLight(0xffffff,15,20);
+ leftLight.position.set(-7,5,-2);
  scene.add(leftLight);
 
- const rightLight=new THREE.PointLight(0xffffff,12,14);
- rightLight.position.set(7,4,-2);
+ const rightLight=new THREE.PointLight(0xffffff,15,20);
+ rightLight.position.set(7,5,-2);
  scene.add(rightLight);
 }
 
-// MATERIALES Y ARQUITECTURA
-const black=new THREE.MeshStandardMaterial({
- color:0x111111,roughness:.75
+// MATERIALES
+const black=new THREE.MeshStandardMaterial({color:0x111111,roughness:.75});
+const concrete=new THREE.MeshStandardMaterial({color:0x292929,roughness:.9});
+const floorMaterial=new THREE.MeshStandardMaterial({color:0x171717,roughness:.25,metalness:.25});
+const white=new THREE.MeshStandardMaterial({color:0xffffff,roughness:.5});
+const metal=new THREE.MeshStandardMaterial({color:0x888888,metalness:.85,roughness:.25});
+const glass=new THREE.MeshStandardMaterial({
+ color:0xb8c8cc,metalness:.25,roughness:.12,
+ transparent:true,opacity:.22
 });
-
-const concrete=new THREE.MeshStandardMaterial({
- color:0x292929,roughness:.9
-});
-
-const floorMaterial=new THREE.MeshStandardMaterial({
- color:0x171717,roughness:.3,metalness:.2
-});
-
-const white=new THREE.MeshStandardMaterial({
- color:0xffffff,roughness:.5
-});
-
-const metal=new THREE.MeshStandardMaterial({
- color:0x888888,metalness:.85,roughness:.25
-});
+const led=new THREE.MeshBasicMaterial({color:0xffffff});
 
 function box(w,h,d,mat,x,y,z){
+ const m=new THREE.Mesh(new THREE.BoxGeometry(w,h,d),mat);
+ m.position.set(x,y,z);
+ scene.add(m);
+ return m;
+}
+
+function cylinder(radius,height,mat,x,y,z){
  const m=new THREE.Mesh(
-  new THREE.BoxGeometry(w,h,d),mat
+  new THREE.CylinderGeometry(radius,radius,height,12),mat
  );
  m.position.set(x,y,z);
  scene.add(m);
  return m;
 }
 
-box(20,.3,28,floorMaterial,0,-.2,-2);
-box(20,9,.4,black,0,4.3,-12);
-box(.4,9,28,concrete,-10,4.3,-2);
-box(.4,9,28,concrete,10,4.3,-2);
-box(20,.3,28,black,0,8.8,-2);
+// =====================================================
+// ARQUITECTURA: DOS PLANTAS
+// =====================================================
 
-// LOGOTIPO
+// Suelo principal: planta baja WOMEN
+box(20,.35,28,floorMaterial,0,-.2,-2);
+
+// Paredes exteriores
+box(20,14,.5,black,0,6.8,-12);
+box(.5,14,28,concrete,-10,6.8,-2);
+box(.5,14,28,concrete,10,6.8,-2);
+
+// Techo superior
+box(20,.3,28,black,0,13.9,-2);
+
+// Galería superior MEN.
+// Dos alas laterales dejan un gran vacío central para el atrio.
+box(6.5,.35,21,floorMaterial,-6.75,4.65,-2);
+box(6.5,.35,21,floorMaterial,6.75,4.65,-2);
+
+// Remates de los balcones
+box(6.5,.12,.12,metal,-6.75,4.9,8.4);
+box(6.5,.12,.12,metal,6.75,4.9,8.4);
+
+// Barandillas de cristal de la galería
+box(6.3,1.05,.08,glass,-6.75,5.45,1.1);
+box(6.3,1.05,.08,glass,6.75,5.45,1.1);
+
+// Pasamanos metálicos
+box(6.4,.07,.12,metal,-6.75,6.0,1.1);
+box(6.4,.07,.12,metal,6.75,6.0,1.1);
+
+// Barandillas laterales del vacío central
+box(.08,1.05,9,glass,-3.5,5.45,-5);
+box(.08,1.05,9,glass,3.5,5.45,-5);
+box(.12,.07,9,metal,-3.5,6.0,-5);
+box(.12,.07,9,metal,3.5,6.0,-5);
+
+// ESCALERA MONUMENTAL LATERAL
+// Escalones en ascenso visual desde la entrada hacia la galería.
+const stairCount=14;
+const stairStartZ=5.8;
+const stairEndZ=-3.2;
+const stairLength=.85;
+const stairRise=4.8/stairCount;
+
+for(let i=0;i<stairCount;i++){
+ const step=new THREE.Mesh(
+  new THREE.BoxGeometry(2.4,stairRise,stairLength),
+  i%2===0?concrete:black
+ );
+ step.position.set(
+  8.05,
+  stairRise*(i+.5),
+  stairStartZ-i*.66
+ );
+ scene.add(step);
+}
+
+// Estructura lateral de la escalera
+box(.18,5.2,10,metal,9.35,2.6,1.1);
+
+// Barandilla de la escalera
+const stairRail=box(.08,.08,10,metal,7.0,2.8,1.1);
+stairRail.rotation.x=-.42;
+
+// Iluminación de escalones
+for(let i=0;i<stairCount;i++){
+ const strip=box(
+  2.15,.025,.035,led,
+  8.05,
+  stairRise*(i+1)-.02,
+  stairStartZ-i*.66+.36
+ );
+}
+
+// Columnas arquitectónicas
+for(const x of [-9.1,9.1]){
+ for(const z of [-9,0,7]){
+  box(.45,13,.45,concrete,x,6.5,z);
+ }
+}
+
+// Líneas LED del techo
+box(9,.045,.07,led,0,13.65,-3);
+box(.06,.045,8,led,-4.7,13.65,.5);
+box(.06,.045,8,led,4.7,13.65,.5);
+
+// Líneas LED en el borde de la galería
+box(5.8,.035,.06,led,-6.75,4.9,1.0);
+box(5.8,.035,.06,led,6.75,4.9,1.0);
+
+// =====================================================
+// LOGOTIPO CENTRAL
+// =====================================================
+
 const signCanvas=document.createElement("canvas");
 signCanvas.width=1200;
 signCanvas.height=250;
@@ -397,30 +419,47 @@ signTexture.colorSpace=THREE.SRGBColorSpace;
 const sign=new THREE.Mesh(
  new THREE.PlaneGeometry(7.5,1.6),
  new THREE.MeshBasicMaterial({
-  map:signTexture,
-  transparent:true,
-  depthWrite:false
+  map:signTexture,transparent:true,depthWrite:false
  })
 );
-
-sign.position.set(0,5.6,-11.72);
+sign.position.set(0,3.1,-11.65);
 scene.add(sign);
 
-const ceilingLight=new THREE.MeshBasicMaterial({
- color:0xffffff
-});
+// Carteles de las dos plantas
+function makeTextLabel(text,width,height,x,y,z){
+ const c=document.createElement("canvas");
+ c.width=800;c.height=220;
+ const g=c.getContext("2d");
+ g.fillStyle="#fff";
+ g.font="bold 100px Arial";
+ g.textAlign="center";
+ g.textBaseline="middle";
+ g.fillText(text,400,110);
+ const t=new THREE.CanvasTexture(c);
+ t.colorSpace=THREE.SRGBColorSpace;
+ const mesh=new THREE.Mesh(
+  new THREE.PlaneGeometry(width,height),
+  new THREE.MeshBasicMaterial({map:t,transparent:true})
+ );
+ mesh.position.set(x,y,z);
+ scene.add(mesh);
+ return mesh;
+}
 
-box(9,.06,.08,ceilingLight,0,8.55,-3);
-box(.08,.06,7,ceilingLight,-4.5,8.55,.5);
-box(.08,.06,7,ceilingLight,4.5,8.55,.5);
+makeTextLabel("WOMEN",4,1.1,0,3.0,-11.55);
+makeTextLabel("MEN",3,1.0,0,7.0,-11.55);
 
+// =====================================================
 // PERCHEROS Y PRENDAS
+// =====================================================
+
 const garmentColors=[
  0x080808,0xeeeeee,0x444444,0x171717,
  0xaaaaaa,0x080808,0xdddddd,0x292929
 ];
 
 const selectableGarments=[];
+const originalPositions=new Map();
 
 function createGarment(x,y,z,index,section){
 
@@ -459,54 +498,67 @@ function createGarment(x,y,z,index,section){
 
  group.position.set(x,y,z);
  group.userData.isGarment=true;
-
  group.userData.product={
   name:section+" · PRENDA "+String(index+1).padStart(2,"0"),
-  color:"#"+garmentColors[index%garmentColors.length]
-   .toString(16).padStart(6,"0"),
+  color:"#"+garmentColors[index%garmentColors.length].toString(16).padStart(6,"0"),
   price:"Consultar en tienda",
   description:"Prenda de muestra del showroom virtual CATEGORYALIEN."
  };
 
  group.userData.rackPosition=group.position.clone();
-
  scene.add(group);
  selectableGarments.push(group);
 }
 
-function createRack(x,z,section){
+// Perchero adaptable a cada planta
+function createRack(x,z,section,floorY){
+
+ const railY=floorY+1.1;
+ const garmentY=floorY+.1;
 
  const rail=new THREE.Mesh(
-  new THREE.CylinderGeometry(.045,.045,5.5,12),
-  metal
+  new THREE.CylinderGeometry(.045,.045,5.5,12),metal
  );
  rail.rotation.z=Math.PI/2;
- rail.position.set(x,4.1,z);
+ rail.position.set(x,railY,z);
  scene.add(rail);
 
  for(const side of [-1,1]){
   const support=new THREE.Mesh(
-   new THREE.CylinderGeometry(.05,.05,3.8,10),
-   metal
+   new THREE.CylinderGeometry(.05,.05,2.0,10),metal
   );
-  support.position.set(x+side*2.5,2.05,z);
+  support.position.set(x+side*2.5,floorY+1,z);
   scene.add(support);
 
-  box(.9,.08,.8,metal,x+side*2.5,.15,z);
+  box(.9,.08,.8,metal,x+side*2.5,floorY+.08,z);
  }
 
  for(let i=0;i<garmentColors.length;i++){
-  createGarment(x-2.1+i*.6,3,z,i,section);
+  createGarment(
+   x-2.1+i*.6,garmentY,z,i,section
+  );
  }
 }
 
-createRack(-6.5,-3,"MEN");
-createRack(6.5,-3,"WOMEN");
+// PLANTA BAJA: WOMEN
+createRack(-6.5,-3,"WOMEN",0);
+createRack(6.5,-3,"WOMEN",0);
 
-box(4,.8,1.2,black,0,.35,-9);
-box(4.1,.04,1.3,white,0,.77,-9);
+// Expositor central de la planta baja
+box(4,.8,1.2,black,0,.35,-8.8);
+box(4.1,.04,1.3,white,0,.77,-8.8);
 
- // CONTROLES Y ESTADO DEL JUEGO
+// PLANTA SUPERIOR: MEN
+createRack(-6.5,-3,"MEN",4.9);
+createRack(6.5,-3,"MEN",4.9);
+
+// Expositor de la galería superior
+box(2.8,.7,1.0,black,0,5.25,-8.7);
+box(2.9,.04,1.1,white,0,5.62,-8.7);
+ // =====================================================
+// CONTROLES Y ESTADO DEL JUEGO
+// =====================================================
+
 let yaw=0;
 let pitch=0;
 let targetYaw=0;
@@ -522,8 +574,6 @@ const panel=document.getElementById("product-panel");
 const mobileControls=document.getElementById("mobile-controls");
 
 const keys={};
-const originalPositions=new Map();
-
 const raycaster=new THREE.Raycaster();
 
 // INICIAR EXPLORACIÓN
@@ -545,18 +595,21 @@ document.getElementById("start-game")
 
 // RATÓN EN ORDENADOR
 function lockMouse(){
+
  if(!isMobile&&!panel.classList.contains("visible")){
   canvas.requestPointerLock?.();
  }
 }
 
 canvas.addEventListener("click",()=>{
+
  if(!isMobile&&!pointerLocked&&!panel.classList.contains("visible")){
   lockMouse();
  }
 });
 
 document.addEventListener("pointerlockchange",()=>{
+
  pointerLocked=document.pointerLockElement===canvas;
 
  crosshair.classList.toggle("active",pointerLocked);
@@ -569,6 +622,7 @@ document.addEventListener("pointerlockchange",()=>{
 });
 
 document.addEventListener("mousemove",e=>{
+
  if(!pointerLocked)return;
 
  targetYaw-=e.movementX*.0022;
@@ -580,14 +634,21 @@ document.addEventListener("mousemove",e=>{
 });
 
 document.addEventListener("contextmenu",e=>{
- if(e.target===canvas||pointerLocked)e.preventDefault();
+
+ if(e.target===canvas||pointerLocked){
+  e.preventDefault();
+ }
 });
 
 // TECLADO WASD
 window.addEventListener("keydown",e=>{
+
  const k=e.key.toLowerCase();
 
- if(["w","a","s","d","arrowup","arrowdown","arrowleft","arrowright"].includes(k)){
+ if([
+  "w","a","s","d",
+  "arrowup","arrowdown","arrowleft","arrowright"
+ ].includes(k)){
   e.preventDefault();
   keys[k]=true;
  }
@@ -598,12 +659,18 @@ window.addEventListener("keyup",e=>{
 });
 
 window.addEventListener("blur",()=>{
- for(const k in keys)keys[k]=false;
+
+ for(const k in keys){
+  keys[k]=false;
+ }
 });
 
 document.addEventListener("pointerlockchange",()=>{
+
  if(!pointerLocked){
-  for(const k in keys)keys[k]=false;
+  for(const k in keys){
+   keys[k]=false;
+  }
  }
 });
 
@@ -611,6 +678,7 @@ document.addEventListener("pointerlockchange",()=>{
 function garmentFromHits(hits){
 
  for(const hit of hits){
+
   let item=hit.object;
 
   while(item&&!item.userData.isGarment){
@@ -624,6 +692,7 @@ function garmentFromHits(hits){
 }
 
 function garmentAtCenter(){
+
  raycaster.setFromCamera(new THREE.Vector2(0,0),camera);
 
  const hits=raycaster.intersectObjects(
@@ -639,15 +708,19 @@ function bringForward(item){
  if(!item)return;
 
  if(selectedGarment&&selectedGarment!==item){
+
   const old=originalPositions.get(selectedGarment);
 
-  if(old)selectedGarment.position.copy(old);
+  if(old){
+   selectedGarment.position.copy(old);
+  }
 
   selectedGarment.scale.setScalar(1);
   selectedGarment.rotation.y=0;
  }
 
  if(!originalPositions.has(item)){
+
   originalPositions.set(
    item,item.userData.rackPosition.clone()
   );
@@ -672,7 +745,9 @@ function bringForward(item){
 // ABRIR FICHA
 function openProductPanel(item){
 
- if(item)bringForward(item);
+ if(item){
+  bringForward(item);
+ }
 
  if(!selectedGarment){
   status.textContent="SELECCIONA UNA PRENDA PRIMERO";
@@ -717,11 +792,16 @@ document.addEventListener("mousedown",e=>{
  }
 
  if(e.button===0){
+
   const item=garmentAtCenter();
-  if(item)bringForward(item);
+
+  if(item){
+   bringForward(item);
+  }
  }
 
  if(e.button===2){
+
   e.preventDefault();
   openProductPanel(garmentAtCenter());
  }
@@ -739,13 +819,30 @@ function moveCamera(delta){
  forward.set(-Math.sin(yaw),0,-Math.cos(yaw));
  right.set(Math.cos(yaw),0,-Math.sin(yaw));
 
- if(keys.w||keys.arrowup)camera.position.addScaledVector(forward,speed);
- if(keys.s||keys.arrowdown)camera.position.addScaledVector(forward,-speed);
- if(keys.a||keys.arrowleft)camera.position.addScaledVector(right,-speed);
- if(keys.d||keys.arrowright)camera.position.addScaledVector(right,speed);
+ if(keys.w||keys.arrowup){
+  camera.position.addScaledVector(forward,speed);
+ }
 
- camera.position.x=THREE.MathUtils.clamp(camera.position.x,-8.5,8.5);
- camera.position.z=THREE.MathUtils.clamp(camera.position.z,-10.5,10);
+ if(keys.s||keys.arrowdown){
+  camera.position.addScaledVector(forward,-speed);
+ }
+
+ if(keys.a||keys.arrowleft){
+  camera.position.addScaledVector(right,-speed);
+ }
+
+ if(keys.d||keys.arrowright){
+  camera.position.addScaledVector(right,speed);
+ }
+
+ camera.position.x=THREE.MathUtils.clamp(
+  camera.position.x,-8.5,8.5
+ );
+
+ camera.position.z=THREE.MathUtils.clamp(
+  camera.position.z,-10.5,10
+ );
+
  camera.position.y=1.7;
 }
 
@@ -771,14 +868,13 @@ function updateJoystick(e){
  const distance=Math.hypot(dx,dy);
 
  if(distance>maxDistance){
+
   dx=dx/distance*maxDistance;
   dy=dy/distance*maxDistance;
  }
 
  joystickX=dx/maxDistance;
  joystickY=dy/maxDistance;
-
- const knobLimit=rect.width*.32;
 
  joystickKnob.style.transform=
   `translate(${dx}px,${dy}px)`;
@@ -814,7 +910,10 @@ joystickArea.addEventListener("pointermove",e=>{
 });
 
 joystickArea.addEventListener("pointerup",e=>{
- if(e.pointerId===joystickPointer)resetJoystick();
+
+ if(e.pointerId===joystickPointer){
+  resetJoystick();
+ }
 });
 
 joystickArea.addEventListener("pointercancel",resetJoystick);
@@ -855,7 +954,10 @@ canvas.addEventListener("pointermove",e=>{
 });
 
 function endLook(e){
- if(e.pointerId===lookPointer)lookPointer=null;
+
+ if(e.pointerId===lookPointer){
+  lookPointer=null;
+ }
 }
 
 canvas.addEventListener("pointerup",endLook);
@@ -882,7 +984,9 @@ canvas.addEventListener("click",e=>{
 
  const item=garmentFromHits(hits);
 
- if(item)bringForward(item);
+ if(item){
+  bringForward(item);
+ }
 });
 
 // BOTONES TÁCTILES
@@ -898,7 +1002,9 @@ document.getElementById("touch-select")
  });
 
 document.getElementById("touch-details")
- .addEventListener("click",()=>openProductPanel(selectedGarment));
+ .addEventListener("click",()=>{
+  openProductPanel(selectedGarment);
+ });
 
 // MOVIMIENTO CON JOYSTICK
 function moveWithJoystick(delta){
@@ -910,11 +1016,22 @@ function moveWithJoystick(delta){
  forward.set(-Math.sin(yaw),0,-Math.cos(yaw));
  right.set(Math.cos(yaw),0,-Math.sin(yaw));
 
- camera.position.addScaledVector(forward,-joystickY*speed);
- camera.position.addScaledVector(right,joystickX*speed);
+ camera.position.addScaledVector(
+  forward,-joystickY*speed
+ );
 
- camera.position.x=THREE.MathUtils.clamp(camera.position.x,-8.5,8.5);
- camera.position.z=THREE.MathUtils.clamp(camera.position.z,-10.5,10);
+ camera.position.addScaledVector(
+  right,joystickX*speed
+ );
+
+ camera.position.x=THREE.MathUtils.clamp(
+  camera.position.x,-8.5,8.5
+ );
+
+ camera.position.z=THREE.MathUtils.clamp(
+  camera.position.z,-10.5,10
+ );
+
  camera.position.y=1.7;
 }
 
