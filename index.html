@@ -5,131 +5,52 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
 <meta name="theme-color" content="#050505">
 <meta name="description" content="CATEGORYALIEN — Virtual Flagship Store. Create your own category.">
-<title>CATEGORYALIEN | Virtual Store</title>
+<title>CATEGORYALIEN | Virtual Flagship Store</title>
 
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
-html,body{
- width:100%;height:100%;overflow:hidden;
- background:#050505;color:#fff;
- font-family:Arial,Helvetica,sans-serif;
- overscroll-behavior:none;
-}
+html,body{width:100%;height:100%;overflow:hidden;background:#080808;color:#fff;font-family:Arial,Helvetica,sans-serif;overscroll-behavior:none}
 body{touch-action:none}
 #store{position:fixed;inset:0}
-canvas{display:block;width:100%;height:100%;touch-action:none;outline:none}
+canvas{display:block;width:100%;height:100%;outline:none;touch-action:none}
 
-.brand{
- position:fixed;top:28px;left:36px;z-index:5;
- font-size:16px;font-weight:700;letter-spacing:5px;
- pointer-events:none;
-}
-.scene-label{
- position:fixed;top:58px;left:36px;z-index:5;
- font-size:9px;letter-spacing:3px;color:#aaa;
- pointer-events:none;
-}
-.instructions{
- position:fixed;left:36px;bottom:28px;z-index:5;
- color:#ddd;font-size:10px;letter-spacing:1px;
- line-height:2;pointer-events:none;text-shadow:0 1px 5px #000;
-}
-.welcome{
- position:fixed;z-index:8;left:50%;bottom:58px;
- transform:translateX(-50%);text-align:center;
- width:90%;transition:opacity .25s;
-}
+.brand{position:fixed;top:28px;left:36px;z-index:5;font-size:16px;font-weight:700;letter-spacing:5px;pointer-events:none}
+.scene-label{position:fixed;top:58px;left:36px;z-index:5;font-size:9px;letter-spacing:3px;color:#aaa;pointer-events:none}
+.instructions{position:fixed;left:36px;bottom:28px;z-index:5;color:#ddd;font-size:10px;letter-spacing:1px;line-height:2;pointer-events:none;text-shadow:0 1px 5px #000}
+#game-status{position:fixed;right:28px;top:28px;z-index:5;color:#ddd;font-size:9px;letter-spacing:2px;pointer-events:none;text-align:right}
+#crosshair{position:fixed;left:50%;top:50%;width:8px;height:8px;border:1px solid #fff;border-radius:50%;transform:translate(-50%,-50%);z-index:4;pointer-events:none;opacity:0}
+#crosshair.active{opacity:1}
+
+.welcome{position:fixed;z-index:8;left:50%;bottom:58px;transform:translateX(-50%);text-align:center;width:90%;transition:opacity .25s}
 .welcome p{font-size:10px;letter-spacing:5px;color:#bbb;margin-bottom:17px}
-.enter-button,.buy-button{
- display:inline-block;padding:15px 32px;background:#fff;color:#050505;
- text-decoration:none;border:0;font-size:10px;font-weight:bold;
- letter-spacing:2px;cursor:pointer;transition:.2s;
-}
+.enter-button,.buy-button{display:inline-block;padding:15px 32px;background:#fff;color:#050505;text-decoration:none;border:0;font-size:10px;font-weight:bold;letter-spacing:2px;cursor:pointer;transition:.2s}
 .enter-button:hover,.buy-button:hover{background:#ccc;transform:translateY(-2px)}
 .welcome.hidden{opacity:0;pointer-events:none}
 
-.loading{
- position:fixed;inset:0;z-index:20;display:flex;
- justify-content:center;align-items:center;background:#050505;
- color:white;font-size:12px;letter-spacing:5px;transition:opacity .6s;
-}
+.loading{position:fixed;inset:0;z-index:20;display:flex;justify-content:center;align-items:center;background:#050505;color:white;font-size:12px;letter-spacing:5px;transition:opacity .6s}
 .loading.hidden{opacity:0;pointer-events:none}
 
-#crosshair{
- position:fixed;left:50%;top:50%;width:8px;height:8px;
- border:1px solid rgba(255,255,255,.9);border-radius:50%;
- transform:translate(-50%,-50%);z-index:4;pointer-events:none;opacity:0;
-}
-#crosshair.active{opacity:1}
-#game-status{
- position:fixed;right:28px;top:28px;z-index:5;
- color:#ddd;font-size:9px;letter-spacing:2px;
- pointer-events:none;text-align:right;
-}
-
-.product-panel{
- position:fixed;right:0;top:0;width:min(390px,92vw);height:100%;
- z-index:12;background:rgba(8,8,8,.97);border-left:1px solid #444;
- padding:75px 34px 35px;transform:translateX(105%);
- transition:transform .3s ease;display:flex;flex-direction:column;
- gap:18px;overflow-y:auto;
-}
+.product-panel{position:fixed;right:0;top:0;width:min(390px,92vw);height:100%;z-index:12;background:rgba(8,8,8,.97);border-left:1px solid #444;padding:75px 34px 35px;transform:translateX(105%);transition:transform .3s ease;display:flex;flex-direction:column;gap:18px;overflow-y:auto}
 .product-panel.visible{transform:translateX(0)}
-.close-panel{
- position:absolute;right:24px;top:20px;background:none;
- border:0;color:#fff;font-size:32px;cursor:pointer;
-}
+.close-panel{position:absolute;right:24px;top:20px;background:none;border:0;color:#fff;font-size:32px;cursor:pointer}
 .panel-label{font-size:9px;letter-spacing:3px;color:#aaa}
 .product-panel h2{font-size:25px;letter-spacing:2px;line-height:1.25}
 .product-description{font-size:12px;color:#bbb;line-height:1.8}
-.product-info{
- display:grid;grid-template-columns:1fr 1fr;gap:14px 10px;
- border-top:1px solid #444;border-bottom:1px solid #444;
- padding:20px 0;margin:8px 0;
-}
+.product-info{display:grid;grid-template-columns:1fr 1fr;gap:14px 10px;border-top:1px solid #444;border-bottom:1px solid #444;padding:20px 0;margin:8px 0}
 .product-info span{font-size:9px;letter-spacing:2px;color:#888}
 .product-info strong{font-size:11px;font-weight:500;text-align:right}
 .panel-note{font-size:10px;line-height:1.7;color:#888}
 .buy-button{margin-top:auto;text-align:center}
 #panel-help{font-size:9px;line-height:1.6;color:#888;text-align:center}
 
-/* CONTROLES TÁCTILES */
-.mobile-controls{
- display:none;position:fixed;inset:0;z-index:7;
- pointer-events:none;
-}
-.joystick-area{
- position:absolute;left:20px;bottom:25px;
- width:130px;height:130px;pointer-events:auto;touch-action:none;
-}
-.joystick-base{
- position:absolute;left:0;top:0;width:130px;height:130px;
- border-radius:50%;background:rgba(255,255,255,.10);
- border:1px solid rgba(255,255,255,.35);
-}
-.joystick-knob{
- position:absolute;left:40px;top:40px;width:50px;height:50px;
- border-radius:50%;background:rgba(255,255,255,.65);
- border:1px solid rgba(255,255,255,.8);
- box-shadow:0 2px 12px rgba(0,0,0,.3);
-}
-.action-controls{
- position:absolute;right:18px;bottom:30px;
- display:flex;flex-direction:column;gap:12px;pointer-events:auto;
-}
-.touch-button{
- min-width:112px;min-height:48px;padding:12px 14px;
- border:1px solid rgba(255,255,255,.65);
- background:rgba(0,0,0,.65);color:white;font-size:9px;
- font-weight:bold;letter-spacing:1px;border-radius:3px;
- touch-action:manipulation;
-}
+.mobile-controls{display:none;position:fixed;inset:0;z-index:7;pointer-events:none}
+.joystick-area{position:absolute;left:20px;bottom:25px;width:130px;height:130px;pointer-events:auto;touch-action:none}
+.joystick-base{position:absolute;inset:0;border-radius:50%;background:rgba(255,255,255,.10);border:1px solid rgba(255,255,255,.35)}
+.joystick-knob{position:absolute;left:40px;top:40px;width:50px;height:50px;border-radius:50%;background:rgba(255,255,255,.65);border:1px solid rgba(255,255,255,.8);box-shadow:0 2px 12px rgba(0,0,0,.3)}
+.action-controls{position:absolute;right:18px;bottom:30px;display:flex;flex-direction:column;gap:12px;pointer-events:auto}
+.touch-button{min-width:112px;min-height:48px;padding:12px 14px;border:1px solid rgba(255,255,255,.65);background:rgba(0,0,0,.65);color:white;font-size:9px;font-weight:bold;letter-spacing:1px;border-radius:3px;touch-action:manipulation}
 .touch-button:active{background:#fff;color:#050505}
-.look-hint{
- position:absolute;left:50%;bottom:18px;transform:translateX(-50%);
- font-size:8px;letter-spacing:1px;color:rgba(255,255,255,.65);
- white-space:nowrap;pointer-events:none;
-}
+.look-hint{position:absolute;left:50%;bottom:18px;transform:translateX(-50%);font-size:8px;letter-spacing:1px;color:rgba(255,255,255,.65);white-space:nowrap;pointer-events:none}
 .mobile-controls.active{display:block}
 
 @media(max-width:800px){
@@ -140,14 +61,9 @@ canvas{display:block;width:100%;height:100%;touch-action:none;outline:none}
  .welcome{bottom:calc(env(safe-area-inset-bottom) + 35px)}
  .welcome p{font-size:8px;letter-spacing:3px}
  .enter-button{padding:15px 24px;font-size:10px}
- .product-panel{
-  width:100%;height:min(80%,650px);top:auto;bottom:0;right:0;
-  padding:55px 24px calc(env(safe-area-inset-bottom) + 20px);
-  border-left:0;border-top:1px solid #444;transform:translateY(105%);
- }
+ .product-panel{width:100%;height:min(80%,650px);top:auto;bottom:0;right:0;padding:55px 24px calc(env(safe-area-inset-bottom) + 20px);border-left:0;border-top:1px solid #444;transform:translateY(105%)}
  .product-panel.visible{transform:translateY(0)}
  .product-panel h2{font-size:21px}
- .product-description{font-size:12px}
  .buy-button{min-height:48px;display:flex;align-items:center;justify-content:center}
  #panel-help{padding-bottom:5px}
  #crosshair{width:6px;height:6px}
@@ -163,7 +79,6 @@ canvas{display:block;width:100%;height:100%;touch-action:none;outline:none}
 </head>
 
 <body>
-
 <div id="store"></div>
 <div class="loading" id="loading">CATEGORYALIEN</div>
 
@@ -183,9 +98,7 @@ canvas{display:block;width:100%;height:100%;touch-action:none;outline:none}
 
 <div class="welcome" id="welcome">
  <p>CREATE YOUR OWN CATEGORY</p>
- <button class="enter-button" id="start-game" type="button">
-  EMPEZAR A EXPLORAR
- </button>
+ <button class="enter-button" id="start-game" type="button">EMPEZAR A EXPLORAR</button>
 </div>
 
 <div class="mobile-controls" id="mobile-controls">
@@ -204,43 +117,32 @@ canvas{display:block;width:100%;height:100%;touch-action:none;outline:none}
  <button class="close-panel" id="close-panel" aria-label="Cerrar ficha">×</button>
  <span class="panel-label">CATEGORYALIEN PRODUCT</span>
  <h2 id="product-name">PRENDA SELECCIONADA</h2>
- <p class="product-description" id="product-description">
-  Prenda de muestra de la colección CATEGORYALIEN.
- </p>
+ <p class="product-description" id="product-description">Prenda de muestra de la colección CATEGORYALIEN.</p>
  <div class="product-info">
   <span>COLOR</span><strong id="product-color">Consultar en tienda</strong>
   <span>TALLA</span><strong>Consultar disponibilidad</strong>
   <span>PRECIO</span><strong id="product-price">Consultar en tienda</strong>
  </div>
- <p class="panel-note">
-  Esta ficha es una vista previa del showroom. La composición,
-  tallas y precio definitivos se mostrarán al conectar cada modelo
-  3D con su ficha de producto.
- </p>
+ <p class="panel-note">Esta ficha es una vista previa del showroom. La composición, tallas y precio definitivos se mostrarán al conectar cada modelo 3D con su ficha de producto.</p>
  <a href="./shop.html" class="buy-button">VER TIENDA Y COMPRAR</a>
  <p id="panel-help">Pulsa × para volver a explorar la tienda.</p>
 </aside>
 
 <script type="module">
-
 import * as THREE from "https://cdn.jsdelivr.net/npm/three@0.165.0/build/three.module.js";
 
-// DISPOSITIVO
-const isMobile=window.matchMedia("(max-width: 800px)").matches ||
-               ("ontouchstart" in window);
-
-// ESCENA
+// =====================================================
+// CONFIGURACIÓN GENERAL
+// =====================================================
+const isMobile=window.matchMedia("(max-width: 800px)").matches || ("ontouchstart" in window);
 const scene=new THREE.Scene();
-scene.background=new THREE.Color(0x080808);
-scene.fog=new THREE.Fog(0x080808,25,60);
+scene.background=new THREE.Color(0x090909);
+scene.fog=new THREE.Fog(0x090909,32,75);
 
-const camera=new THREE.PerspectiveCamera(
- 65,innerWidth/innerHeight,.1,120
-);
-camera.position.set(0,1.7,9);
+const camera=new THREE.PerspectiveCamera(65,innerWidth/innerHeight,.1,150);
+camera.position.set(0,1.7,10);
 camera.rotation.order="YXZ";
 
-// RENDERIZADOR
 const renderer=new THREE.WebGLRenderer({
  antialias:!isMobile,
  powerPreference:"high-performance",
@@ -248,353 +150,340 @@ const renderer=new THREE.WebGLRenderer({
 });
 renderer.setSize(innerWidth,innerHeight);
 renderer.setPixelRatio(Math.min(devicePixelRatio,isMobile?1.1:1.5));
-renderer.shadowMap.enabled=false;
 renderer.outputColorSpace=THREE.SRGBColorSpace;
 renderer.toneMapping=THREE.ACESFilmicToneMapping;
-renderer.toneMappingExposure=1.25;
+renderer.toneMappingExposure=1.15;
 renderer.domElement.tabIndex=0;
 document.getElementById("store").appendChild(renderer.domElement);
 
-// ILUMINACIÓN
-scene.add(new THREE.HemisphereLight(0xffffff,0x303030,2.0));
+// =====================================================
+// ILUMINACIÓN PREMIUM
+// =====================================================
+scene.add(new THREE.HemisphereLight(0xe4e8ed,0x242424,2.0));
 
-const mainLight=new THREE.DirectionalLight(0xffffff,2.2);
-mainLight.position.set(0,12,4);
-scene.add(mainLight);
+const ambientLight=new THREE.DirectionalLight(0xffffff,2.0);
+ambientLight.position.set(-5,13,8);
+scene.add(ambientLight);
 
-const backLight=new THREE.PointLight(0xffffff,isMobile?13:20,30);
-backLight.position.set(0,8,-9);
-scene.add(backLight);
+const ceilingLight=new THREE.PointLight(0xffffff,34,38);
+ceilingLight.position.set(0,11,-5);
+scene.add(ceilingLight);
+
+const rearLight=new THREE.PointLight(0xffffff,24,32);
+rearLight.position.set(0,8,-11);
+scene.add(rearLight);
+
+for(const x of [-8,8]){
+ const sideLight=new THREE.PointLight(0xdde5ed,17,25);
+ sideLight.position.set(x,7,-1);
+ scene.add(sideLight);
+}
 
 if(!isMobile){
- const leftLight=new THREE.PointLight(0xffffff,11,24);
- leftLight.position.set(-7,7,-1);
- scene.add(leftLight);
-
- const rightLight=new THREE.PointLight(0xffffff,11,24);
- rightLight.position.set(7,7,-1);
- scene.add(rightLight);
-
- const frontLight=new THREE.PointLight(0xffffff,8,20);
- frontLight.position.set(0,6,7);
- scene.add(frontLight);
-}
-
-// MATERIALES
-const black=new THREE.MeshStandardMaterial({
- color:0x090909,roughness:.8
-});
-
-const concrete=new THREE.MeshStandardMaterial({
- color:0x555555,roughness:.88
-});
-
-const floorMaterial=new THREE.MeshStandardMaterial({
- color:0x777777,roughness:.32,metalness:.18
-});
-
-const white=new THREE.MeshStandardMaterial({
- color:0xe8e8e8,roughness:.45
-});
-
-const metal=new THREE.MeshStandardMaterial({
- color:0x888888,metalness:.8,roughness:.28
-});
-
-const glass=new THREE.MeshStandardMaterial({
- color:0xb8c8cc,metalness:.25,roughness:.12,
- transparent:true,opacity:.22
-});
-
-const led=new THREE.MeshBasicMaterial({color:0xffffff});
-
-function box(w,h,d,mat,x,y,z){
- const m=new THREE.Mesh(new THREE.BoxGeometry(w,h,d),mat);
- m.position.set(x,y,z);
- scene.add(m);
- return m;
-}
-
-function cylinder(radius,height,mat,x,y,z){
- const m=new THREE.Mesh(
-  new THREE.CylinderGeometry(radius,radius,height,12),mat
- );
- m.position.set(x,y,z);
- scene.add(m);
- return m;
-}
-
-// =====================================================
-// ARQUITECTURA: DOS PLANTAS
-// =====================================================
-
-// Suelo principal gris pulido
-box(20,.35,28,floorMaterial,0,-.2,-2);
-
-// Pared del fondo gris cemento
-box(20,14,.5,concrete,0,6.8,-12);
-
-// Paredes laterales gris cemento
-box(.5,14,28,concrete,-10,6.8,-2);
-box(.5,14,28,concrete,10,6.8,-2);
-
-// Techo negro
-box(20,.3,28,black,0,13.9,-2);
-
-// Galería superior MEN.
-// Las dos alas laterales mantienen el vacío central del atrio.
-// El forjado intermedio ahora es negro.
-box(6.5,.35,21,black,-6.75,4.65,-2);
-box(6.5,.35,21,black,6.75,4.65,-2);
-
-// Remates negros de los balcones
-box(6.5,.12,.12,black,-6.75,4.9,8.4);
-box(6.5,.12,.12,black,6.75,4.9,8.4);
-
-// Barandillas de cristal de la galería
-box(6.3,1.05,.08,glass,-6.75,5.45,1.1);
-box(6.3,1.05,.08,glass,6.75,5.45,1.1);
-
-// Pasamanos metálicos
-box(6.4,.07,.12,metal,-6.75,6.0,1.1);
-box(6.4,.07,.12,metal,6.75,6.0,1.1);
-
-// Barandillas laterales del vacío central
-box(.08,1.05,9,glass,-3.5,5.45,-5);
-box(.08,1.05,9,glass,3.5,5.45,-5);
-box(.12,.07,9,metal,-3.5,6.0,-5);
-box(.12,.07,9,metal,3.5,6.0,-5);
-
-// ESCALERA MONUMENTAL LATERAL
-const stairCount=14;
-const stairStartZ=5.8;
-const stairLength=.85;
-const stairRise=4.8/stairCount;
-
-for(let i=0;i<stairCount;i++){
- const step=new THREE.Mesh(
-  new THREE.BoxGeometry(2.4,stairRise,stairLength),
-  i%2===0?concrete:black
- );
- step.position.set(
-  8.05,
-  stairRise*(i+.5),
-  stairStartZ-i*.66
- );
- scene.add(step);
-}
-
-// Estructura lateral de la escalera
-box(.18,5.2,10,metal,9.35,2.6,1.1);
-
-// Barandilla de la escalera
-const stairRail=box(.08,.08,10,metal,7.0,2.8,1.1);
-stairRail.rotation.x=-.42;
-
-// Iluminación de escalones
-for(let i=0;i<stairCount;i++){
- box(
-  2.15,.025,.035,led,
-  8.05,
-  stairRise*(i+1)-.02,
-  stairStartZ-i*.66+.36
- );
-}
-
-// Columnas arquitectónicas
-for(const x of [-9.1,9.1]){
- for(const z of [-9,0,7]){
-  box(.45,13,.45,concrete,x,6.5,z);
+ for(const x of [-4,4]){
+  const accent=new THREE.SpotLight(0xffffff,24,28,Math.PI/5,.5,1.2);
+  accent.position.set(x,12,5);
+  accent.target.position.set(x*.7,0,-2);
+  scene.add(accent,accent.target);
  }
 }
 
-// Líneas LED del techo
-box(9,.045,.07,led,0,13.65,-3);
-box(.06,.045,8,led,-4.7,13.65,.5);
-box(.06,.045,8,led,4.7,13.65,.5);
-
-// Líneas LED en el borde de la galería
-box(5.8,.035,.06,led,-6.75,4.9,1.0);
-box(5.8,.035,.06,led,6.75,4.9,1.0);
-
 // =====================================================
-// LOGOTIPO CENTRAL
+// MATERIALES
 // =====================================================
+const mat=(color,roughness=.7,metalness=0)=>new THREE.MeshStandardMaterial({color,roughness,metalness});
+const black=mat(0x080808,.48,.25);
+const darkMetal=mat(0x202020,.3,.8);
+const concrete=mat(0x555555,.9);
+const lightConcrete=mat(0x777777,.85);
+const floorMaterial=mat(0x777777,.24,.28);
+const white=mat(0xe8e8e8,.42,.05);
+const chrome=mat(0xaaaaaa,.2,.9);
+const glass=new THREE.MeshPhysicalMaterial({color:0xcbd5dc,metalness:.12,roughness:.08,transparent:true,opacity:.22,transmission:.35,thickness:.15});
+const ledMaterial=new THREE.MeshBasicMaterial({color:0xffffff});
+const warmLed=new THREE.MeshBasicMaterial({color:0xdce5ee});
 
-const signCanvas=document.createElement("canvas");
-signCanvas.width=1200;
-signCanvas.height=250;
-
-const ctx=signCanvas.getContext("2d");
-ctx.textAlign="center";
-ctx.textBaseline="middle";
-ctx.shadowColor="#fff";
-ctx.shadowBlur=35;
-ctx.fillStyle="#fff";
-ctx.font="bold 105px Arial";
-ctx.fillText("CATEGORYALIEN",600,120);
-
-const signTexture=new THREE.CanvasTexture(signCanvas);
-signTexture.colorSpace=THREE.SRGBColorSpace;
-
-const sign=new THREE.Mesh(
- new THREE.PlaneGeometry(7.5,1.6),
- new THREE.MeshBasicMaterial({
-  map:signTexture,transparent:true,depthWrite:false
- })
-);
-sign.position.set(0,3.1,-11.65);
-scene.add(sign);
-
-// Carteles de las dos plantas
-function makeTextLabel(text,width,height,x,y,z){
- const c=document.createElement("canvas");
- c.width=800;c.height=220;
- const g=c.getContext("2d");
- g.fillStyle="#fff";
- g.font="bold 100px Arial";
- g.textAlign="center";
- g.textBaseline="middle";
- g.fillText(text,400,110);
- const t=new THREE.CanvasTexture(c);
- t.colorSpace=THREE.SRGBColorSpace;
- const mesh=new THREE.Mesh(
-  new THREE.PlaneGeometry(width,height),
-  new THREE.MeshBasicMaterial({map:t,transparent:true})
- );
+function box(w,h,d,material,x,y,z,cast=true,receive=true){
+ const mesh=new THREE.Mesh(new THREE.BoxGeometry(w,h,d),material);
+ mesh.position.set(x,y,z);
+ mesh.castShadow=cast;
+ mesh.receiveShadow=receive;
+ scene.add(mesh);
+ return mesh;
+}
+function cylinder(radius,height,material,x,y,z,segments=16){
+ const mesh=new THREE.Mesh(new THREE.CylinderGeometry(radius,radius,height,segments),material);
  mesh.position.set(x,y,z);
  scene.add(mesh);
  return mesh;
 }
-
-// WOMEN y MEN en posiciones diferenciadas
-makeTextLabel("WOMEN",4,1.1,0,2.0,-11.55);
-makeTextLabel("MEN",3,1.0,0,7.0,-11.55);
+function lineBox(x1,y1,z1,x2,y2,z2,thickness,material){
+ const a=new THREE.Vector3(x1,y1,z1),b=new THREE.Vector3(x2,y2,z2);
+ const direction=new THREE.Vector3().subVectors(b,a);
+ const mesh=new THREE.Mesh(new THREE.CylinderGeometry(thickness,thickness,direction.length(),8),material);
+ mesh.position.copy(a).add(b).multiplyScalar(.5);
+ mesh.quaternion.setFromUnitVectors(new THREE.Vector3(0,1,0),direction.normalize());
+ scene.add(mesh);
+ return mesh;
+}
 
 // =====================================================
-// PERCHEROS Y PRENDAS
+// ARQUITECTURA PRINCIPAL
 // =====================================================
+// Suelo inferior y paredes perimetrales
+box(20,.35,28,floorMaterial,0,-.2,-2);
+box(20,14,.5,concrete,0,6.8,-12);
+box(.5,14,28,concrete,-10,6.8,-2);
+box(.5,14,28,concrete,10,6.8,-2);
 
-const garmentColors=[
- 0x080808,0xeeeeee,0x444444,0x171717,
- 0xaaaaaa,0x080808,0xdddddd,0x292929
-];
+// Techo oscuro y estructura de la planta superior
+box(20,.35,28,black,0,13.9,-2);
+box(6.3,.4,21,black,-6.85,4.65,-2);
+box(6.3,.4,21,black,6.85,4.65,-2);
 
+// Frentes negros del balcón
+box(6.3,.22,.25,black,-6.85,4.85,8.35);
+box(6.3,.22,.25,black,6.85,4.85,8.35);
+
+// Barandillas de cristal, con pasamanos metálico
+for(const x of [-6.85,6.85]){
+ box(6.1,1.05,.07,glass,x,5.48,1.0,false,false);
+ box(6.2,.07,.12,chrome,x,6.03,1.0,false,false);
+}
+for(const x of [-3.55,3.55]){
+ box(.07,1.05,9,glass,x,5.48,-5,false,false);
+ box(.12,.07,9,chrome,x,6.03,-5,false,false);
+}
+
+// Columnas estructurales de hormigón
+for(const x of [-9.05,-5.2,5.2,9.05]){
+ for(const z of [-9,0,7]){
+  box(.48,13,.48,concrete,x,6.5,z);
+ }
+}
+
+// Revestimientos decorativos de pared
+box(19.5,5.2,.08,black,0,7.1,-11.68,false,false);
+box(19.5,.08,.08,chrome,0,4.45,-11.55,false,false);
+box(19.5,.08,.08,chrome,0,9.75,-11.55,false,false);
+
+// Líneas LED arquitectónicas
+box(10,.045,.075,ledMaterial,0,13.65,-3,false,false);
+box(.055,.045,8,ledMaterial,-4.8,13.65,.5,false,false);
+box(.055,.045,8,ledMaterial,4.8,13.65,.5,false,false);
+for(const x of [-6.85,6.85]){
+ box(5.8,.035,.06,warmLed,x,4.92,1.0,false,false);
+}
+
+// =====================================================
+// ESCALERA MONUMENTAL Y ACCESO A LA PLANTA SUPERIOR
+// =====================================================
+const stairCount=16;
+const stairStartZ=6.2;
+const stairEndZ=-3.2;
+const stairRise=4.9/stairCount;
+const stairStepDepth=(stairStartZ-stairEndZ)/stairCount;
+
+for(let i=0;i<stairCount;i++){
+ const y=stairRise*(i+.5);
+ const z=stairStartZ-(i+.5)*stairStepDepth;
+ box(2.5,stairRise,stairStepDepth+.04,i%2?black:concrete,8.05,y,z);
+ box(2.35,.025,.055,ledMaterial,8.05,stairRise*(i+1)-.025,z+stairStepDepth*.35,false,false);
+}
+lineBox(6.75,.2,6.5,6.75,5.35,-3.5,.065,chrome);
+lineBox(9.35,.2,6.5,9.35,5.35,-3.5,.065,chrome);
+lineBox(6.75,5.35,-3.5,9.35,5.35,-3.5,.065,chrome);
+box(.12,5.5,10,darkMetal,9.45,2.75,1.0);
+
+// =====================================================
+// LOGOTIPO Y RÓTULOS
+// =====================================================
+function textPlane(text,width,height,x,y,z,fontSize=100){
+ const canvas=document.createElement("canvas");
+ canvas.width=1200;canvas.height=260;
+ const context=canvas.getContext("2d");
+ context.clearRect(0,0,1200,260);
+ context.textAlign="center";context.textBaseline="middle";
+ context.shadowColor="#fff";context.shadowBlur=30;
+ context.fillStyle="#fff";
+ context.font=`bold ${fontSize}px Arial`;
+ context.fillText(text,600,130);
+ const texture=new THREE.CanvasTexture(canvas);
+ texture.colorSpace=THREE.SRGBColorSpace;
+ const mesh=new THREE.Mesh(new THREE.PlaneGeometry(width,height),new THREE.MeshBasicMaterial({map:texture,transparent:true,depthWrite:false}));
+ mesh.position.set(x,y,z);
+ scene.add(mesh);
+ return mesh;
+}
+textPlane("CATEGORYALIEN",8,1.7,0,7.1,-11.55,110);
+textPlane("WOMEN",3.1,.8,-7.8,2.2,-11.5,100);
+textPlane("MEN",2.3,.7,7.8,7.1,-11.5,100);
+
+// Símbolo alienígena luminoso en la pared del fondo
+const alienGroup=new THREE.Group();
+const alienRing=new THREE.Mesh(new THREE.TorusGeometry(.62,.055,12,64),ledMaterial);
+alienRing.position.set(0,2.0,0);
+alienGroup.add(alienRing);
+const eyeMaterial=new THREE.MeshBasicMaterial({color:0xffffff});
+for(const x of [-.25,.25]){
+ const eye=new THREE.Mesh(new THREE.SphereGeometry(.11,16,12),eyeMaterial);
+ eye.scale.set(1,.65,.35);
+ eye.position.set(x,1.98,.025);
+ alienGroup.add(eye);
+}
+alienGroup.position.set(0,0,-11.35);
+scene.add(alienGroup);
+
+// =====================================================
+// MOBILIARIO: MOSTRADORES, EXPOSITORES Y PLANTAS
+// =====================================================
+function displayTable(x,z,y=0){
+ box(3.2,.72,1.25,black,x,y+.36,z);
+ box(3.25,.045,1.3,chrome,x,y+.75,z,false,false);
+ box(3.05,.025,1.12,white,x,y+.78,z,false,false);
+ box(3.25,.08,1.3,black,x,y+.02,z);
+}
+displayTable(0,-7.8,.0);
+displayTable(-5.1,3.2,4.9);
+displayTable(5.1,3.2,4.9);
+
+// Pedestales de exposición
+for(const x of [-2.2,2.2]){
+ box(1.25,.18,1.25,black,x,.1,-5.6);
+ box(1.05,1.1,1.05,lightConcrete,x,.72,-5.6);
+ box(1.1,.06,1.1,chrome,x,1.3,-5.6,false,false);
+}
+
+// Macetas y plantas geométricas
+const potMaterial=mat(0x777777,.45,.25);
+const leafMaterial=mat(0x26332c,.8);
+function createPlant(x,z,floorY=0){
+ const pot=new THREE.Mesh(new THREE.CylinderGeometry(.38,.28,.65,20),potMaterial);
+ pot.position.set(x,floorY+.33,z);scene.add(pot);
+ const soil=new THREE.Mesh(new THREE.CylinderGeometry(.3,.3,.035,16),black);
+ soil.position.set(x,floorY+.67,z);scene.add(soil);
+ for(let i=0;i<9;i++){
+  const angle=i*Math.PI*2/9;
+  const leaf=new THREE.Mesh(new THREE.SphereGeometry(.16,10,8),leafMaterial);
+  leaf.scale.set(.65,2.4,.65);
+  leaf.position.set(x+Math.cos(angle)*.35,floorY+1.25+(i%3)*.2,z+Math.sin(angle)*.35);
+  leaf.rotation.z=-Math.cos(angle)*.55;
+  leaf.rotation.x=Math.sin(angle)*.45;
+  scene.add(leaf);
+ }
+ const stem=cylinder(.045,1.3,darkMetal,x,floorY+1.1,z,8);
+}
+createPlant(-8.1,-8.2);
+createPlant(8.1,-8.2);
+createPlant(-4.3,1.0);
+createPlant(4.3,1.0);
+createPlant(-8.1,-8.2,4.9);
+createPlant(8.1,-8.2,4.9);
+
+// =====================================================
+// PERCHEROS Y PRENDAS 3D
+// =====================================================
+const garmentColors=[0x080808,0xe8e8e8,0x444444,0x171717,0xaaaaaa,0x080808,0xdddddd,0x292929];
 const selectableGarments=[];
 const originalPositions=new Map();
 
 function createGarment(x,y,z,index,section,side){
-
  const group=new THREE.Group();
+ const color=garmentColors[index%garmentColors.length];
+ const fabric=mat(color,.88);
+ const darkFabric=mat(color===0xe8e8e8?0xc9c9c9:0x111111,.9);
 
- const mat=new THREE.MeshStandardMaterial({
-  color:garmentColors[index%garmentColors.length],
-  roughness:.9
- });
+ // Torso de camiseta/sudadera con hombros y cintura
+ const body=new THREE.Mesh(new THREE.BoxGeometry(.48,.78,.16),fabric);
+ body.position.y=-.22;group.add(body);
 
- const body=new THREE.Mesh(
-  new THREE.BoxGeometry(.48,1.25,.13),mat
- );
- body.position.y=-.35;
- group.add(body);
+ const shoulders=new THREE.Mesh(new THREE.BoxGeometry(.66,.16,.17),fabric);
+ shoulders.position.y=.18;group.add(shoulders);
 
- const sleeveL=new THREE.Mesh(
-  new THREE.BoxGeometry(.22,.48,.13),mat
- );
- sleeveL.position.set(-.32,.03,0);
- sleeveL.rotation.z=.25;
- group.add(sleeveL);
+ for(const sign of [-1,1]){
+  const sleeve=new THREE.Mesh(new THREE.BoxGeometry(.2,.48,.17),fabric);
+  sleeve.position.set(sign*.36,.0,0);
+  sleeve.rotation.z=sign*-.16;group.add(sleeve);
+ }
+ const hem=new THREE.Mesh(new THREE.BoxGeometry(.49,.07,.17),darkFabric);
+ hem.position.y=-.63;group.add(hem);
 
- const sleeveR=new THREE.Mesh(
-  new THREE.BoxGeometry(.22,.48,.13),mat
- );
- sleeveR.position.set(.32,.03,0);
- sleeveR.rotation.z=-.25;
- group.add(sleeveR);
+ // Percha individual
+ const hanger=new THREE.Mesh(new THREE.BoxGeometry(.48,.025,.035),chrome);
+ hanger.position.y=.48;group.add(hanger);
+ const hook=new THREE.Mesh(new THREE.TorusGeometry(.055,.012,6,16,Math.PI),chrome);
+ hook.rotation.z=Math.PI;hook.position.set(0,.54,0);group.add(hook);
 
- const hanger=new THREE.Mesh(
-  new THREE.BoxGeometry(.45,.025,.04),metal
- );
- hanger.position.y=.45;
- group.add(hanger);
-
- // Giramos la prenda para que mire hacia el pasillo central.
  group.rotation.y=side<0?Math.PI/2:-Math.PI/2;
-
  group.position.set(x,y,z);
  group.userData.isGarment=true;
  group.userData.product={
   name:section+" · PRENDA "+String(index+1).padStart(2,"0"),
-  color:"#"+garmentColors[index%garmentColors.length].toString(16).padStart(6,"0"),
+  color:"#"+color.toString(16).padStart(6,"0"),
   price:"Consultar en tienda",
   description:"Prenda de muestra del showroom virtual CATEGORYALIEN."
  };
-
  group.userData.rackPosition=group.position.clone();
  scene.add(group);
  selectableGarments.push(group);
 }
 
-// Percheros orientados de delante hacia el fondo.
-// La barra larga queda paralela al eje Z.
-function createRack(x,z,section,floorY){
+function createRack(x,z,section,floorY=0){
+ const railY=floorY+2.05;
+ const garmentY=floorY+1.45;
+ const rail=cylinder(.045,5.5,chrome,x,railY,z,12);
+ rail.rotation.z=Math.PI/2;
 
- const railY=floorY+1.8;
- const garmentY=floorY+1.3;
-
- const rail=new THREE.Mesh(
-  new THREE.CylinderGeometry(.045,.045,5.5,12),metal
- );
-
- // El cilindro gira para que la barra vaya hacia el fondo.
- rail.rotation.x=Math.PI/2;
- rail.position.set(x,railY,z);
- scene.add(rail);
-
- // Soportes en los extremos delantero y trasero
  for(const sideZ of [-1,1]){
-  const support=new THREE.Mesh(
-   new THREE.CylinderGeometry(.05,.05,2.0,10),metal
-  );
-
-  support.position.set(
-   x,floorY+1.0,z+sideZ*2.5
-  );
-
-  scene.add(support);
-
-  box(
-   .8,.08,.8,metal,
-   x,floorY+.08,z+sideZ*2.5
-  );
+  cylinder(.045,2.05,chrome,x,floorY+1.0,z+sideZ*2.5,10);
+  box(.8,.08,.8,darkMetal,x,floorY+.08,z+sideZ*2.5);
  }
-
- // Prendas distribuidas a lo largo de la barra, de delante a atrás
  for(let i=0;i<garmentColors.length;i++){
-  createGarment(
-   x,garmentY,z-2.1+i*.6,i,section,x<0?-1:1
-  );
+  createGarment(x,garmentY,z-2.1+i*.6,i,section,x<0?-1:1);
  }
 }
 
-// PLANTA BAJA: WOMEN
+// Planta baja: WOMEN
 createRack(-6.5,-3,"WOMEN",0);
 createRack(6.5,-3,"WOMEN",0);
 
-// Expositor central de la planta baja
-box(4,.8,1.2,black,0,.35,-8.8);
-box(4.1,.04,1.3,white,0,.77,-8.8);
-
-// PLANTA SUPERIOR: MEN
+// Planta superior: MEN
 createRack(-6.5,-3,"MEN",4.9);
 createRack(6.5,-3,"MEN",4.9);
 
-// Se elimina el expositor central superior que aparecía sobrando.
+// Percheros secundarios
+createRack(-3.8,-7.5,"WOMEN",0);
+createRack(3.8,-7.5,"WOMEN",0);
+createRack(-3.8,-7.5,"MEN",4.9);
+createRack(3.8,-7.5,"MEN",4.9);
 
-// =====================================================
+// Maniquíes sencillos, con silueta humana estilizada
+function createMannequin(x,z,floorY=0,lightTop=false){
+ const skin=mat(0x111111,.45,.25);
+ const outfit=lightTop?white:black;
+ const base=cylinder(.58,.12,darkMetal,x,floorY+.08,z,24);
+ box(.55,1.05,.3,outfit,x,floorY+.95,z);
+ const hips=box(.52,.35,.3,outfit,x,floorY+.35,z);
+ for(const s of [-1,1]){
+  box(.19,.85,.2,outfit,x+s*.16,floorY-.02,z);
+  const arm=box(.17,.78,.19,outfit,x+s*.39,floorY+1.0,z);
+  arm.rotation.z=s*.08;
+ }
+ const neck=cylinder(.09,.2,skin,x,floorY+1.57,z,12);
+ const head=new THREE.Mesh(new THREE.SphereGeometry(.19,18,14),skin);
+ head.position.set(x,floorY+1.83,z);scene.add(head);
+}
+createMannequin(-8.0,-1.8,0,true);
+createMannequin(8.0,-1.8,0,false);
+createMannequin(-8.0,-1.8,4.9,false);
+createMannequin(8.0,-1.8,4.9,true);
+
+// Suelo superior visible alrededor del atrio
+// (las alas laterales ya forman el forjado de la galería).
+ // =====================================================
 // CONTROLES Y ESTADO DEL JUEGO
 // =====================================================
- let yaw=0;
+let yaw=0;
 let pitch=0;
 let targetYaw=0;
 let targetPitch=0;
@@ -611,11 +500,8 @@ const mobileControls=document.getElementById("mobile-controls");
 const keys={};
 const raycaster=new THREE.Raycaster();
 
-// INICIAR EXPLORACIÓN
 function startGame(){
-
  welcome.classList.add("hidden");
-
  if(isMobile){
   mobileControls.classList.add("active");
   status.textContent="EXPLORANDO · DESLIZA PARA MIRAR";
@@ -624,29 +510,25 @@ function startGame(){
   lockMouse();
  }
 }
+document.getElementById("start-game").addEventListener("click",startGame);
 
-document.getElementById("start-game")
- .addEventListener("click",startGame);
-
-// RATÓN EN ORDENADOR
+// =====================================================
+// RATÓN Y PUNTERO
+// =====================================================
 function lockMouse(){
-
  if(!isMobile&&!panel.classList.contains("visible")){
   canvas.requestPointerLock?.();
  }
 }
 
 canvas.addEventListener("click",()=>{
-
  if(!isMobile&&!pointerLocked&&!panel.classList.contains("visible")){
   lockMouse();
  }
 });
 
 document.addEventListener("pointerlockchange",()=>{
-
  pointerLocked=document.pointerLockElement===canvas;
-
  crosshair.classList.toggle("active",pointerLocked);
 
  if(pointerLocked){
@@ -657,33 +539,22 @@ document.addEventListener("pointerlockchange",()=>{
 });
 
 document.addEventListener("mousemove",e=>{
-
  if(!pointerLocked)return;
-
  targetYaw-=e.movementX*.0022;
  targetPitch-=e.movementY*.0022;
-
- targetPitch=THREE.MathUtils.clamp(
-  targetPitch,-.65,.65
- );
+ targetPitch=THREE.MathUtils.clamp(targetPitch,-.65,.65);
 });
 
 document.addEventListener("contextmenu",e=>{
-
- if(e.target===canvas||pointerLocked){
-  e.preventDefault();
- }
+ if(e.target===canvas||pointerLocked)e.preventDefault();
 });
 
+// =====================================================
 // TECLADO WASD
+// =====================================================
 window.addEventListener("keydown",e=>{
-
  const k=e.key.toLowerCase();
-
- if([
-  "w","a","s","d",
-  "arrowup","arrowdown","arrowleft","arrowright"
- ].includes(k)){
+ if(["w","a","s","d","arrowup","arrowdown","arrowleft","arrowright"].includes(k)){
   e.preventDefault();
   keys[k]=true;
  }
@@ -694,97 +565,67 @@ window.addEventListener("keyup",e=>{
 });
 
 window.addEventListener("blur",()=>{
-
- for(const k in keys){
-  keys[k]=false;
- }
+ for(const k in keys)keys[k]=false;
 });
 
 document.addEventListener("pointerlockchange",()=>{
-
  if(!pointerLocked){
-  for(const k in keys){
-   keys[k]=false;
-  }
+  for(const k in keys)keys[k]=false;
  }
 });
 
-// DETECTAR PRENDAS
+// =====================================================
+// DETECCIÓN DE PRENDAS
+// =====================================================
 function garmentFromHits(hits){
-
  for(const hit of hits){
-
   let item=hit.object;
-
-  while(item&&!item.userData.isGarment){
-   item=item.parent;
-  }
-
+  while(item&&!item.userData.isGarment)item=item.parent;
   if(item?.userData.isGarment)return item;
  }
-
  return null;
 }
 
 function garmentAtCenter(){
-
  raycaster.setFromCamera(new THREE.Vector2(0,0),camera);
-
- const hits=raycaster.intersectObjects(
-  selectableGarments,true
- );
-
+ const hits=raycaster.intersectObjects(selectableGarments,true);
  return garmentFromHits(hits);
 }
 
-// SELECCIONAR PRENDA
+// =====================================================
+// SELECCIONAR Y ACERCAR PRENDA
+// =====================================================
 function bringForward(item){
-
  if(!item)return;
 
  if(selectedGarment&&selectedGarment!==item){
-
   const old=originalPositions.get(selectedGarment);
-
-  if(old){
-   selectedGarment.position.copy(old);
-  }
-
+  if(old)selectedGarment.position.copy(old);
   selectedGarment.scale.setScalar(1);
-  selectedGarment.rotation.y=selectedGarment.userData.rackPosition.x<0
-   ?Math.PI/2
-   :-Math.PI/2;
+  selectedGarment.rotation.y=
+   selectedGarment.userData.rackPosition.x<0?Math.PI/2:-Math.PI/2;
  }
 
  if(!originalPositions.has(item)){
-
-  originalPositions.set(
-   item,item.userData.rackPosition.clone()
-  );
+  originalPositions.set(item,item.userData.rackPosition.clone());
  }
 
  selectedGarment=item;
 
- const direction=new THREE.Vector3(
-  -Math.sin(yaw),0,-Math.cos(yaw)
- );
-
- item.position.copy(camera.position)
-  .addScaledVector(direction,2.4);
-
- item.position.y=1.75;
+ const direction=new THREE.Vector3(-Math.sin(yaw),0,-Math.cos(yaw));
+ item.position.copy(camera.position).addScaledVector(direction,2.4);
+ item.position.y=camera.position.y+.05;
  item.rotation.y=yaw;
  item.scale.setScalar(1.35);
 
  status.textContent="PRENDA SELECCIONADA";
 }
 
-// ABRIR FICHA
+// =====================================================
+// FICHA DE PRODUCTO
+// =====================================================
 function openProductPanel(item){
-
- if(item){
-  bringForward(item);
- }
+ if(item)bringForward(item);
 
  if(!selectedGarment){
   status.textContent="SELECCIONA UNA PRENDA PRIMERO";
@@ -801,13 +642,10 @@ function openProductPanel(item){
  panel.classList.add("visible");
  panel.setAttribute("aria-hidden","false");
 
- if(document.pointerLockElement){
-  document.exitPointerLock();
- }
+ if(document.pointerLockElement)document.exitPointerLock();
 }
 
 function closePanel(){
-
  panel.classList.remove("visible");
  panel.setAttribute("aria-hidden","true");
 
@@ -818,72 +656,78 @@ function closePanel(){
  }
 }
 
-document.getElementById("close-panel")
- .addEventListener("click",closePanel);
+document.getElementById("close-panel").addEventListener("click",closePanel);
 
+// =====================================================
 // CLICS EN ORDENADOR
+// =====================================================
 document.addEventListener("mousedown",e=>{
-
- if(isMobile||!pointerLocked||panel.classList.contains("visible")){
-  return;
- }
+ if(isMobile||!pointerLocked||panel.classList.contains("visible"))return;
 
  if(e.button===0){
-
   const item=garmentAtCenter();
-
-  if(item){
-   bringForward(item);
-  }
+  if(item)bringForward(item);
  }
 
  if(e.button===2){
-
   e.preventDefault();
   openProductPanel(garmentAtCenter());
  }
 });
 
-// MOVIMIENTO DE CÁMARA
+// =====================================================
+// MOVIMIENTO Y ALTURA DE LAS DOS PLANTAS
+// =====================================================
 const clock=new THREE.Clock();
 const forward=new THREE.Vector3();
 const right=new THREE.Vector3();
 
-function moveCamera(delta){
+// La escalera asciende desde z=6.2 hasta z=-3.2.
+// La cámara sube progresivamente al caminar por ella.
+function updateFloorHeight(){
+ const x=camera.position.x;
+ const z=camera.position.z;
 
- const speed=(isMobile?5.2:7.2)*delta;
+ const onStair=x>6.45&&x<9.65&&z<=6.2&&z>=-3.2;
+
+ if(onStair){
+  const progress=(6.2-z)/(6.2-(-3.2));
+  return 1.7+THREE.MathUtils.clamp(progress,0,1)*4.9;
+ }
+
+ // Galería superior derecha: se accede desde el final de la escalera.
+ if(x>3.65&&z<-3.2){
+  return 6.6;
+ }
+
+ // Galería superior izquierda: se mantiene separada por el atrio.
+ if(x<-3.65&&z<-3.2){
+  return 6.6;
+ }
+
+ return 1.7;
+}
+
+function moveCamera(delta){
+ const speed=7.2*delta;
 
  forward.set(-Math.sin(yaw),0,-Math.cos(yaw));
  right.set(Math.cos(yaw),0,-Math.sin(yaw));
 
- if(keys.w||keys.arrowup){
-  camera.position.addScaledVector(forward,speed);
- }
+ if(keys.w||keys.arrowup)camera.position.addScaledVector(forward,speed);
+ if(keys.s||keys.arrowdown)camera.position.addScaledVector(forward,-speed);
+ if(keys.a||keys.arrowleft)camera.position.addScaledVector(right,-speed);
+ if(keys.d||keys.arrowright)camera.position.addScaledVector(right,speed);
 
- if(keys.s||keys.arrowdown){
-  camera.position.addScaledVector(forward,-speed);
- }
+ camera.position.x=THREE.MathUtils.clamp(camera.position.x,-8.5,8.5);
+ camera.position.z=THREE.MathUtils.clamp(camera.position.z,-10.5,10);
 
- if(keys.a||keys.arrowleft){
-  camera.position.addScaledVector(right,-speed);
- }
-
- if(keys.d||keys.arrowright){
-  camera.position.addScaledVector(right,speed);
- }
-
- camera.position.x=THREE.MathUtils.clamp(
-  camera.position.x,-8.5,8.5
- );
-
- camera.position.z=THREE.MathUtils.clamp(
-  camera.position.z,-10.5,10
- );
-
- camera.position.y=1.7;
+ camera.position.y=updateFloorHeight();
 }
 
+// =====================================================
 // JOYSTICK TÁCTIL
+// =====================================================
 const joystickArea=document.getElementById("joystick-area");
 const joystickKnob=document.getElementById("joystick-knob");
 
@@ -892,9 +736,7 @@ let joystickX=0;
 let joystickY=0;
 
 function updateJoystick(e){
-
  const rect=joystickArea.getBoundingClientRect();
-
  const centerX=rect.left+rect.width/2;
  const centerY=rect.top+rect.height/2;
 
@@ -905,75 +747,59 @@ function updateJoystick(e){
  const distance=Math.hypot(dx,dy);
 
  if(distance>maxDistance){
-
   dx=dx/distance*maxDistance;
   dy=dy/distance*maxDistance;
  }
 
  joystickX=dx/maxDistance;
  joystickY=dy/maxDistance;
-
- joystickKnob.style.transform=
-  `translate(${dx}px,${dy}px)`;
+ joystickKnob.style.transform=`translate(${dx}px,${dy}px)`;
 }
 
 function resetJoystick(){
-
  joystickPointer=null;
  joystickX=0;
  joystickY=0;
-
  joystickKnob.style.transform="translate(0px,0px)";
 }
 
 joystickArea.addEventListener("pointerdown",e=>{
-
  if(!isMobile||panel.classList.contains("visible"))return;
-
  e.preventDefault();
-
  joystickPointer=e.pointerId;
  joystickArea.setPointerCapture(e.pointerId);
-
  updateJoystick(e);
 });
 
 joystickArea.addEventListener("pointermove",e=>{
-
  if(e.pointerId!==joystickPointer)return;
-
  e.preventDefault();
  updateJoystick(e);
 });
 
 joystickArea.addEventListener("pointerup",e=>{
-
- if(e.pointerId===joystickPointer){
-  resetJoystick();
- }
+ if(e.pointerId===joystickPointer)resetJoystick();
 });
-
 joystickArea.addEventListener("pointercancel",resetJoystick);
 
+// =====================================================
 // MIRAR ALREDEDOR CON EL DEDO
+// =====================================================
 let lookPointer=null;
 let lastTouchX=0;
 let lastTouchY=0;
 
 canvas.addEventListener("pointerdown",e=>{
-
  if(!isMobile||!mobileControls.classList.contains("active"))return;
  if(panel.classList.contains("visible"))return;
 
  lookPointer=e.pointerId;
  lastTouchX=e.clientX;
  lastTouchY=e.clientY;
-
  canvas.setPointerCapture(e.pointerId);
 });
 
 canvas.addEventListener("pointermove",e=>{
-
  if(!isMobile||e.pointerId!==lookPointer)return;
 
  const dx=e.clientX-lastTouchX;
@@ -984,68 +810,54 @@ canvas.addEventListener("pointermove",e=>{
 
  targetYaw-=dx*.004;
  targetPitch-=dy*.004;
-
- targetPitch=THREE.MathUtils.clamp(
-  targetPitch,-.65,.65
- );
+ targetPitch=THREE.MathUtils.clamp(targetPitch,-.65,.65);
 });
 
 function endLook(e){
-
- if(e.pointerId===lookPointer){
-  lookPointer=null;
- }
+ if(e.pointerId===lookPointer)lookPointer=null;
 }
-
 canvas.addEventListener("pointerup",endLook);
 canvas.addEventListener("pointercancel",endLook);
 
-// TOQUE PARA SELECCIONAR PRENDAS
+// =====================================================
+// TOCAR UNA PRENDA EN MÓVIL
+// =====================================================
 canvas.addEventListener("click",e=>{
-
  if(!isMobile||!mobileControls.classList.contains("active"))return;
  if(panel.classList.contains("visible"))return;
 
  const rect=canvas.getBoundingClientRect();
-
  const pointer=new THREE.Vector2(
   ((e.clientX-rect.left)/rect.width)*2-1,
   -((e.clientY-rect.top)/rect.height)*2+1
  );
 
  raycaster.setFromCamera(pointer,camera);
-
- const hits=raycaster.intersectObjects(
-  selectableGarments,true
- );
-
+ const hits=raycaster.intersectObjects(selectableGarments,true);
  const item=garmentFromHits(hits);
 
- if(item){
-  bringForward(item);
- }
+ if(item)bringForward(item);
 });
 
+// =====================================================
 // BOTONES TÁCTILES
-document.getElementById("touch-select")
- .addEventListener("click",()=>{
+// =====================================================
+document.getElementById("touch-select").addEventListener("click",()=>{
+ if(selectedGarment){
+  status.textContent="PRENDA SELECCIONADA";
+  return;
+ }
+ status.textContent="TOCA UNA PRENDA PARA SELECCIONARLA";
+});
 
-  if(selectedGarment){
-   status.textContent="PRENDA SELECCIONADA";
-   return;
-  }
+document.getElementById("touch-details").addEventListener("click",()=>{
+ openProductPanel(selectedGarment);
+});
 
-  status.textContent="TOCA UNA PRENDA PARA SELECCIONARLA";
- });
-
-document.getElementById("touch-details")
- .addEventListener("click",()=>{
-  openProductPanel(selectedGarment);
- });
-
+// =====================================================
 // MOVIMIENTO CON JOYSTICK
+// =====================================================
 function moveWithJoystick(delta){
-
  if(!isMobile||panel.classList.contains("visible"))return;
 
  const speed=5.2*delta;
@@ -1053,28 +865,18 @@ function moveWithJoystick(delta){
  forward.set(-Math.sin(yaw),0,-Math.cos(yaw));
  right.set(Math.cos(yaw),0,-Math.sin(yaw));
 
- camera.position.addScaledVector(
-  forward,-joystickY*speed
- );
+ camera.position.addScaledVector(forward,-joystickY*speed);
+ camera.position.addScaledVector(right,joystickX*speed);
 
- camera.position.addScaledVector(
-  right,joystickX*speed
- );
-
- camera.position.x=THREE.MathUtils.clamp(
-  camera.position.x,-8.5,8.5
- );
-
- camera.position.z=THREE.MathUtils.clamp(
-  camera.position.z,-10.5,10
- );
-
- camera.position.y=1.7;
+ camera.position.x=THREE.MathUtils.clamp(camera.position.x,-8.5,8.5);
+ camera.position.z=THREE.MathUtils.clamp(camera.position.z,-10.5,10);
+ camera.position.y=updateFloorHeight();
 }
 
-// REDIMENSIONAR
+// =====================================================
+// REDIMENSIONAR PANTALLA
+// =====================================================
 function resizeRenderer(){
-
  const width=window.innerWidth;
  const height=window.innerHeight;
 
@@ -1082,20 +884,14 @@ function resizeRenderer(){
  camera.updateProjectionMatrix();
 
  renderer.setSize(width,height);
-
- renderer.setPixelRatio(
-  Math.min(
-   window.devicePixelRatio,
-   isMobile?1.1:1.5
-  )
- );
+ renderer.setPixelRatio(Math.min(window.devicePixelRatio,isMobile?1.1:1.5));
 }
-
 window.addEventListener("resize",resizeRenderer);
 
-// ANIMACIÓN
+// =====================================================
+// ANIMACIÓN PRINCIPAL
+// =====================================================
 function animate(){
-
  requestAnimationFrame(animate);
 
  const delta=Math.min(clock.getDelta(),.05);
@@ -1105,24 +901,18 @@ function animate(){
  pitch+=(targetPitch-pitch)*smooth;
 
  if(!panel.classList.contains("visible")){
-
-  if(pointerLocked&&!isMobile){
-   moveCamera(delta);
-  }
-
-  if(isMobile){
-   moveWithJoystick(delta);
-  }
+  if(pointerLocked&&!isMobile)moveCamera(delta);
+  if(isMobile)moveWithJoystick(delta);
  }
 
  camera.rotation.set(pitch,yaw,0,"YXZ");
-
  renderer.render(scene,camera);
 }
-
 animate();
 
-// OCULTAR PANTALLA DE CARGA
+// =====================================================
+// FINALIZAR CARGA
+// =====================================================
 document.getElementById("loading").classList.add("hidden");
 
 setTimeout(()=>{
