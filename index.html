@@ -1,777 +1,348 @@
-
-
-
 <!DOCTYPE html>
 <html lang="es">
-
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>CATEGORYALIEN | Virtual Store</title>
-
 <style>
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
-
-body {
-    background: #050505;
-    color: white;
-    font-family: Arial, Helvetica, sans-serif;
-    overflow: hidden;
-}
-
-#store {
-    position: fixed;
-    inset: 0;
-}
-
-canvas {
-    display: block;
-    width: 100%;
-    height: 100%;
-    touch-action: none;
-}
-
-.brand {
-    position: fixed;
-    top: 30px;
-    left: 40px;
-    z-index: 5;
-    font-size: 17px;
-    font-weight: 700;
-    letter-spacing: 5px;
-}
-
-.scene-label {
-    position: fixed;
-    top: 65px;
-    left: 40px;
-    z-index: 5;
-    font-size: 10px;
-    letter-spacing: 3px;
-    color: #aaa;
-}
-
-.instructions {
-    position: fixed;
-    bottom: 35px;
-    left: 40px;
-    z-index: 5;
-    color: #ccc;
-    font-size: 11px;
-    letter-spacing: 1px;
-    line-height: 2;
-    pointer-events: none;
-}
-
-.welcome {
-    position: fixed;
-    z-index: 5;
-    left: 50%;
-    bottom: 65px;
-    transform: translateX(-50%);
-    text-align: center;
-    width: 90%;
-}
-
-.welcome p {
-    font-size: 10px;
-    letter-spacing: 5px;
-    color: #bbb;
-    margin-bottom: 18px;
-}
-
-.enter-button {
-    display: inline-block;
-    padding: 16px 38px;
-    color: #050505;
-    background: white;
-    text-decoration: none;
-    font-size: 11px;
-    font-weight: bold;
-    letter-spacing: 3px;
-    transition: 0.3s;
-}
-
-.enter-button:hover {
-    background: #aaa;
-    transform: scale(1.04);
-}
-
-.loading {
-    position: fixed;
-    inset: 0;
-    z-index: 20;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background: #050505;
-    color: white;
-    font-size: 12px;
-    letter-spacing: 5px;
-    transition: opacity 0.8s;
-}
-
-.loading.hidden {
-    opacity: 0;
-    pointer-events: none;
-}
-
-@media (max-width: 600px) {
-    .brand {
-        left: 20px;
-        top: 22px;
-        font-size: 13px;
-    }
-
-    .scene-label {
-        left: 20px;
-        top: 48px;
-        font-size: 8px;
-    }
-
-    .instructions {
-        left: 20px;
-        bottom: 20px;
-        font-size: 9px;
-    }
-
-    .welcome {
-        bottom: 85px;
-    }
-
-    .welcome p {
-        font-size: 8px;
-        letter-spacing: 3px;
-    }
-
-    .enter-button {
-        padding: 14px 25px;
-        font-size: 9px;
-    }
-}
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{width:100%;height:100%;overflow:hidden;background:#050505;color:#fff;font-family:Arial,Helvetica,sans-serif}
+#store{position:fixed;inset:0} canvas{display:block;width:100%;height:100%;touch-action:none;outline:none}
+.brand{position:fixed;top:28px;left:36px;z-index:5;font-size:16px;font-weight:700;letter-spacing:5px;pointer-events:none}
+.scene-label{position:fixed;top:58px;left:36px;z-index:5;font-size:9px;letter-spacing:3px;color:#aaa;pointer-events:none}
+.instructions{position:fixed;left:36px;bottom:28px;z-index:5;color:#ddd;font-size:10px;letter-spacing:1px;line-height:2;pointer-events:none;text-shadow:0 1px 5px #000}
+.welcome{position:fixed;z-index:8;left:50%;bottom:58px;transform:translateX(-50%);text-align:center;width:90%;transition:opacity .25s}
+.welcome p{font-size:10px;letter-spacing:5px;color:#bbb;margin-bottom:17px}
+.enter-button,.buy-button{display:inline-block;padding:15px 32px;background:#fff;color:#050505;text-decoration:none;border:0;font-size:10px;font-weight:bold;letter-spacing:2px;cursor:pointer;transition:.2s}
+.enter-button:hover,.buy-button:hover{background:#ccc;transform:translateY(-2px)}
+.welcome.hidden{opacity:0;pointer-events:none}
+.loading{position:fixed;inset:0;z-index:20;display:flex;justify-content:center;align-items:center;background:#050505;color:white;font-size:12px;letter-spacing:5px;transition:opacity .6s}
+.loading.hidden{opacity:0;pointer-events:none}
+#crosshair{position:fixed;left:50%;top:50%;width:7px;height:7px;border:1px solid rgba(255,255,255,.9);border-radius:50%;transform:translate(-50%,-50%);z-index:4;pointer-events:none;opacity:0}
+#crosshair.active{opacity:1}
+#game-status{position:fixed;right:28px;top:28px;z-index:5;color:#ddd;font-size:9px;letter-spacing:2px;pointer-events:none;text-align:right}
+.product-panel{position:fixed;right:0;top:0;width:min(390px,92vw);height:100%;z-index:12;background:rgba(8,8,8,.97);border-left:1px solid #444;padding:75px 34px 35px;transform:translateX(105%);transition:transform .3s ease;display:flex;flex-direction:column;gap:18px}
+.product-panel.visible{transform:translateX(0)}
+.close-panel{position:absolute;right:24px;top:20px;background:none;border:0;color:#fff;font-size:32px;cursor:pointer}
+.panel-label{font-size:9px;letter-spacing:3px;color:#aaa}
+.product-panel h2{font-size:25px;letter-spacing:2px;line-height:1.25}
+.product-description{font-size:12px;color:#bbb;line-height:1.8}
+.product-info{display:grid;grid-template-columns:1fr 1fr;gap:14px 10px;border-top:1px solid #444;border-bottom:1px solid #444;padding:20px 0;margin:8px 0}
+.product-info span{font-size:9px;letter-spacing:2px;color:#888}
+.product-info strong{font-size:11px;font-weight:500;text-align:right}
+.panel-note{font-size:10px;line-height:1.7;color:#888}
+.buy-button{margin-top:auto;text-align:center}
+#panel-help{font-size:9px;line-height:1.6;color:#888;text-align:center}
+@media(max-width:600px){.brand{left:18px;top:20px;font-size:12px}.scene-label{left:18px;top:43px;font-size:7px}.instructions{left:18px;bottom:18px;font-size:8px}.welcome{bottom:75px}.welcome p{font-size:8px;letter-spacing:3px}.enter-button{padding:13px 22px;font-size:9px}#game-status{right:16px;top:18px;font-size:8px}.product-panel{padding:70px 24px 25px}}
 </style>
 </head>
-
 <body>
-
 <div id="store"></div>
-
-<div class="loading" id="loading">
-    CATEGORYALIEN
-</div>
-
+<div class="loading" id="loading">CATEGORYALIEN</div>
 <div class="brand">CATEGORYALIEN</div>
 <div class="scene-label">VIRTUAL FLAGSHIP STORE · SCENE 01</div>
-
-<div class="instructions">
-    ARRASTRA PARA MIRAR<br>
-    W · A · S · D PARA MOVERTE
-</div>
-
-<div class="welcome">
-    <p>CREATE YOUR OWN CATEGORY</p>
-    <a href="shop.html" class="enter-button">
-        ENTRAR EN LA TIENDA
-    </a>
-</div>
-
+<div id="game-status">HAZ CLIC EN EMPEZAR PARA ACTIVAR EL RATÓN</div>
+<div class="instructions">W · A · S · D — MOVERSE<br>RATÓN — MIRAR ALREDEDOR<br>CLIC IZQUIERDO — COGER PRENDA<br>CLIC DERECHO — FICHA TÉCNICA Y COMPRA<br>ESC — LIBERAR RATÓN</div>
+<div id="crosshair"></div>
+<div class="welcome" id="welcome"><p>CREATE YOUR OWN CATEGORY</p><button class="enter-button" id="start-game" type="button">EMPEZAR A EXPLORAR</button></div>
+<aside class="product-panel" id="product-panel" aria-hidden="true">
+<button class="close-panel" id="close-panel" aria-label="Cerrar ficha">×</button>
+<span class="panel-label">CATEGORYALIEN PRODUCT</span><h2 id="product-name">PRENDA SELECCIONADA</h2>
+<p class="product-description" id="product-description">Prenda de muestra de la colección CATEGORYALIEN.</p>
+<div class="product-info"><span>COLOR</span><strong id="product-color">Consultar en tienda</strong><span>TALLA</span><strong>Consultar disponibilidad</strong><span>PRECIO</span><strong id="product-price">Consultar en tienda</strong></div>
+<p class="panel-note">Esta ficha es una vista previa del showroom. La composición, tallas y precio definitivos se mostrarán al conectar cada modelo 3D con su ficha de producto.</p>
+<a href="shop.html" class="buy-button">VER TIENDA Y COMPRAR</a><p id="panel-help">Pulsa × para volver a explorar la tienda.</p>
+</aside>
 <script type="module">
+import * as THREE from "https://cdn.jsdelivr.net/npm/three@0.165.0/build/three.module.js";
 
-import * as THREE from
-"https://cdn.jsdelivr.net/npm/three@0.165.0/build/three.module.js";
-
-// ===================================
 // ESCENA
-// ===================================
+const scene=new THREE.Scene();
+scene.background=new THREE.Color(0x080808);
+scene.fog=new THREE.Fog(0x080808,18,42);
+const camera=new THREE.PerspectiveCamera(65,innerWidth/innerHeight,.1,100);
+camera.position.set(0,1.7,9);
+camera.rotation.order="YXZ";
 
-const scene = new THREE.Scene();
+const renderer=new THREE.WebGLRenderer({antialias:true,powerPreference:"high-performance"});
+renderer.setSize(innerWidth,innerHeight);
+renderer.setPixelRatio(Math.min(devicePixelRatio,1.5));
+renderer.shadowMap.enabled=false;
+renderer.outputColorSpace=THREE.SRGBColorSpace;
+renderer.toneMapping=THREE.ACESFilmicToneMapping;
+renderer.toneMappingExposure=1.15;
+renderer.domElement.tabIndex=0;
+document.getElementById("store").appendChild(renderer.domElement);
 
-scene.background = new THREE.Color(0x080808);
-scene.fog = new THREE.Fog(0x080808, 18, 42);
-
-// ===================================
-// CÁMARA
-// ===================================
-
-const camera = new THREE.PerspectiveCamera(
-    65,
-    window.innerWidth / window.innerHeight,
-    0.1,
-    100
-);
-
-camera.position.set(0, 1.7, 10);
-camera.rotation.order = "YXZ";
-
-// ===================================
-// RENDERIZADO OPTIMIZADO
-// ===================================
-
-const renderer = new THREE.WebGLRenderer({
-    antialias: true,
-    powerPreference: "high-performance"
-});
-
-renderer.setSize(
-    window.innerWidth,
-    window.innerHeight
-);
-
-// Evitamos renderizar al doble de resolución.
-// La resolución de salida sigue siendo la de la ventana.
-
-renderer.setPixelRatio(
-    Math.min(window.devicePixelRatio, 1.25)
-);
-
-// Desactivamos sombras dinámicas para ganar fluidez.
-
-renderer.shadowMap.enabled = false;
-
-renderer.outputColorSpace = THREE.SRGBColorSpace;
-renderer.toneMapping = THREE.ACESFilmicToneMapping;
-renderer.toneMappingExposure = 1.15;
-
-document.getElementById("store").appendChild(
-    renderer.domElement
-);
-
-// ===================================
 // ILUMINACIÓN
-// ===================================
+scene.add(new THREE.HemisphereLight(0xffffff,0x222222,1.8));
+const mainLight=new THREE.DirectionalLight(0xffffff,2);mainLight.position.set(0,8,4);scene.add(mainLight);
+const backLight=new THREE.PointLight(0xffffff,25,18);backLight.position.set(0,5,-9);scene.add(backLight);
+const leftLight=new THREE.PointLight(0xffffff,12,14);leftLight.position.set(-7,4,-2);scene.add(leftLight);
+const rightLight=new THREE.PointLight(0xffffff,12,14);rightLight.position.set(7,4,-2);scene.add(rightLight);
 
-scene.add(
-    new THREE.HemisphereLight(
-        0xffffff,
-        0x222222,
-        1.8
-    )
-);
+// MATERIALES Y ARQUITECTURA
+const black=new THREE.MeshStandardMaterial({color:0x111111,roughness:.75});
+const concrete=new THREE.MeshStandardMaterial({color:0x292929,roughness:.9});
+const floorMaterial=new THREE.MeshStandardMaterial({color:0x171717,roughness:.3,metalness:.2});
+const white=new THREE.MeshStandardMaterial({color:0xffffff,roughness:.5});
+const metal=new THREE.MeshStandardMaterial({color:0x888888,metalness:.85,roughness:.25});
+function box(w,h,d,mat,x,y,z){const m=new THREE.Mesh(new THREE.BoxGeometry(w,h,d),mat);m.position.set(x,y,z);scene.add(m);return m}
+box(20,.3,28,floorMaterial,0,-.2,-2);
+box(20,9,.4,black,0,4.3,-12);
+box(.4,9,28,concrete,-10,4.3,-2);
+box(.4,9,28,concrete,10,4.3,-2);
+box(20,.3,28,black,0,8.8,-2);
 
-const mainLight = new THREE.DirectionalLight(
-    0xffffff,
-    2
-);
-
-mainLight.position.set(0, 8, 4);
-scene.add(mainLight);
-
-const backLight = new THREE.PointLight(
-    0xffffff,
-    25,
-    18
-);
-
-backLight.position.set(0, 5, -9);
-scene.add(backLight);
-
-const leftLight = new THREE.PointLight(
-    0xffffff,
-    12,
-    14
-);
-
-leftLight.position.set(-7, 4, -2);
-scene.add(leftLight);
-
-const rightLight = new THREE.PointLight(
-    0xffffff,
-    12,
-    14
-);
-
-rightLight.position.set(7, 4, -2);
-scene.add(rightLight);
-
-// ===================================
-// MATERIALES
-// ===================================
-
-const black = new THREE.MeshStandardMaterial({
-    color: 0x111111,
-    roughness: 0.75
-});
-
-const concrete = new THREE.MeshStandardMaterial({
-    color: 0x292929,
-    roughness: 0.9
-});
-
-const floorMaterial = new THREE.MeshStandardMaterial({
-    color: 0x171717,
-    roughness: 0.3,
-    metalness: 0.2
-});
-
-const white = new THREE.MeshStandardMaterial({
-    color: 0xffffff,
-    roughness: 0.5
-});
-
-const metal = new THREE.MeshStandardMaterial({
-    color: 0x888888,
-    metalness: 0.85,
-    roughness: 0.25
-});
-
-// ===================================
-// CONSTRUCCIÓN DE LA TIENDA
-// ===================================
-
-function box(width, height, depth, material, x, y, z) {
-
-    const geometry = new THREE.BoxGeometry(
-        width,
-        height,
-        depth
-    );
-
-    const object = new THREE.Mesh(
-        geometry,
-        material
-    );
-
-    object.position.set(x, y, z);
-
-    scene.add(object);
-
-    return object;
-}
-
-// SUELO
-
-box(20, 0.3, 28, floorMaterial, 0, -0.2, -2);
-
-// PAREDES
-
-box(20, 9, 0.4, black, 0, 4.3, -12);
-box(0.4, 9, 28, concrete, -10, 4.3, -2);
-box(0.4, 9, 28, concrete, 10, 4.3, -2);
-
-// TECHO
-
-box(20, 0.3, 28, black, 0, 8.8, -2);
-
-// ===================================
 // LOGOTIPO
-// ===================================
+const signCanvas=document.createElement("canvas");signCanvas.width=1200;signCanvas.height=250;
+const ctx=signCanvas.getContext("2d");ctx.textAlign="center";ctx.textBaseline="middle";ctx.shadowColor="#fff";ctx.shadowBlur=35;ctx.fillStyle="#fff";ctx.font="bold 105px Arial";ctx.fillText("CATEGORYALIEN",600,120);
+const signTexture=new THREE.CanvasTexture(signCanvas);signTexture.colorSpace=THREE.SRGBColorSpace;
+const sign=new THREE.Mesh(new THREE.PlaneGeometry(7.5,1.6),new THREE.MeshBasicMaterial({map:signTexture,transparent:true,depthWrite:false}));
+sign.position.set(0,5.6,-11.72);scene.add(sign);
+const ceilingLight=new THREE.MeshBasicMaterial({color:0xffffff});
+box(9,.06,.08,ceilingLight,0,8.55,-3);box(.08,.06,7,ceilingLight,-4.5,8.55,.5);box(.08,.06,7,ceilingLight,4.5,8.55,.5);
 
-function createBrandSign() {
+// PERCHEROS Y PRENDAS (cada prenda se mueve como una sola pieza)
+const garmentColors=[0x080808,0xeeeeee,0x444444,0x171717,0xaaaaaa,0x080808,0xdddddd,0x292929];
+const selectableGarments=[];
+function createGarment(x,y,z,index,section){
+ const group=new THREE.Group();
+ const mat=new THREE.MeshStandardMaterial({color:garmentColors[index%garmentColors.length],roughness:.9});
+ const body=new THREE.Mesh(new THREE.BoxGeometry(.48,1.25,.13),mat);body.position.y=-.35;group.add(body);
+ const sleeveL=new THREE.Mesh(new THREE.BoxGeometry(.22,.48,.13),mat);sleeveL.position.set(-.32,.03,0);sleeveL.rotation.z=.25;group.add(sleeveL);
+ const sleeveR=new THREE.Mesh(new THREE.BoxGeometry(.22,.48,.13),mat);sleeveR.position.set(.32,.03,0);sleeveR.rotation.z=-.25;group.add(sleeveR);
+ const hanger=new THREE.Mesh(new THREE.BoxGeometry(.45,.025,.04),metal);hanger.position.y=.45;group.add(hanger);
+ group.position.set(x,y,z);group.userData.isGarment=true;
+ group.userData.product={name:section+" · PRENDA "+String(index+1).padStart(2,"0"),color:"#"+garmentColors[index%garmentColors.length].toString(16).padStart(6,"0"),price:"Consultar en tienda",description:"Prenda de muestra del showroom virtual CATEGORYALIEN."};
+ group.userData.rackPosition=group.position.clone();scene.add(group);selectableGarments.push(group);
+}
+function createRack(x,z,section){
+ const rail=new THREE.Mesh(new THREE.CylinderGeometry(.045,.045,5.5,12),metal);rail.rotation.z=Math.PI/2;rail.position.set(x,4.1,z);scene.add(rail);
+ for(const side of [-1,1]){
+  const support=new THREE.Mesh(new THREE.CylinderGeometry(.05,.05,3.8,10),metal);support.position.set(x+side*2.5,2.05,z);scene.add(support);
+  box(.9,.08,.8,metal,x+side*2.5,.15,z);
+ }
+ for(let i=0;i<garmentColors.length;i++)createGarment(x-2.1+i*.6,3,z,i,section);
+}
+createRack(-6.5,-3,"MEN");createRack(6.5,-3,"WOMEN");
+box(4,.8,1.2,black,0,.35,-9);box(4.1,.04,1.3,white,0,.77,-9);
+    // POINTER LOCK: RATÓN COMO EN UN JUEGO DE PC
+let yaw=0,pitch=0,targetYaw=0,targetPitch=0,pointerLocked=false;
+const canvas=renderer.domElement;
+const status=document.getElementById("game-status");
+const crosshair=document.getElementById("crosshair");
+const welcome=document.getElementById("welcome");
+const panel=document.getElementById("product-panel");
 
-    const canvas = document.createElement("canvas");
-
-    canvas.width = 1200;
-    canvas.height = 250;
-
-    const context = canvas.getContext("2d");
-
-    context.textAlign = "center";
-    context.textBaseline = "middle";
-
-    context.shadowColor = "#ffffff";
-    context.shadowBlur = 35;
-
-    context.fillStyle = "#ffffff";
-    context.font = "bold 105px Arial";
-
-    context.fillText(
-        "CATEGORYALIEN",
-        600,
-        120
-    );
-
-    const texture = new THREE.CanvasTexture(canvas);
-
-    texture.colorSpace = THREE.SRGBColorSpace;
-
-    const material = new THREE.MeshBasicMaterial({
-        map: texture,
-        transparent: true,
-        depthWrite: false
-    });
-
-    const sign = new THREE.Mesh(
-        new THREE.PlaneGeometry(7.5, 1.6),
-        material
-    );
-
-    sign.position.set(0, 5.6, -11.72);
-
-    scene.add(sign);
+function lockMouse(){
+ if(!panel.classList.contains("visible"))canvas.requestPointerLock?.()
 }
 
-createBrandSign();
-
-// ===================================
-// LUCES DECORATIVAS
-// ===================================
-
-const ceilingLight = new THREE.MeshBasicMaterial({
-    color: 0xffffff
+document.getElementById("start-game").addEventListener("click",()=>{
+ welcome.classList.add("hidden");
+ canvas.focus();
+ lockMouse()
 });
 
-box(9, 0.06, 0.08, ceilingLight, 0, 8.55, -3);
-box(0.08, 0.06, 7, ceilingLight, -4.5, 8.55, 0.5);
-box(0.08, 0.06, 7, ceilingLight, 4.5, 8.55, 0.5);
+canvas.addEventListener("click",()=>{
+ if(!pointerLocked&&!panel.classList.contains("visible"))lockMouse()
+});
 
-// ===================================
-// PERCHEROS
-// ===================================
+document.addEventListener("pointerlockchange",()=>{
+ pointerLocked=document.pointerLockElement===canvas;
+ crosshair.classList.toggle("active",pointerLocked);
+ status.textContent=pointerLocked
+  ?"EXPLORANDO · ESC PARA LIBERAR EL RATÓN"
+  :"HAZ CLIC EN LA ESCENA PARA VOLVER A JUGAR";
+});
 
-function createRack(x, z) {
+document.addEventListener("mousemove",e=>{
+ if(!pointerLocked)return;
+ targetYaw-=e.movementX*.0022;
+ targetPitch-=e.movementY*.0022;
+ targetPitch=THREE.MathUtils.clamp(targetPitch,-.65,.65);
+});
 
-    // Barra superior
+document.addEventListener("contextmenu",e=>{
+ if(e.target===canvas||pointerLocked)e.preventDefault()
+});
 
-    const rail = new THREE.Mesh(
-        new THREE.CylinderGeometry(
-            0.045, 0.045, 5.5, 12
-        ),
-        metal
-    );
+// WASD
+const keys={};
 
-    rail.rotation.z = Math.PI / 2;
-    rail.position.set(x, 4.1, z);
+window.addEventListener("keydown",e=>{
+ const k=e.key.toLowerCase();
+ if(["w","a","s","d"].includes(k)){
+  e.preventDefault();
+  keys[k]=true
+ }
+});
 
-    scene.add(rail);
+window.addEventListener("keyup",e=>{
+ keys[e.key.toLowerCase()]=false
+});
 
-    // Soportes
+window.addEventListener("blur",()=>{
+ for(const k in keys)keys[k]=false
+});
 
-    for (const side of [-1, 1]) {
+// APUNTAR Y COGER PRENDAS
+const raycaster=new THREE.Raycaster();
+let selectedGarment=null;
+const originalPositions=new Map();
 
-        const support = new THREE.Mesh(
-            new THREE.CylinderGeometry(
-                0.05, 0.05, 3.8, 10
-            ),
-            metal
-        );
+function garmentAtCenter(){
+ raycaster.setFromCamera(new THREE.Vector2(0,0),camera);
+ const hits=raycaster.intersectObjects(selectableGarments,true);
 
-        support.position.set(
-            x + side * 2.5,
-            2.05,
-            z
-        );
+ for(const hit of hits){
+  let item=hit.object;
 
-        scene.add(support);
+  while(item&&!item.userData.isGarment){
+   item=item.parent
+  }
 
-        box(
-            0.9, 0.08, 0.8,
-            metal,
-            x + side * 2.5,
-            0.15,
-            z
-        );
-    }
+  if(item?.userData.isGarment)return item
+ }
 
-    // Prendas
-
-    const colors = [
-        0x080808,
-        0xeeeeee,
-        0x444444,
-        0x171717,
-        0xaaaaaa,
-        0x080808,
-        0xdddddd,
-        0x292929
-    ];
-
-    for (let i = 0; i < colors.length; i++) {
-
-        const garmentMaterial =
-            new THREE.MeshStandardMaterial({
-                color: colors[i],
-                roughness: 0.9
-            });
-
-        const positionX = x - 2.1 + i * 0.6;
-
-        const garment = new THREE.Mesh(
-            new THREE.BoxGeometry(
-                0.48, 1.25, 0.13
-            ),
-            garmentMaterial
-        );
-
-        garment.position.set(
-            positionX,
-            2.65,
-            z
-        );
-
-        scene.add(garment);
-
-        const sleeveLeft = new THREE.Mesh(
-            new THREE.BoxGeometry(
-                0.22, 0.48, 0.13
-            ),
-            garmentMaterial
-        );
-
-        sleeveLeft.position.set(
-            positionX - 0.32,
-            3.03,
-            z
-        );
-
-        sleeveLeft.rotation.z = 0.25;
-
-        scene.add(sleeveLeft);
-
-        const sleeveRight = sleeveLeft.clone();
-
-        sleeveRight.position.x = positionX + 0.32;
-        sleeveRight.rotation.z = -0.25;
-
-        scene.add(sleeveRight);
-
-        const hanger = new THREE.Mesh(
-            new THREE.BoxGeometry(
-                0.45, 0.025, 0.04
-            ),
-            metal
-        );
-
-        hanger.position.set(
-            positionX,
-            3.45,
-            z
-        );
-
-        scene.add(hanger);
-    }
+ return null
 }
 
-// PERCHEROS LATERALES
+function bringForward(item){
+ if(selectedGarment&&selectedGarment!==item){
+  const old=originalPositions.get(selectedGarment);
 
-createRack(-6.5, -3);
-createRack(6.5, -3);
+  if(old)selectedGarment.position.copy(old);
 
-// MOSTRADOR
+  selectedGarment.scale.setScalar(1)
+ }
 
-box(4, 0.8, 1.2, black, 0, 0.35, -9);
-box(4.1, 0.04, 1.3, white, 0, 0.77, -9);
+ if(!originalPositions.has(item)){
+  originalPositions.set(item,item.userData.rackPosition.clone())
+ }
 
-// ===================================
-// CONTROLES SUAVIZADOS
-// ===================================
+ selectedGarment=item;
 
-let yaw = 0;
-let pitch = 0;
+ const direction=new THREE.Vector3(
+  -Math.sin(yaw),
+  0,
+  -Math.cos(yaw)
+ );
 
-let targetYaw = 0;
-let targetPitch = 0;
+ item.position.copy(camera.position).addScaledVector(direction,2.4);
+ item.position.y=1.75;
+ item.rotation.y=yaw;
+ item.scale.setScalar(1.35);
 
-let dragging = false;
-
-let previousX = 0;
-let previousY = 0;
-
-const canvasElement = renderer.domElement;
-
-canvasElement.addEventListener(
-    "pointerdown",
-    function(event) {
-
-        dragging = true;
-
-        previousX = event.clientX;
-        previousY = event.clientY;
-
-        canvasElement.setPointerCapture(
-            event.pointerId
-        );
-    }
-);
-
-canvasElement.addEventListener(
-    "pointermove",
-    function(event) {
-
-        if (!dragging) return;
-
-        const movementX =
-            event.clientX - previousX;
-
-        const movementY =
-            event.clientY - previousY;
-
-        targetYaw -= movementX * 0.0022;
-        targetPitch -= movementY * 0.0022;
-
-        targetPitch = THREE.MathUtils.clamp(
-            targetPitch,
-            -0.45,
-            0.45
-        );
-
-        previousX = event.clientX;
-        previousY = event.clientY;
-    }
-);
-
-function stopDragging() {
-    dragging = false;
+ status.textContent="PRENDA SELECCIONADA · CLIC DERECHO PARA VER DETALLES"
 }
 
-canvasElement.addEventListener("pointerup", stopDragging);
-canvasElement.addEventListener("pointercancel", stopDragging);
+function openProductPanel(item){
+ if(item)bringForward(item);
 
-// ===================================
-// TECLADO
-// ===================================
+ if(!selectedGarment){
+  status.textContent="APUNTA A UNA PRENDA Y HAZ CLIC IZQUIERDO";
+  return
+ }
 
-const keys = {};
+ const p=selectedGarment.userData.product;
 
-window.addEventListener("keydown", function(event) {
+ document.getElementById("product-name").textContent=p.name;
+ document.getElementById("product-color").textContent=p.color;
+ document.getElementById("product-price").textContent=p.price;
+ document.getElementById("product-description").textContent=p.description;
 
-    const key = event.key.toLowerCase();
+ panel.classList.add("visible");
+ panel.setAttribute("aria-hidden","false");
 
-    if (["w", "a", "s", "d"].includes(key)) {
-        event.preventDefault();
-        keys[key] = true;
-    }
-});
-
-window.addEventListener("keyup", function(event) {
-
-    keys[event.key.toLowerCase()] = false;
-});
-
-window.addEventListener("blur", function() {
-
-    for (const key in keys) {
-        keys[key] = false;
-    }
-});
-
-// ===================================
-// MOVIMIENTO CON DELTA TIME
-// ===================================
-
-const clock = new THREE.Clock();
-
-const forward = new THREE.Vector3();
-const right = new THREE.Vector3();
-
-function moveCamera(delta) {
-
-    const speed = 4.0 * delta;
-
-    forward.set(
-        -Math.sin(yaw),
-        0,
-        -Math.cos(yaw)
-    );
-
-    right.set(
-        Math.cos(yaw),
-        0,
-        -Math.sin(yaw)
-    );
-
-    if (keys["w"]) {
-        camera.position.addScaledVector(
-            forward, speed
-        );
-    }
-
-    if (keys["s"]) {
-        camera.position.addScaledVector(
-            forward, -speed
-        );
-    }
-
-    if (keys["a"]) {
-        camera.position.addScaledVector(
-            right, -speed
-        );
-    }
-
-    if (keys["d"]) {
-        camera.position.addScaledVector(
-            right, speed
-        );
-    }
-
-    camera.position.x = THREE.MathUtils.clamp(
-        camera.position.x, -8.5, 8.5
-    );
-
-    camera.position.z = THREE.MathUtils.clamp(
-        camera.position.z, -10.5, 10
-    );
-
-    camera.position.y = 1.7;
+ if(document.pointerLockElement)document.exitPointerLock()
 }
 
-// ===================================
+function closePanel(){
+ panel.classList.remove("visible");
+ panel.setAttribute("aria-hidden","true")
+}
+
+document.getElementById("close-panel").addEventListener("click",closePanel);
+
+// CLIC IZQUIERDO: COGER PRENDA
+// CLIC DERECHO: ABRIR FICHA TÉCNICA
+document.addEventListener("mousedown",e=>{
+ if(!pointerLocked||panel.classList.contains("visible"))return;
+
+ if(e.button===0){
+  const item=garmentAtCenter();
+
+  if(item)bringForward(item)
+ }
+
+ if(e.button===2){
+  e.preventDefault();
+  openProductPanel(garmentAtCenter())
+ }
+});
+
+// MOVIMIENTO MÁS RÁPIDO
+const clock=new THREE.Clock();
+const forward=new THREE.Vector3();
+const right=new THREE.Vector3();
+
+function moveCamera(delta){
+ const speed=7.2*delta;
+
+ forward.set(-Math.sin(yaw),0,-Math.cos(yaw));
+ right.set(Math.cos(yaw),0,-Math.sin(yaw));
+
+ if(keys.w)camera.position.addScaledVector(forward,speed);
+ if(keys.s)camera.position.addScaledVector(forward,-speed);
+ if(keys.a)camera.position.addScaledVector(right,-speed);
+ if(keys.d)camera.position.addScaledVector(right,speed);
+
+ camera.position.x=THREE.MathUtils.clamp(camera.position.x,-8.5,8.5);
+ camera.position.z=THREE.MathUtils.clamp(camera.position.z,-10.5,10);
+ camera.position.y=1.7
+}
+
 // REDIMENSIONAR
-// ===================================
+window.addEventListener("resize",()=>{
+ camera.aspect=innerWidth/innerHeight;
+ camera.updateProjectionMatrix();
 
-window.addEventListener("resize", function() {
-
-    camera.aspect =
-        window.innerWidth / window.innerHeight;
-
-    camera.updateProjectionMatrix();
-
-    renderer.setSize(
-        window.innerWidth,
-        window.innerHeight
-    );
-
-    renderer.setPixelRatio(
-        Math.min(window.devicePixelRatio, 1.25)
-    );
+ renderer.setSize(innerWidth,innerHeight);
+ renderer.setPixelRatio(Math.min(devicePixelRatio,1.5))
 });
 
-// ===================================
 // ANIMACIÓN
-// ===================================
+function animate(){
+ requestAnimationFrame(animate);
 
-function animate() {
+ const delta=Math.min(clock.getDelta(),.05);
+ const smooth=1-Math.exp(-14*delta);
 
-    requestAnimationFrame(animate);
+ yaw+=(targetYaw-yaw)*smooth;
+ pitch+=(targetPitch-pitch)*smooth;
 
-    const delta = Math.min(
-        clock.getDelta(),
-        0.05
-    );
+ if(pointerLocked&&!panel.classList.contains("visible")){
+  moveCamera(delta)
+ }
 
-    // Interpolación para una cámara más suave
+ camera.rotation.set(pitch,yaw,0,"YXZ");
 
-    const smoothness = 1 - Math.exp(-12 * delta);
-
-    yaw += (targetYaw - yaw) * smoothness;
-
-    pitch += (targetPitch - pitch) * smoothness;
-
-    moveCamera(delta);
-
-    camera.rotation.set(
-        pitch,
-        yaw,
-        0,
-        "YXZ"
-    );
-
-    renderer.render(scene, camera);
+ renderer.render(scene,camera)
 }
 
 animate();
 
-// ===================================
-// FINALIZAR CARGA
-// ===================================
+document.getElementById("loading").classList.add("hidden");
 
-document.getElementById("loading")
-    .classList.add("hidden");
+setTimeout(()=>{
+ document.getElementById("loading")?.remove()
+},700);
 
 </script>
-
 </body>
 </html>
+
+
+
