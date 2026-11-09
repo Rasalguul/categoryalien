@@ -93,7 +93,7 @@ canvas{display:block;width:100%;height:100%;touch-action:none;outline:none}
 .buy-button{margin-top:auto;text-align:center}
 #panel-help{font-size:9px;line-height:1.6;color:#888;text-align:center}
 
-/* CONTROLES TÁCTILES: SE MANTIENEN */
+/* CONTROLES TÁCTILES */
 .mobile-controls{
  display:none;position:fixed;inset:0;z-index:7;
  pointer-events:none;
@@ -231,8 +231,8 @@ const isMobile=window.matchMedia("(max-width: 800px)").matches ||
 
 // ESCENA
 const scene=new THREE.Scene();
-scene.background=new THREE.Color(0x101010);
-scene.fog=new THREE.Fog(0x101010,30,75);
+scene.background=new THREE.Color(0x050505);
+scene.fog=new THREE.Fog(0x050505,24,58);
 
 const camera=new THREE.PerspectiveCamera(
  65,innerWidth/innerHeight,.1,120
@@ -251,62 +251,41 @@ renderer.setPixelRatio(Math.min(devicePixelRatio,isMobile?1.1:1.5));
 renderer.shadowMap.enabled=false;
 renderer.outputColorSpace=THREE.SRGBColorSpace;
 renderer.toneMapping=THREE.ACESFilmicToneMapping;
-renderer.toneMappingExposure=1.35;
+renderer.toneMappingExposure=1.0;
 renderer.domElement.tabIndex=0;
 document.getElementById("store").appendChild(renderer.domElement);
 
-// ILUMINACIÓN GENERAL
-scene.add(new THREE.HemisphereLight(0xffffff,0x55515a,2.2));
+// ILUMINACIÓN
+// Conservamos la atmósfera oscura, con algo más de luz útil.
+scene.add(new THREE.HemisphereLight(0xffffff,0x101010,1.05));
 
-const ambientLight=new THREE.AmbientLight(0xffffff,.65);
-scene.add(ambientLight);
-
-const mainLight=new THREE.DirectionalLight(0xffffff,2.4);
-mainLight.position.set(0,12,5);
+const mainLight=new THREE.DirectionalLight(0xffffff,1.25);
+mainLight.position.set(0,12,4);
 scene.add(mainLight);
 
-// Iluminación del fondo y de las dos plantas
-function addAreaLight(x,y,z,intensity,distance,color=0xffffff){
- const light=new THREE.PointLight(color,intensity,distance,2);
- light.position.set(x,y,z);
- scene.add(light);
- return light;
-}
+const backLight=new THREE.PointLight(0xffffff,isMobile?11:17,27);
+backLight.position.set(0,7,-10);
+scene.add(backLight);
 
-addAreaLight(0,8,-8,95,30);
-addAreaLight(-6,5,-5,65,22);
-addAreaLight(6,5,-5,65,22);
-addAreaLight(0,3,4,45,20);
-addAreaLight(-6,2,-7,35,16);
-addAreaLight(6,2,-7,35,16);
+const leftLight=new THREE.PointLight(0xffffff,isMobile?5:8,20);
+leftLight.position.set(-7,5,-2);
+scene.add(leftLight);
 
-if(!isMobile){
- addAreaLight(-7,9,2,45,22);
- addAreaLight(7,9,2,45,22);
-}
+const rightLight=new THREE.PointLight(0xffffff,isMobile?5:8,20);
+rightLight.position.set(7,5,-2);
+scene.add(rightLight);
 
 // MATERIALES
-const black=new THREE.MeshStandardMaterial({
- color:0x171717,roughness:.82
-});
-const concrete=new THREE.MeshStandardMaterial({
- color:0x383838,roughness:.88
-});
-const floorMaterial=new THREE.MeshStandardMaterial({
- color:0x292929,roughness:.32,metalness:.18
-});
-const white=new THREE.MeshStandardMaterial({
- color:0xffffff,roughness:.45
-});
-const metal=new THREE.MeshStandardMaterial({
- color:0x999999,metalness:.72,roughness:.3
-});
+const black=new THREE.MeshStandardMaterial({color:0x080808,roughness:.82});
+const concrete=new THREE.MeshStandardMaterial({color:0x171717,roughness:.9});
+const floorMaterial=new THREE.MeshStandardMaterial({color:0x090909,roughness:.32,metalness:.18});
+const white=new THREE.MeshStandardMaterial({color:0xbdbdbd,roughness:.5});
+const metal=new THREE.MeshStandardMaterial({color:0x555555,metalness:.8,roughness:.3});
 const glass=new THREE.MeshStandardMaterial({
- color:0xcbd8dc,metalness:.12,roughness:.18,
- transparent:true,opacity:.18,side:THREE.DoubleSide
+ color:0x899398,metalness:.25,roughness:.2,
+ transparent:true,opacity:.14
 });
-const led=new THREE.MeshBasicMaterial({color:0xffffff});
-const warmLed=new THREE.MeshBasicMaterial({color:0xe4e0d8});
+const led=new THREE.MeshBasicMaterial({color:0xcfcfcf});
 
 function box(w,h,d,mat,x,y,z){
  const m=new THREE.Mesh(new THREE.BoxGeometry(w,h,d),mat);
@@ -315,184 +294,142 @@ function box(w,h,d,mat,x,y,z){
  return m;
 }
 
-function cylinder(radius,height,mat,x,y,z){
- const m=new THREE.Mesh(
-  new THREE.CylinderGeometry(radius,radius,height,12),mat
- );
- m.position.set(x,y,z);
- scene.add(m);
- return m;
-}
-
 // =====================================================
-// ARQUITECTURA CORREGIDA: DOS PLANTAS Y ATRIO ABIERTO
+// ARQUITECTURA: DOS PLANTAS
 // =====================================================
 
-// Suelo principal
+// Planta baja WOMEN
 box(20,.35,28,floorMaterial,0,-.2,-2);
 
-// Pared trasera
-box(20,13,.45,black,0,6.3,-12);
+// Paredes exteriores
+box(20,14,.5,black,0,6.8,-12);
+box(.5,14,28,concrete,-10,6.8,-2);
+box(.5,14,28,concrete,10,6.8,-2);
 
-// Paredes laterales más discretas
-box(.45,10,28,concrete,-9.8,5,-2);
-box(.45,10,28,concrete,9.8,5,-2);
+// Techo
+box(20,.3,28,black,0,13.9,-2);
 
-// IMPORTANTE: no hay una losa de techo completa.
-// Así la cámara puede mirar hacia arriba sin quedar tapada.
-// Solo se colocan vigas arquitectónicas en los bordes.
-box(20,.22,.35,black,0,11.8,-11.6);
-box(.28,.22,20,black,-9.45,11.8,-2);
-box(.28,.22,20,black,9.45,11.8,-2);
+// Galería superior MEN
+box(6.5,.35,21,floorMaterial,-6.75,4.65,-2);
+box(6.5,.35,21,floorMaterial,6.75,4.65,-2);
 
-// Galería superior MEN: dos alas laterales.
-// El centro queda completamente abierto para el atrio.
-box(6.15,.38,19,floorMaterial,-6.8,4.65,-2.5);
-box(6.15,.38,19,floorMaterial,6.8,4.65,-2.5);
-
-// Frente de los balcones
-box(6.0,.12,.16,metal,-6.8,4.9,6.85);
-box(6.0,.12,.16,metal,6.8,4.9,6.85);
+// Remates
+box(6.5,.12,.12,metal,-6.75,4.9,8.4);
+box(6.5,.12,.12,metal,6.75,4.9,8.4);
 
 // Barandillas de cristal
-box(6.0,1.05,.09,glass,-6.8,5.48,6.75);
-box(6.0,1.05,.09,glass,6.8,5.48,6.75);
+box(6.3,1.05,.08,glass,-6.75,5.45,1.1);
+box(6.3,1.05,.08,glass,6.75,5.45,1.1);
 
 // Pasamanos
-box(6.1,.07,.13,metal,-6.8,6.05,6.75);
-box(6.1,.07,.13,metal,6.8,6.05,6.75);
+box(6.4,.07,.12,metal,-6.75,6.0,1.1);
+box(6.4,.07,.12,metal,6.75,6.0,1.1);
 
-// Barandillas que delimitan el atrio
-box(.09,1.05,8,glass,-3.55,5.48,-2.2);
-box(.09,1.05,8,glass,3.55,5.48,-2.2);
-box(.13,.07,8,metal,-3.55,6.05,-2.2);
-box(.13,.07,8,metal,3.55,6.05,-2.2);
+// Laterales del atrio
+box(.08,1.05,9,glass,-3.5,5.45,-5);
+box(.08,1.05,9,glass,3.5,5.45,-5);
+box(.12,.07,9,metal,-3.5,6.0,-5);
+box(.12,.07,9,metal,3.5,6.0,-5);
 
-// =====================================================
-// ESCALERA LATERAL DERECHA
-// =====================================================
-
-// Escalera colocada en el lateral, fuera del recorrido
-// principal de los percheros.
+// Escalera monumental lateral
 const stairCount=14;
-const stairStartZ=6.0;
-const stairStepDepth=.72;
-const stairRise=4.65/stairCount;
-const stairX=8.35;
+const stairStartZ=5.8;
+const stairRise=4.8/stairCount;
 
 for(let i=0;i<stairCount;i++){
-
- const step=box(
-  2.0,
-  stairRise,
-  stairStepDepth,
-  i%2===0?concrete:black,
-  stairX,
-  stairRise*(i+.5),
-  stairStartZ-i*stairStepDepth
+ const step=new THREE.Mesh(
+  new THREE.BoxGeometry(2.4,stairRise,.85),
+  i%2===0?concrete:black
  );
-
- // Franja LED en el borde frontal de cada peldaño
- box(
-  1.85,.025,.035,led,
-  stairX,
-  stairRise*(i+1)-.025,
-  stairStartZ-i*stairStepDepth+stairStepDepth*.42
- );
+ step.position.set(8.05,stairRise*(i+.5),stairStartZ-i*.66);
+ scene.add(step);
 }
 
-// Estructura inclinada de apoyo
-const stairSupport=box(.16,5.0,.18,metal,9.35,2.5,1.0);
-stairSupport.rotation.z=-.18;
+box(.18,5.2,10,metal,9.35,2.6,1.1);
 
-// Pasamanos inclinado
-const stairRail=box(.09,.09,10.0,metal,7.2,2.85,1.0);
-stairRail.rotation.x=-.43;
+const stairRail=box(.08,.08,10,metal,7.0,2.8,1.1);
+stairRail.rotation.x=-.42;
 
-// =====================================================
-// COLUMNAS Y DETALLES ARQUITECTÓNICOS
-// =====================================================
+// Iluminación discreta de escalones
+for(let i=0;i<stairCount;i++){
+ box(2.15,.025,.035,led,8.05,stairRise*(i+1)-.02,stairStartZ-i*.66+.36);
+}
 
-for(const x of [-9.25,9.25]){
+// Columnas
+for(const x of [-9.1,9.1]){
  for(const z of [-9,0,7]){
-  box(.35,9.5,.35,concrete,x,4.75,z);
+  box(.45,13,.45,concrete,x,6.5,z);
  }
 }
 
-// Vigas superiores ligeras, sin cerrar el techo
-box(8,.18,.22,black,0,11.65,-3.5);
-box(.18,.18,7,black,-4.5,11.65,2);
-box(.18,.18,7,black,4.5,11.65,2);
-
-// Líneas LED de las galerías
-box(5.6,.035,.06,warmLed,-6.8,4.92,6.65);
-box(5.6,.035,.06,warmLed,6.8,4.92,6.65);
-
-// Líneas LED en la parte alta de la arquitectura
-box(7,.035,.06,led,0,11.75,-11.25);
-box(.06,.035,7,led,-9.1,11.75,1);
-box(.06,.035,7,led,9.1,11.75,1);
+// Líneas LED
+box(9,.035,.07,led,0,13.65,-3);
+box(.06,.035,8,led,-4.7,13.65,.5);
+box(.06,.035,8,led,4.7,13.65,.5);
+box(5.8,.025,.06,led,-6.75,4.9,1.0);
+box(5.8,.025,.06,led,6.75,4.9,1.0);
 
 // =====================================================
-// CARTELES: SIN SUPERPOSICIONES
+// LOGOTIPO Y CARTELES
 // =====================================================
 
-function makeTextLabel(text,width,height,x,y,z,fontSize=100){
+const signCanvas=document.createElement("canvas");
+signCanvas.width=1200;
+signCanvas.height=250;
 
+const ctx=signCanvas.getContext("2d");
+ctx.textAlign="center";
+ctx.textBaseline="middle";
+ctx.shadowColor="#fff";
+ctx.shadowBlur=22;
+ctx.fillStyle="#fff";
+ctx.font="bold 105px Arial";
+ctx.fillText("CATEGORYALIEN",600,120);
+
+const signTexture=new THREE.CanvasTexture(signCanvas);
+signTexture.colorSpace=THREE.SRGBColorSpace;
+
+const sign=new THREE.Mesh(
+ new THREE.PlaneGeometry(7.5,1.6),
+ new THREE.MeshBasicMaterial({
+  map:signTexture,transparent:true,depthWrite:false
+ })
+);
+sign.position.set(0,3.1,-11.65);
+scene.add(sign);
+
+function makeTextLabel(text,width,height,x,y,z){
  const c=document.createElement("canvas");
- c.width=1000;
- c.height=260;
-
+ c.width=800;c.height=220;
  const g=c.getContext("2d");
- g.clearRect(0,0,c.width,c.height);
- g.fillStyle="#ffffff";
- g.font=`bold ${fontSize}px Arial`;
+ g.fillStyle="#fff";
+ g.font="bold 100px Arial";
  g.textAlign="center";
  g.textBaseline="middle";
- g.shadowColor="#ffffff";
- g.shadowBlur=18;
- g.fillText(text,500,130);
+ g.fillText(text,400,110);
 
- const texture=new THREE.CanvasTexture(c);
- texture.colorSpace=THREE.SRGBColorSpace;
-
- const material=new THREE.MeshBasicMaterial({
-  map:texture,
-  transparent:true,
-  depthWrite:false,
-  side:THREE.DoubleSide
- });
+ const t=new THREE.CanvasTexture(c);
+ t.colorSpace=THREE.SRGBColorSpace;
 
  const mesh=new THREE.Mesh(
   new THREE.PlaneGeometry(width,height),
-  material
+  new THREE.MeshBasicMaterial({map:t,transparent:true})
  );
-
  mesh.position.set(x,y,z);
  scene.add(mesh);
  return mesh;
 }
 
-// Marca principal en la pared trasera, arriba de los nombres
-makeTextLabel("CATEGORYALIEN",7.0,1.0,0,9.3,-11.72,95);
-
-// Cartel planta baja
-makeTextLabel("WOMEN",3.8,.9,0,2.9,-11.70,115);
-
-// Cartel planta superior
-makeTextLabel("MEN",3.0,.8,0,7.2,-11.70,115);
-
-// Líneas luminosas debajo de los carteles
-box(3.8,.035,.04,led,0,2.35,-11.65);
-box(3.0,.035,.04,led,0,6.65,-11.65);
+makeTextLabel("WOMEN",4,1.1,0,3.0,-11.55);
+makeTextLabel("MEN",3,1.0,0,7.0,-11.55);
 
 // =====================================================
 // PERCHEROS Y PRENDAS
 // =====================================================
 
 const garmentColors=[
- 0x171717,0xeeeeee,0x555555,0x292929,
- 0xb0b0b0,0x080808,0xd8d8d8,0x3a3a3a
+ 0x080808,0xeeeeee,0x444444,0x171717,
+ 0xaaaaaa,0x080808,0xdddddd,0x292929
 ];
 
 const selectableGarments=[];
@@ -504,34 +441,33 @@ function createGarment(x,y,z,index,section){
 
  const mat=new THREE.MeshStandardMaterial({
   color:garmentColors[index%garmentColors.length],
-  roughness:.88,
-  metalness:.02
+  roughness:.9
  });
 
  const body=new THREE.Mesh(
-  new THREE.BoxGeometry(.48,1.15,.16),mat
+  new THREE.BoxGeometry(.48,1.25,.13),mat
  );
- body.position.y=-.30;
+ body.position.y=-.35;
  group.add(body);
 
  const sleeveL=new THREE.Mesh(
-  new THREE.BoxGeometry(.22,.46,.16),mat
+  new THREE.BoxGeometry(.22,.48,.13),mat
  );
- sleeveL.position.set(-.32,.02,0);
+ sleeveL.position.set(-.32,.03,0);
  sleeveL.rotation.z=.25;
  group.add(sleeveL);
 
  const sleeveR=new THREE.Mesh(
-  new THREE.BoxGeometry(.22,.46,.16),mat
+  new THREE.BoxGeometry(.22,.48,.13),mat
  );
- sleeveR.position.set(.32,.02,0);
+ sleeveR.position.set(.32,.03,0);
  sleeveR.rotation.z=-.25;
  group.add(sleeveR);
 
  const hanger=new THREE.Mesh(
   new THREE.BoxGeometry(.45,.025,.04),metal
  );
- hanger.position.y=.38;
+ hanger.position.y=.45;
  group.add(hanger);
 
  group.position.set(x,y,z);
@@ -548,36 +484,43 @@ function createGarment(x,y,z,index,section){
  selectableGarments.push(group);
 }
 
-// Percheros más alejados del hueco de la escalera
+// NUEVA ORIENTACIÓN DE LAS BURRAS:
+// La barra va de delante hacia el fondo de la tienda.
+// También subimos la estructura y las prendas para separarlas del suelo.
 function createRack(x,z,section,floorY){
 
- const railY=floorY+1.55;
- const garmentY=floorY+.55;
+ const railY=floorY+1.75;
+ const garmentY=floorY+.85;
+ const rackDepth=5.5;
 
+ // Barra longitudinal, orientada en profundidad (eje Z)
  const rail=new THREE.Mesh(
-  new THREE.CylinderGeometry(.045,.045,4.9,12),metal
+  new THREE.CylinderGeometry(.045,.045,rackDepth,12),
+  metal
  );
- rail.rotation.z=Math.PI/2;
+ rail.rotation.x=Math.PI/2;
  rail.position.set(x,railY,z);
  scene.add(rail);
 
+ // Soportes en los extremos delantero y trasero
  for(const side of [-1,1]){
 
   const support=new THREE.Mesh(
-   new THREE.CylinderGeometry(.05,.05,1.75,10),metal
+   new THREE.CylinderGeometry(.05,.05,1.75,10),
+   metal
   );
-  support.position.set(x+side*2.25,floorY+.9,z);
+  support.position.set(x,floorY+.9,z+side*2.5);
   scene.add(support);
 
-  box(.75,.08,.7,metal,x+side*2.25,floorY+.08,z);
+  box(.8,.08,.8,metal,x,floorY+.08,z+side*2.5);
  }
 
+ // Prendas distribuidas a lo largo de la barra
  for(let i=0;i<garmentColors.length;i++){
-
   createGarment(
-   x-1.85+i*.53,
+   x,
    garmentY,
-   z,
+   z-2.1+i*.6,
    i,
    section
   );
@@ -585,30 +528,24 @@ function createRack(x,z,section,floorY){
 }
 
 // PLANTA BAJA: WOMEN
-createRack(-6.4,-6.5,"WOMEN",0);
-createRack(4.9,-6.5,"WOMEN",0);
+createRack(-6.5,-3,"WOMEN",0);
+createRack(6.5,-3,"WOMEN",0);
 
-// Expositor central planta baja
-box(3.2,.65,1.0,black,0,.32,-9.1);
-box(3.3,.035,1.05,white,0,.67,-9.1);
+// Expositor central de planta baja
+box(4,.8,1.2,black,0,.35,-8.8);
+box(4.1,.04,1.3,white,0,.77,-8.8);
 
 // PLANTA SUPERIOR: MEN
-createRack(-6.4,-6.5,"MEN",4.9);
-createRack(4.9,-6.5,"MEN",4.9);
+createRack(-6.5,-3,"MEN",4.9);
+createRack(6.5,-3,"MEN",4.9);
 
-// Expositor de galería superior
-box(2.5,.6,.9,black,0,5.2,-9.0);
-box(2.6,.035,.95,white,0,5.52,-9.0);
+// Se elimina el expositor central de la galería superior.
+// Estaba suspendido sobre el vacío del atrio y parecía un objeto flotante.
 
 // =====================================================
-// FIN DE LA PARTE 1
-// La parte 2 continúa desde CONTROLES Y ESTADO DEL JUEGO.
-// =====================================================
- // =====================================================
 // CONTROLES Y ESTADO DEL JUEGO
 // =====================================================
-
-let yaw=0;
+ let yaw=0;
 let pitch=0;
 let targetYaw=0;
 let targetPitch=0;
