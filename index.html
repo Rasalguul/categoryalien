@@ -1,779 +1,777 @@
 
+
+
 <!DOCTYPE html>
 <html lang="es">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CATEGORYALIEN | Virtual Store</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CATEGORYALIEN | Virtual Store</title>
 
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
 
-        body {
-            background: #050505;
-            color: white;
-            font-family: Arial, Helvetica, sans-serif;
-            overflow: hidden;
-        }
+body {
+    background: #050505;
+    color: white;
+    font-family: Arial, Helvetica, sans-serif;
+    overflow: hidden;
+}
 
-        #store {
-            position: fixed;
-            inset: 0;
-            width: 100%;
-            height: 100%;
-        }
+#store {
+    position: fixed;
+    inset: 0;
+}
 
-        canvas {
-            display: block;
-        }
+canvas {
+    display: block;
+    width: 100%;
+    height: 100%;
+    touch-action: none;
+}
 
-        .brand {
-            position: fixed;
-            top: 30px;
-            left: 40px;
-            z-index: 5;
-            font-size: 17px;
-            font-weight: 700;
-            letter-spacing: 5px;
-        }
+.brand {
+    position: fixed;
+    top: 30px;
+    left: 40px;
+    z-index: 5;
+    font-size: 17px;
+    font-weight: 700;
+    letter-spacing: 5px;
+}
 
-        .scene-label {
-            position: fixed;
-            top: 65px;
-            left: 40px;
-            z-index: 5;
-            font-size: 10px;
-            letter-spacing: 3px;
-            color: #aaa;
-        }
+.scene-label {
+    position: fixed;
+    top: 65px;
+    left: 40px;
+    z-index: 5;
+    font-size: 10px;
+    letter-spacing: 3px;
+    color: #aaa;
+}
 
-        .instructions {
-            position: fixed;
-            bottom: 35px;
-            left: 40px;
-            z-index: 5;
-            color: #ccc;
-            font-size: 11px;
-            letter-spacing: 1px;
-            line-height: 2;
-        }
+.instructions {
+    position: fixed;
+    bottom: 35px;
+    left: 40px;
+    z-index: 5;
+    color: #ccc;
+    font-size: 11px;
+    letter-spacing: 1px;
+    line-height: 2;
+    pointer-events: none;
+}
 
-        .welcome {
-            position: fixed;
-            z-index: 5;
-            left: 50%;
-            bottom: 65px;
-            transform: translateX(-50%);
-            text-align: center;
-            width: 90%;
-        }
+.welcome {
+    position: fixed;
+    z-index: 5;
+    left: 50%;
+    bottom: 65px;
+    transform: translateX(-50%);
+    text-align: center;
+    width: 90%;
+}
 
-        .welcome p {
-            font-size: 10px;
-            letter-spacing: 5px;
-            color: #bbb;
-            margin-bottom: 18px;
-        }
+.welcome p {
+    font-size: 10px;
+    letter-spacing: 5px;
+    color: #bbb;
+    margin-bottom: 18px;
+}
 
-        .enter-button {
-            display: inline-block;
-            padding: 16px 38px;
-            color: #050505;
-            background: white;
-            text-decoration: none;
-            font-size: 11px;
-            font-weight: bold;
-            letter-spacing: 3px;
-            transition: 0.3s;
-        }
+.enter-button {
+    display: inline-block;
+    padding: 16px 38px;
+    color: #050505;
+    background: white;
+    text-decoration: none;
+    font-size: 11px;
+    font-weight: bold;
+    letter-spacing: 3px;
+    transition: 0.3s;
+}
 
-        .enter-button:hover {
-            background: #aaa;
-            transform: scale(1.04);
-        }
+.enter-button:hover {
+    background: #aaa;
+    transform: scale(1.04);
+}
 
-        .loading {
-            position: fixed;
-            inset: 0;
-            z-index: 20;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            background: #050505;
-            color: white;
-            font-size: 12px;
-            letter-spacing: 5px;
-            transition: opacity 0.8s;
-        }
+.loading {
+    position: fixed;
+    inset: 0;
+    z-index: 20;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: #050505;
+    color: white;
+    font-size: 12px;
+    letter-spacing: 5px;
+    transition: opacity 0.8s;
+}
 
-        .loading.hidden {
-            opacity: 0;
-            pointer-events: none;
-        }
+.loading.hidden {
+    opacity: 0;
+    pointer-events: none;
+}
 
-        @media (max-width: 600px) {
-            .brand {
-                left: 20px;
-                top: 22px;
-                font-size: 13px;
-            }
+@media (max-width: 600px) {
+    .brand {
+        left: 20px;
+        top: 22px;
+        font-size: 13px;
+    }
 
-            .scene-label {
-                left: 20px;
-                top: 48px;
-                font-size: 8px;
-            }
+    .scene-label {
+        left: 20px;
+        top: 48px;
+        font-size: 8px;
+    }
 
-            .instructions {
-                left: 20px;
-                bottom: 20px;
-                font-size: 9px;
-            }
+    .instructions {
+        left: 20px;
+        bottom: 20px;
+        font-size: 9px;
+    }
 
-            .welcome {
-                bottom: 85px;
-            }
+    .welcome {
+        bottom: 85px;
+    }
 
-            .welcome p {
-                font-size: 8px;
-                letter-spacing: 3px;
-            }
+    .welcome p {
+        font-size: 8px;
+        letter-spacing: 3px;
+    }
 
-            .enter-button {
-                padding: 14px 25px;
-                font-size: 9px;
-            }
-        }
-    </style>
+    .enter-button {
+        padding: 14px 25px;
+        font-size: 9px;
+    }
+}
+</style>
 </head>
 
 <body>
 
-    <div id="store"></div>
+<div id="store"></div>
 
-    <div class="loading" id="loading">
-        CATEGORYALIEN
-    </div>
+<div class="loading" id="loading">
+    CATEGORYALIEN
+</div>
 
-    <div class="brand">CATEGORYALIEN</div>
-    <div class="scene-label">VIRTUAL FLAGSHIP STORE · SCENE 01</div>
+<div class="brand">CATEGORYALIEN</div>
+<div class="scene-label">VIRTUAL FLAGSHIP STORE · SCENE 01</div>
 
-    <div class="instructions">
-        ARRASTRA PARA MIRAR<br>
-        W · A · S · D PARA MOVERTE
-    </div>
+<div class="instructions">
+    ARRASTRA PARA MIRAR<br>
+    W · A · S · D PARA MOVERTE
+</div>
 
-    <div class="welcome">
-        <p>CREATE YOUR OWN CATEGORY</p>
-        <a href="shop.html" class="enter-button">
-            ENTRAR EN LA TIENDA
-        </a>
-    </div>
+<div class="welcome">
+    <p>CREATE YOUR OWN CATEGORY</p>
+    <a href="shop.html" class="enter-button">
+        ENTRAR EN LA TIENDA
+    </a>
+</div>
 
-    <script type="module">
+<script type="module">
 
-        import * as THREE from
-        "https://cdn.jsdelivr.net/npm/three@0.165.0/build/three.module.js";
+import * as THREE from
+"https://cdn.jsdelivr.net/npm/three@0.165.0/build/three.module.js";
 
-        // ESCENA
+// ===================================
+// ESCENA
+// ===================================
 
-        const scene = new THREE.Scene();
-        scene.background = new THREE.Color(0x080808);
-        scene.fog = new THREE.Fog(0x080808, 18, 42);
+const scene = new THREE.Scene();
 
-        // CÁMARA
+scene.background = new THREE.Color(0x080808);
+scene.fog = new THREE.Fog(0x080808, 18, 42);
 
-        const camera = new THREE.PerspectiveCamera(
-            65,
-            window.innerWidth / window.innerHeight,
-            0.1,
-            100
+// ===================================
+// CÁMARA
+// ===================================
+
+const camera = new THREE.PerspectiveCamera(
+    65,
+    window.innerWidth / window.innerHeight,
+    0.1,
+    100
+);
+
+camera.position.set(0, 1.7, 10);
+camera.rotation.order = "YXZ";
+
+// ===================================
+// RENDERIZADO OPTIMIZADO
+// ===================================
+
+const renderer = new THREE.WebGLRenderer({
+    antialias: true,
+    powerPreference: "high-performance"
+});
+
+renderer.setSize(
+    window.innerWidth,
+    window.innerHeight
+);
+
+// Evitamos renderizar al doble de resolución.
+// La resolución de salida sigue siendo la de la ventana.
+
+renderer.setPixelRatio(
+    Math.min(window.devicePixelRatio, 1.25)
+);
+
+// Desactivamos sombras dinámicas para ganar fluidez.
+
+renderer.shadowMap.enabled = false;
+
+renderer.outputColorSpace = THREE.SRGBColorSpace;
+renderer.toneMapping = THREE.ACESFilmicToneMapping;
+renderer.toneMappingExposure = 1.15;
+
+document.getElementById("store").appendChild(
+    renderer.domElement
+);
+
+// ===================================
+// ILUMINACIÓN
+// ===================================
+
+scene.add(
+    new THREE.HemisphereLight(
+        0xffffff,
+        0x222222,
+        1.8
+    )
+);
+
+const mainLight = new THREE.DirectionalLight(
+    0xffffff,
+    2
+);
+
+mainLight.position.set(0, 8, 4);
+scene.add(mainLight);
+
+const backLight = new THREE.PointLight(
+    0xffffff,
+    25,
+    18
+);
+
+backLight.position.set(0, 5, -9);
+scene.add(backLight);
+
+const leftLight = new THREE.PointLight(
+    0xffffff,
+    12,
+    14
+);
+
+leftLight.position.set(-7, 4, -2);
+scene.add(leftLight);
+
+const rightLight = new THREE.PointLight(
+    0xffffff,
+    12,
+    14
+);
+
+rightLight.position.set(7, 4, -2);
+scene.add(rightLight);
+
+// ===================================
+// MATERIALES
+// ===================================
+
+const black = new THREE.MeshStandardMaterial({
+    color: 0x111111,
+    roughness: 0.75
+});
+
+const concrete = new THREE.MeshStandardMaterial({
+    color: 0x292929,
+    roughness: 0.9
+});
+
+const floorMaterial = new THREE.MeshStandardMaterial({
+    color: 0x171717,
+    roughness: 0.3,
+    metalness: 0.2
+});
+
+const white = new THREE.MeshStandardMaterial({
+    color: 0xffffff,
+    roughness: 0.5
+});
+
+const metal = new THREE.MeshStandardMaterial({
+    color: 0x888888,
+    metalness: 0.85,
+    roughness: 0.25
+});
+
+// ===================================
+// CONSTRUCCIÓN DE LA TIENDA
+// ===================================
+
+function box(width, height, depth, material, x, y, z) {
+
+    const geometry = new THREE.BoxGeometry(
+        width,
+        height,
+        depth
+    );
+
+    const object = new THREE.Mesh(
+        geometry,
+        material
+    );
+
+    object.position.set(x, y, z);
+
+    scene.add(object);
+
+    return object;
+}
+
+// SUELO
+
+box(20, 0.3, 28, floorMaterial, 0, -0.2, -2);
+
+// PAREDES
+
+box(20, 9, 0.4, black, 0, 4.3, -12);
+box(0.4, 9, 28, concrete, -10, 4.3, -2);
+box(0.4, 9, 28, concrete, 10, 4.3, -2);
+
+// TECHO
+
+box(20, 0.3, 28, black, 0, 8.8, -2);
+
+// ===================================
+// LOGOTIPO
+// ===================================
+
+function createBrandSign() {
+
+    const canvas = document.createElement("canvas");
+
+    canvas.width = 1200;
+    canvas.height = 250;
+
+    const context = canvas.getContext("2d");
+
+    context.textAlign = "center";
+    context.textBaseline = "middle";
+
+    context.shadowColor = "#ffffff";
+    context.shadowBlur = 35;
+
+    context.fillStyle = "#ffffff";
+    context.font = "bold 105px Arial";
+
+    context.fillText(
+        "CATEGORYALIEN",
+        600,
+        120
+    );
+
+    const texture = new THREE.CanvasTexture(canvas);
+
+    texture.colorSpace = THREE.SRGBColorSpace;
+
+    const material = new THREE.MeshBasicMaterial({
+        map: texture,
+        transparent: true,
+        depthWrite: false
+    });
+
+    const sign = new THREE.Mesh(
+        new THREE.PlaneGeometry(7.5, 1.6),
+        material
+    );
+
+    sign.position.set(0, 5.6, -11.72);
+
+    scene.add(sign);
+}
+
+createBrandSign();
+
+// ===================================
+// LUCES DECORATIVAS
+// ===================================
+
+const ceilingLight = new THREE.MeshBasicMaterial({
+    color: 0xffffff
+});
+
+box(9, 0.06, 0.08, ceilingLight, 0, 8.55, -3);
+box(0.08, 0.06, 7, ceilingLight, -4.5, 8.55, 0.5);
+box(0.08, 0.06, 7, ceilingLight, 4.5, 8.55, 0.5);
+
+// ===================================
+// PERCHEROS
+// ===================================
+
+function createRack(x, z) {
+
+    // Barra superior
+
+    const rail = new THREE.Mesh(
+        new THREE.CylinderGeometry(
+            0.045, 0.045, 5.5, 12
+        ),
+        metal
+    );
+
+    rail.rotation.z = Math.PI / 2;
+    rail.position.set(x, 4.1, z);
+
+    scene.add(rail);
+
+    // Soportes
+
+    for (const side of [-1, 1]) {
+
+        const support = new THREE.Mesh(
+            new THREE.CylinderGeometry(
+                0.05, 0.05, 3.8, 10
+            ),
+            metal
         );
 
-        camera.position.set(0, 1.7, 10);
-        camera.rotation.order = "YXZ";
-
-        // RENDERIZADO
-
-        const renderer = new THREE.WebGLRenderer({
-            antialias: true
-        });
-
-        renderer.setSize(window.innerWidth, window.innerHeight);
-        renderer.setPixelRatio(
-            Math.min(window.devicePixelRatio, 2)
-        );
-
-        renderer.shadowMap.enabled = true;
-        renderer.shadowMap.type = THREE.PCFSoftShadowMap;
-
-        renderer.toneMapping = THREE.ACESFilmicToneMapping;
-        renderer.toneMappingExposure = 1.15;
-
-        document.getElementById("store").appendChild(
-            renderer.domElement
-        );
-
-        // ILUMINACIÓN
-
-        const ambient = new THREE.AmbientLight(
-            0xffffff,
-            1.1
-        );
-
-        scene.add(ambient);
-
-        const mainLight = new THREE.DirectionalLight(
-            0xffffff,
-            2
-        );
-
-        mainLight.position.set(0, 8, 4);
-        mainLight.castShadow = true;
-        scene.add(mainLight);
-
-        const backLight = new THREE.PointLight(
-            0xffffff,
-            35,
-            18
-        );
-
-        backLight.position.set(0, 5, -9);
-        scene.add(backLight);
-
-        const leftLight = new THREE.PointLight(
-            0xffffff,
-            20,
-            14
-        );
-
-        leftLight.position.set(-7, 4, -2);
-        scene.add(leftLight);
-
-        const rightLight = new THREE.PointLight(
-            0xffffff,
-            20,
-            14
-        );
-
-        rightLight.position.set(7, 4, -2);
-        scene.add(rightLight);
-
-        // MATERIALES
-
-        const black = new THREE.MeshStandardMaterial({
-            color: 0x111111,
-            roughness: 0.75
-        });
-
-        const concrete = new THREE.MeshStandardMaterial({
-            color: 0x292929,
-            roughness: 0.9
-        });
-
-        const floorMaterial = new THREE.MeshStandardMaterial({
-            color: 0x171717,
-            roughness: 0.24,
-            metalness: 0.35
-        });
-
-        const white = new THREE.MeshStandardMaterial({
-            color: 0xffffff,
-            roughness: 0.5
-        });
-
-        // FUNCIÓN PARA CREAR OBJETOS
-
-        function box(
-            width,
-            height,
-            depth,
-            material,
-            x,
-            y,
+        support.position.set(
+            x + side * 2.5,
+            2.05,
             z
-        ) {
-
-            const geometry = new THREE.BoxGeometry(
-                width,
-                height,
-                depth
-            );
-
-            const object = new THREE.Mesh(
-                geometry,
-                material
-            );
-
-            object.position.set(x, y, z);
-            object.castShadow = true;
-            object.receiveShadow = true;
-
-            scene.add(object);
-
-            return object;
-        }
-
-        // SUELO
-
-        box(
-            20, 0.3, 28,
-            floorMaterial,
-            0, -0.2, -2
         );
 
-        // PAREDES
+        scene.add(support);
 
         box(
-            20, 9, 0.4,
-            black,
-            0, 4.3, -12
+            0.9, 0.08, 0.8,
+            metal,
+            x + side * 2.5,
+            0.15,
+            z
         );
+    }
 
-        box(
-            0.4, 9, 28,
-            concrete,
-            -10, 4.3, -2
-        );
+    // Prendas
 
-        box(
-            0.4, 9, 28,
-            concrete,
-            10, 4.3, -2
-        );
+    const colors = [
+        0x080808,
+        0xeeeeee,
+        0x444444,
+        0x171717,
+        0xaaaaaa,
+        0x080808,
+        0xdddddd,
+        0x292929
+    ];
 
-        // TECHO
+    for (let i = 0; i < colors.length; i++) {
 
-        box(
-            20, 0.3, 28,
-            black,
-            0, 8.8, -2
-        );
-
-        // LOGOTIPO EN LA PARED
-
-        function createBrandSign() {
-
-            const canvas = document.createElement("canvas");
-            canvas.width = 1200;
-            canvas.height = 250;
-
-            const context = canvas.getContext("2d");
-
-            context.clearRect(
-                0, 0, canvas.width, canvas.height
-            );
-
-            context.textAlign = "center";
-            context.textBaseline = "middle";
-
-            context.shadowColor = "#ffffff";
-            context.shadowBlur = 35;
-
-            context.fillStyle = "#ffffff";
-            context.font = "bold 105px Arial";
-
-            context.fillText(
-                "CATEGORYALIEN",
-                600,
-                120
-            );
-
-            const texture = new THREE.CanvasTexture(canvas);
-
-            const material = new THREE.MeshBasicMaterial({
-                map: texture,
-                transparent: true,
-                depthWrite: false
+        const garmentMaterial =
+            new THREE.MeshStandardMaterial({
+                color: colors[i],
+                roughness: 0.9
             });
 
-            const sign = new THREE.Mesh(
-                new THREE.PlaneGeometry(7.5, 1.6),
-                material
-            );
+        const positionX = x - 2.1 + i * 0.6;
 
-            sign.position.set(0, 5.6, -11.72);
-
-            scene.add(sign);
-        }
-
-        createBrandSign();
-
-        // ILUMINACIÓN DECORATIVA DEL TECHO
-
-        const ceilingLight = new THREE.MeshBasicMaterial({
-            color: 0xffffff
-        });
-
-        box(
-            9, 0.06, 0.08,
-            ceilingLight,
-            0, 8.55, -3
+        const garment = new THREE.Mesh(
+            new THREE.BoxGeometry(
+                0.48, 1.25, 0.13
+            ),
+            garmentMaterial
         );
 
-        box(
-            0.08, 0.06, 7,
-            ceilingLight,
-            -4.5, 8.55, 0.5
+        garment.position.set(
+            positionX,
+            2.65,
+            z
         );
 
-        box(
-            0.08, 0.06, 7,
-            ceilingLight,
-            4.5, 8.55, 0.5
+        scene.add(garment);
+
+        const sleeveLeft = new THREE.Mesh(
+            new THREE.BoxGeometry(
+                0.22, 0.48, 0.13
+            ),
+            garmentMaterial
         );
 
-        // PERCHEROS
-
-        function createRack(x, z) {
-
-            const metal = new THREE.MeshStandardMaterial({
-                color: 0x888888,
-                metalness: 0.85,
-                roughness: 0.25
-            });
-
-            // Barra superior
-
-            const rail = new THREE.Mesh(
-                new THREE.CylinderGeometry(
-                    0.045, 0.045, 5.5, 16
-                ),
-                metal
-            );
-
-            rail.rotation.z = Math.PI / 2;
-            rail.position.set(x, 4.1, z);
-
-            scene.add(rail);
-
-            // Soportes
-
-            for (const side of [-1, 1]) {
-
-                const support = new THREE.Mesh(
-                    new THREE.CylinderGeometry(
-                        0.05, 0.05, 3.8, 12
-                    ),
-                    metal
-                );
-
-                support.position.set(
-                    x + side * 2.5,
-                    2.05,
-                    z
-                );
-
-                scene.add(support);
-
-                box(
-                    0.9, 0.08, 0.8,
-                    metal,
-                    x + side * 2.5,
-                    0.15,
-                    z
-                );
-            }
-
-            // Prendas colgadas
-
-            const colors = [
-                0x080808,
-                0xeeeeee,
-                0x444444,
-                0x171717,
-                0xaaaaaa,
-                0x080808,
-                0xdddddd,
-                0x292929
-            ];
-
-            for (let i = 0; i < colors.length; i++) {
-
-                const garmentMaterial =
-                    new THREE.MeshStandardMaterial({
-                        color: colors[i],
-                        roughness: 0.9
-                    });
-
-                const positionX =
-                    x - 2.1 + i * 0.6;
-
-                // Cuerpo de la prenda
-
-                const garment = new THREE.Mesh(
-                    new THREE.BoxGeometry(
-                        0.48, 1.25, 0.13
-                    ),
-                    garmentMaterial
-                );
-
-                garment.position.set(
-                    positionX,
-                    2.65,
-                    z
-                );
-
-                scene.add(garment);
-
-                // Hombros y mangas
-
-                const sleeveLeft = new THREE.Mesh(
-                    new THREE.BoxGeometry(
-                        0.22, 0.48, 0.13
-                    ),
-                    garmentMaterial
-                );
-
-                sleeveLeft.position.set(
-                    positionX - 0.32,
-                    3.03,
-                    z
-                );
-
-                sleeveLeft.rotation.z = 0.25;
-
-                scene.add(sleeveLeft);
-
-                const sleeveRight = sleeveLeft.clone();
-
-                sleeveRight.position.x =
-                    positionX + 0.32;
-
-                sleeveRight.rotation.z = -0.25;
-
-                scene.add(sleeveRight);
-
-                // Percha
-
-                const hanger = new THREE.Mesh(
-                    new THREE.BoxGeometry(
-                        0.45, 0.025, 0.04
-                    ),
-                    metal
-                );
-
-                hanger.position.set(
-                    positionX,
-                    3.45,
-                    z
-                );
-
-                scene.add(hanger);
-            }
-        }
-
-        // PERCHERO IZQUIERDO Y DERECHO
-
-        createRack(-6.5, -3);
-        createRack(6.5, -3);
-
-        // MOSTRADOR DEL FONDO
-
-        box(
-            4, 0.8, 1.2,
-            black,
-            0, 0.35, -9
+        sleeveLeft.position.set(
+            positionX - 0.32,
+            3.03,
+            z
         );
 
-        box(
-            4.1, 0.04, 1.3,
-            white,
-            0, 0.77, -9
+        sleeveLeft.rotation.z = 0.25;
+
+        scene.add(sleeveLeft);
+
+        const sleeveRight = sleeveLeft.clone();
+
+        sleeveRight.position.x = positionX + 0.32;
+        sleeveRight.rotation.z = -0.25;
+
+        scene.add(sleeveRight);
+
+        const hanger = new THREE.Mesh(
+            new THREE.BoxGeometry(
+                0.45, 0.025, 0.04
+            ),
+            metal
         );
 
-        // MOVIMIENTO DE CÁMARA
-
-        let yaw = 0;
-        let pitch = 0;
-
-        let dragging = false;
-        let previousX = 0;
-        let previousY = 0;
-
-        renderer.domElement.addEventListener(
-            "pointerdown",
-            function(event) {
-
-                dragging = true;
-
-                previousX = event.clientX;
-                previousY = event.clientY;
-
-                renderer.domElement.setPointerCapture(
-                    event.pointerId
-                );
-            }
+        hanger.position.set(
+            positionX,
+            3.45,
+            z
         );
 
-        renderer.domElement.addEventListener(
-            "pointermove",
-            function(event) {
+        scene.add(hanger);
+    }
+}
 
-                if (!dragging) return;
+// PERCHEROS LATERALES
 
-                const movementX =
-                    event.clientX - previousX;
+createRack(-6.5, -3);
+createRack(6.5, -3);
 
-                const movementY =
-                    event.clientY - previousY;
+// MOSTRADOR
 
-                yaw -= movementX * 0.003;
-                pitch -= movementY * 0.003;
+box(4, 0.8, 1.2, black, 0, 0.35, -9);
+box(4.1, 0.04, 1.3, white, 0, 0.77, -9);
 
-                pitch = Math.max(
-                    -0.45,
-                    Math.min(0.45, pitch)
-                );
+// ===================================
+// CONTROLES SUAVIZADOS
+// ===================================
 
-                previousX = event.clientX;
-                previousY = event.clientY;
-            }
+let yaw = 0;
+let pitch = 0;
+
+let targetYaw = 0;
+let targetPitch = 0;
+
+let dragging = false;
+
+let previousX = 0;
+let previousY = 0;
+
+const canvasElement = renderer.domElement;
+
+canvasElement.addEventListener(
+    "pointerdown",
+    function(event) {
+
+        dragging = true;
+
+        previousX = event.clientX;
+        previousY = event.clientY;
+
+        canvasElement.setPointerCapture(
+            event.pointerId
+        );
+    }
+);
+
+canvasElement.addEventListener(
+    "pointermove",
+    function(event) {
+
+        if (!dragging) return;
+
+        const movementX =
+            event.clientX - previousX;
+
+        const movementY =
+            event.clientY - previousY;
+
+        targetYaw -= movementX * 0.0022;
+        targetPitch -= movementY * 0.0022;
+
+        targetPitch = THREE.MathUtils.clamp(
+            targetPitch,
+            -0.45,
+            0.45
         );
 
-        renderer.domElement.addEventListener(
-            "pointerup",
-            function() {
-                dragging = false;
-            }
+        previousX = event.clientX;
+        previousY = event.clientY;
+    }
+);
+
+function stopDragging() {
+    dragging = false;
+}
+
+canvasElement.addEventListener("pointerup", stopDragging);
+canvasElement.addEventListener("pointercancel", stopDragging);
+
+// ===================================
+// TECLADO
+// ===================================
+
+const keys = {};
+
+window.addEventListener("keydown", function(event) {
+
+    const key = event.key.toLowerCase();
+
+    if (["w", "a", "s", "d"].includes(key)) {
+        event.preventDefault();
+        keys[key] = true;
+    }
+});
+
+window.addEventListener("keyup", function(event) {
+
+    keys[event.key.toLowerCase()] = false;
+});
+
+window.addEventListener("blur", function() {
+
+    for (const key in keys) {
+        keys[key] = false;
+    }
+});
+
+// ===================================
+// MOVIMIENTO CON DELTA TIME
+// ===================================
+
+const clock = new THREE.Clock();
+
+const forward = new THREE.Vector3();
+const right = new THREE.Vector3();
+
+function moveCamera(delta) {
+
+    const speed = 4.0 * delta;
+
+    forward.set(
+        -Math.sin(yaw),
+        0,
+        -Math.cos(yaw)
+    );
+
+    right.set(
+        Math.cos(yaw),
+        0,
+        -Math.sin(yaw)
+    );
+
+    if (keys["w"]) {
+        camera.position.addScaledVector(
+            forward, speed
         );
+    }
 
-        renderer.domElement.addEventListener(
-            "pointercancel",
-            function() {
-                dragging = false;
-            }
+    if (keys["s"]) {
+        camera.position.addScaledVector(
+            forward, -speed
         );
+    }
 
-        // CONTROLES DE MOVIMIENTO
-
-        const keys = {};
-
-        window.addEventListener(
-            "keydown",
-            function(event) {
-                keys[event.key.toLowerCase()] = true;
-            }
+    if (keys["a"]) {
+        camera.position.addScaledVector(
+            right, -speed
         );
+    }
 
-        window.addEventListener(
-            "keyup",
-            function(event) {
-                keys[event.key.toLowerCase()] = false;
-            }
+    if (keys["d"]) {
+        camera.position.addScaledVector(
+            right, speed
         );
+    }
 
-        function moveCamera() {
+    camera.position.x = THREE.MathUtils.clamp(
+        camera.position.x, -8.5, 8.5
+    );
 
-            const speed = 0.075;
+    camera.position.z = THREE.MathUtils.clamp(
+        camera.position.z, -10.5, 10
+    );
 
-            const forward = new THREE.Vector3(
-                -Math.sin(yaw),
-                0,
-                -Math.cos(yaw)
-            );
+    camera.position.y = 1.7;
+}
 
-            const right = new THREE.Vector3(
-                Math.cos(yaw),
-                0,
-                -Math.sin(yaw)
-            );
+// ===================================
+// REDIMENSIONAR
+// ===================================
 
-            if (keys["w"]) {
-                camera.position.addScaledVector(
-                    forward, speed
-                );
-            }
+window.addEventListener("resize", function() {
 
-            if (keys["s"]) {
-                camera.position.addScaledVector(
-                    forward, -speed
-                );
-            }
+    camera.aspect =
+        window.innerWidth / window.innerHeight;
 
-            if (keys["a"]) {
-                camera.position.addScaledVector(
-                    right, -speed
-                );
-            }
+    camera.updateProjectionMatrix();
 
-            if (keys["d"]) {
-                camera.position.addScaledVector(
-                    right, speed
-                );
-            }
+    renderer.setSize(
+        window.innerWidth,
+        window.innerHeight
+    );
 
-            // Límites de la sala
+    renderer.setPixelRatio(
+        Math.min(window.devicePixelRatio, 1.25)
+    );
+});
 
-            camera.position.x = THREE.MathUtils.clamp(
-                camera.position.x, -8.5, 8.5
-            );
+// ===================================
+// ANIMACIÓN
+// ===================================
 
-            camera.position.z = THREE.MathUtils.clamp(
-                camera.position.z, -10.5, 10
-            );
+function animate() {
 
-            camera.position.y = 1.7;
+    requestAnimationFrame(animate);
 
-            camera.rotation.set(
-                pitch,
-                yaw,
-                0,
-                "YXZ"
-            );
-        }
+    const delta = Math.min(
+        clock.getDelta(),
+        0.05
+    );
 
-        // CAMBIO DE TAMAÑO DE VENTANA
+    // Interpolación para una cámara más suave
 
-        window.addEventListener(
-            "resize",
-            function() {
+    const smoothness = 1 - Math.exp(-12 * delta);
 
-                camera.aspect =
-                    window.innerWidth / window.innerHeight;
+    yaw += (targetYaw - yaw) * smoothness;
 
-                camera.updateProjectionMatrix();
+    pitch += (targetPitch - pitch) * smoothness;
 
-                renderer.setSize(
-                    window.innerWidth,
-                    window.innerHeight
-                );
-            }
-        );
+    moveCamera(delta);
 
-        // ANIMACIÓN
+    camera.rotation.set(
+        pitch,
+        yaw,
+        0,
+        "YXZ"
+    );
 
-        function animate() {
+    renderer.render(scene, camera);
+}
 
-            requestAnimationFrame(animate);
+animate();
 
-            moveCamera();
+// ===================================
+// FINALIZAR CARGA
+// ===================================
 
-            renderer.render(scene, camera);
-        }
+document.getElementById("loading")
+    .classList.add("hidden");
 
-        animate();
-
-        // OCULTAR PANTALLA DE CARGA
-
-        window.addEventListener("load", function() {
-
-            setTimeout(function() {
-
-                document.getElementById("loading")
-                    .classList.add("hidden");
-
-            }, 700);
-
-        });
-
-    </script>
+</script>
 
 </body>
 </html>
-
